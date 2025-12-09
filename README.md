@@ -1,5 +1,10 @@
 # 🐚 Minishell
 
+## TODO
+
+[] gerer les signaux
+[] faire le pre parsing
+
 ## 📃 Parts of a Shell Program
 
 The shell implementation is divided into three parts: 

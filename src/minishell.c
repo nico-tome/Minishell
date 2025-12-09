@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/09 15:33:51 by ntome            ###   ########.fr       */
+/*   Created: 2025/12/09 14:42:06 by ntome             #+#    #+#             */
+/*   Updated: 2025/12/09 22:02:04 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../includes/minishell.h"
+#include <stdlib.h>
+#include <string.h>
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdint.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-#endif
+int	main(int ac, char **av)
+{
+	(void)ac;
+	(void)av;
+	while (1)
+	{
+		char	*prompt = "🐚: ";
+		char	*cmd = readline(prompt);
+		if (strcmp("pwd", cmd) == 0)
+		{
+			char *path;
+			path = getcwd(NULL, 0);
+			printf("%s\n", path);
+			free(path);
+		}
+		else if (strcmp("exit", cmd) == 0)
+		{
+			exit(EXIT_SUCCESS);
+		}
+		free(cmd);
+	}
+}

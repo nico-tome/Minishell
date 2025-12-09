@@ -11,12 +11,12 @@ HEADERS := includes/
 
 CC := cc
 
-FLAGS := -g -Wall -Werror -Wextra
+FLAGS := -Wall -Werror -Wextra -Iincludes/ast -Iincludes/debug -Iincludes/parsing -Iincludes/shell -Iincludes -g
 
 all: ${NAME}
 
 $(NAME): ${OBJ}
-	${CC} -o ${NAME} -I ${HEADERS} ${OBJ} ${FLAGS}
+	${CC} -o ${NAME} -I ${HEADERS} ${OBJ} ${FLAGS} -lreadline
 
 ${BUILD_DIR}%.o: ${SRC_DIR}%.c
 	@mkdir -p $(dir $@)
