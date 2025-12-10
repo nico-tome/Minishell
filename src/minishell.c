@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:42:06 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/10 01:07:09 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/10 16:50:50 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,17 @@ int	main(int ac, char **av, char **envp)
 	{
 		prompt = ms_get_prompt(ms);
 		cmd = readline(prompt);
+		/* apres le parsing faut check ca soit on l'excute en bultin soit en pipeline mais mec cd /tmp | grep caca 
+		ca va dans la pipeline alors que juste cd /tmp on le fait en bultin
+		j'ai pas code is_builtin_parent c juste check si c pas un des bultin moi je travail sur exec_line
+		if (cmd_list->next == NULL && is_builtin_parent(cmd_list->args[0]))
+		{
+  			exec_builtin(cmd_list, env_list);
+		}
+		else
+		{
+			exec_line(cmd_list, env_list);
+		}*/
 		if (strcmp("pwd", cmd) == 0)
 		{
 			printf("%s\n", ms.pwd);
