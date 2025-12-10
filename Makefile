@@ -24,7 +24,7 @@ FLAGS := -Wall -Werror -Wextra -g
 
 all: ${NAME}
 
-$(NAME): src/libft/libft.a ${OBJ}
+$(NAME): $(LIBFT) ${OBJ}
 	${CC} $(LIBFT) -o ${NAME} -I ${HEADERS} ${OBJ} ${FLAGS} -lreadline
 
 ${BUILD_DIR}%.o: ${SRC_DIR}%.c
