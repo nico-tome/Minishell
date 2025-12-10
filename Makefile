@@ -8,6 +8,8 @@ PARSER_DIR := parser/
 PROMPT_DIR := prompt/
 LEXER_DIR := lexer/
 BUILTINS_DIR := builtins/
+LIBFT = ./src/libft/libft.a
+LIBFT_DIR = src/libft
 
 SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(PROMPT_DIR)prompt.c
@@ -22,17 +24,23 @@ FLAGS := -Wall -Werror -Wextra -g
 
 all: ${NAME}
 
-$(NAME): ${OBJ}
-	${CC} -o ${NAME} -I ${HEADERS} ${OBJ} ${FLAGS} -lreadline
+$(NAME): src/libft/libft.a ${OBJ}
+	${CC} $(LIBFT) -o ${NAME} -I ${HEADERS} ${OBJ} ${FLAGS} -lreadline
 
 ${BUILD_DIR}%.o: ${SRC_DIR}%.c
 	@mkdir -p $(dir $@)
 	${CC} -o $@ -I ${HEADERS} -c $< ${FLAGS}
 
+$(LIBFT):
+	@make --no-print-directory -C $(LIBFT_DIR)
+	@echo "$(GREEN)✅ Compilation of libft finished !$(NC)"
+
 clean:
+	@make --no-print-directory -C $(LIBFT_DIR) clean
 	rm -f ${OBJ}
 
 fclean: clean
+	@make --no-print-directory -C $(LIBFT_DIR) fclean
 	rm -f ${NAME}
 
 re: fclean all

@@ -13,7 +13,7 @@
 NAME = libft.a
 
 SRCD = ./
-OBJDIR = ../objs/
+OBJDIR = ../../build/
 
 SRCS = $(SRCD)ft_isalnum.c \
        $(SRCD)ft_isprint.c \
@@ -71,7 +71,7 @@ $(NAME): ${OBJS}
 
 $(OBJDIR)%.o: $(SRCD)%.c
 	@mkdir -p $(OBJDIR)
-	@$(CC) $(CFLAGS) -I ../include -c $< -o $@
+	@$(CC) $(CFLAGS) -I ../../includes -c $< -o $@
 
 
 clean:
