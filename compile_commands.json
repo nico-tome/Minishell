@@ -1,0 +1,38 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-I",
+      "includes/",
+      "-c",
+      "-Wall",
+      "-Werror",
+      "-Wextra",
+      "-g",
+      "-o",
+      "build/minishell.o",
+      "src/minishell.c"
+    ],
+    "directory": "/home/nicolas/Documents/minishell",
+    "file": "/home/nicolas/Documents/minishell/src/minishell.c",
+    "output": "/home/nicolas/Documents/minishell/build/minishell.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-I",
+      "includes/",
+      "-c",
+      "-Wall",
+      "-Werror",
+      "-Wextra",
+      "-g",
+      "-o",
+      "build/prompt/prompt.o",
+      "src/prompt/prompt.c"
+    ],
+    "directory": "/home/nicolas/Documents/minishell",
+    "file": "/home/nicolas/Documents/minishell/src/prompt/prompt.c",
+    "output": "/home/nicolas/Documents/minishell/build/prompt/prompt.o"
+  }
+]
