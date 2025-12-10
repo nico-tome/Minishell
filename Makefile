@@ -7,12 +7,14 @@ EXEC_DIR := executer/
 PARSER_DIR := parser/
 PROMPT_DIR := prompt/
 LEXER_DIR := lexer/
+TOKEN_DIR := token/
 BUILTINS_DIR := builtins/
 LIBFT = ./src/libft/libft.a
 LIBFT_DIR = src/libft
 
 SRCS := $(SRC_DIR)minishell.c \
-		$(SRC_DIR)$(PROMPT_DIR)prompt.c
+		$(SRC_DIR)$(PROMPT_DIR)prompt.c \
+		$(SRC_DIR)$(TOKEN_DIR)token.c
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))
 
@@ -25,7 +27,7 @@ FLAGS := -Wall -Werror -Wextra -g
 all: ${NAME}
 
 $(NAME): $(LIBFT) ${OBJ}
-	${CC} $(LIBFT) -o ${NAME} -I ${HEADERS} ${OBJ} ${FLAGS} -lreadline
+	${CC} -o ${NAME} -I ${HEADERS} ${OBJ} ${LIBFT} ${FLAGS} -lreadline
 
 ${BUILD_DIR}%.o: ${SRC_DIR}%.c
 	@mkdir -p $(dir $@)

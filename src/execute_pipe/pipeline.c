@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/10 18:44:11 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/10 20:22:15 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_exit_child(t_exec *exec, int exit_code)
 
 void	exec_external(t_cmd *cmd, t_exec *exec)
 {
-	char    *path;
+	char	*path;
 
 	path = getpath(exec->env_tab, cmd->args[0]);
 	if (!path)

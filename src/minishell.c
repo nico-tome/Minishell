@@ -6,12 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:42:06 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/10 16:50:50 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/10 23:39:43 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <unistd.h>
 
 #define C1 "\033[38;5;129m"
 #define C2 "\033[38;5;171m"
@@ -58,6 +57,7 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	ms;
 	char		*prompt;
 	char		*cmd;
+	t_token		*tokens;
 
 	(void)ac;
 	(void)av;
@@ -67,9 +67,26 @@ int	main(int ac, char **av, char **envp)
 	{
 		prompt = ms_get_prompt(ms);
 		cmd = readline(prompt);
+		if (cmd)
+		{
+			add_history(cmd);
+			tokens = malloc(sizeof(t_token));
+			if (!tokens)
+				break ;
+			ms_tokenize_cmd(&tokens, cmd);
+			if (tokens && !ms_has_error(tokens))
+				printf("hello world\n");
+			else
+				printf("error !\n");
+			//ms_process_cmd(tokens);
+		}
 		/* apres le parsing faut check ca soit on l'excute en bultin soit en pipeline mais mec cd /tmp | grep caca 
 		ca va dans la pipeline alors que juste cd /tmp on le fait en bultin
 		j'ai pas code is_builtin_parent c juste check si c pas un des bultin moi je travail sur exec_line
+
+		On peut pas isoler chaque commands de la pipeline ? 
+		Comme ça t'as juste a regarder si une command fait parti des builtins et on peut gerer plus facilement ?
+		
 		if (cmd_list->next == NULL && is_builtin_parent(cmd_list->args[0]))
 		{
   			exec_builtin(cmd_list, env_list);
@@ -86,6 +103,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			exit(EXIT_SUCCESS);
 		}
+		free(prompt);
 		free(cmd);
 	}
 }
