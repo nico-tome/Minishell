@@ -6,13 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 12:58:09 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:25:24 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-#include "minishell.h"
 
 t_cmd	*create_new_cmd(void)
 {

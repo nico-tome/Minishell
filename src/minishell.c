@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:42:06 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 13:22:05 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:32:43 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #define C3 "\033[38;5;210m"
 #define C4 "\033[38;5;45m"
 #define RESET "\033[0m"
+
+int	g_exit_status = 0;
 
 void	ms_print_hello(void)
 {
@@ -68,35 +70,31 @@ int	main(int ac, char **av, char **envp)
 	{
 		prompt = ms_get_prompt(ms);
 		cmd = readline(prompt);
-		if (cmd)
+		free(prompt);
+		if (cmd[0] != '\0')
 		{
 			add_history(cmd);
-			tokens = malloc(sizeof(t_token));
+			tokens = ft_calloc(1, sizeof(t_token));
 			if (!tokens)
+			{
+				free(cmd);
 				break ;
+			}
 			ms_tokenize_cmd(&tokens, cmd);
-			if (tokens && !ms_has_error(tokens))
-				printf("hello world\n");
-			else
-				printf("error !\n");
-			parsed_cmd = parser(tokens, ms.envp);
-			exec_line(parsed_cmd, ms.envp);
-			/*
-			if (cmd_list->next == NULL && is_builtin_parent(cmd_list->args[0]))
-				exec_builtin(cmd_list, env_list);
-			else
-				exec_line(cmd_list, env_list);
-			*/
+			if (tokens && tokens->content) 
+			{
+				parsed_cmd = parser(tokens, ms.envp);
+				if (parsed_cmd)
+				{
+					exec_line(parsed_cmd, ms.envp); 
+					free_cmd_list(parsed_cmd);
+				}
+			}
+			//free_token_list(tokens);
 		}
-		if (strcmp("pwd", cmd) == 0)
-		{
-			printf("%s\n", ms.pwd);
-		}
-		else if (strcmp("exit", cmd) == 0)
-		{
-			exit(EXIT_SUCCESS);
-		}
-		free(prompt);
 		free(cmd);
 	}
+	free_env_list(ms.envp);
+	rl_clear_history();
+	return (ms.exit_status);
 }

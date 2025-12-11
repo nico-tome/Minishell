@@ -2,7 +2,12 @@ NAME := minishell
 
 SRC_DIR := src/
 BUILD_DIR := build/
-
+GREEN=\033[0;32m
+YELLOW=\033[0;33m
+RED=\033[0;31m
+BLUE=\033[0;34m
+PURPLE=\033[0;35m
+NC=\033[0m
 EXEC_DIR := executer/
 EXEC_PIPE := execute_pipe/
 PARSER_DIR := parser/
@@ -19,9 +24,9 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)ft_init_env.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_add_cmd.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_find_path.c \
-		$(SRC_DIR)$(PARSER_DIR)ft_add_cmd.c \
 		$(SRC_DIR)$(PARSER_DIR)parser.c \
-		$(SRC_DIR)$(EXEC_PIPE)pipeline.c
+		$(SRC_DIR)$(EXEC_PIPE)pipeline.c \
+		$(SRC_DIR)$(EXEC_PIPE)env_utils.c
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))
 
@@ -34,11 +39,12 @@ FLAGS := -Wall -Werror -Wextra -g
 all: ${NAME}
 
 $(NAME): $(LIBFT) ${OBJ}
-	${CC} -o ${NAME} -I ${HEADERS} ${OBJ} ${LIBFT} ${FLAGS} -lreadline
+	@echo "$(GREEN)✅ Compilation of Minishell finished !$(NC)"
+	@${CC} -o ${NAME} -I ${HEADERS} ${OBJ} ${LIBFT} ${FLAGS} -lreadline
 
 ${BUILD_DIR}%.o: ${SRC_DIR}%.c
 	@mkdir -p $(dir $@)
-	${CC} -o $@ -I ${HEADERS} -c $< ${FLAGS}
+	@${CC} -o $@ -I ${HEADERS} -c $< ${FLAGS}
 
 $(LIBFT):
 	@make --no-print-directory -C $(LIBFT_DIR)
@@ -46,11 +52,11 @@ $(LIBFT):
 
 clean:
 	@make --no-print-directory -C $(LIBFT_DIR) clean
-	rm -f ${OBJ}
+	@rm -f ${OBJ}
 
 fclean: clean
 	@make --no-print-directory -C $(LIBFT_DIR) fclean
-	rm -f ${NAME}
+	@rm -f ${NAME}
 
 re: fclean all
 

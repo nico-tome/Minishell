@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:30:37 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/11/07 17:22:35 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 15:22:57 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,19 @@ static size_t	nbr_word(const char *str, char c)
 	return (result);
 }
 
-void	*free_all(char **tab)
+void	free_all(char **tab)
 {
 	int	i;
 
 	i = 0;
+	if (!tab)
+		return ;
 	while (tab[i])
 	{
 		free(tab[i]);
 		i++;
 	}
 	free(tab);
-	return (NULL);
 }
 
 static char	*ft_split_word(const char *str, char sep)

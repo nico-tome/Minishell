@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 13:33:51 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:31:54 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,13 @@ typedef struct s_exec
 	int		count;
 }				t_exec;
 
+typedef struct s_double_index
+{
+	int	j;
+	int	i;
+}				t_double_index;
+
+
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
 void			ms_tokenize_cmd(t_token **token, char *cmd);
@@ -97,5 +104,9 @@ void			add_to_cmd(t_cmd *cmd, char *content, t_env *env);
 t_cmd			*parser(t_token *tokens, t_env *env);
 t_env			*init_env(char **envp);
 void			exec_line(t_cmd *cmd, t_env *env);
+void			update_exit_status(int code);
+char			**list_to_tab(t_env *env);
+void			free_cmd_list(t_cmd *cmd);
+void			free_env_list(t_env *env);
 
 #endif

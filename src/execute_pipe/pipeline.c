@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 13:09:45 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:31:58 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,39 @@ void	safe_close(int fd)
 		close(fd);
 }
 
+void	free_env_list(t_env *env)
+{
+    t_env   *tmp;
+
+    while (env)
+    {
+        tmp = env->next;
+        if (env->key)
+            free(env->key);
+        if (env->value)
+            free(env->value);
+        free(env);
+        env = tmp;
+    }
+}
+
+void	free_cmd_list(t_cmd *cmd)
+{
+    t_cmd   *tmp;
+
+    while (cmd)
+    {
+        tmp = cmd->next;
+        if (cmd->args)
+            free_all(cmd->args);
+        if (cmd->cmd_path)
+            free(cmd->cmd_path);
+        safe_close(cmd->fd_in);
+        safe_close(cmd->fd_out);
+        free(cmd);
+        cmd = tmp;
+    }
+}
 void	ft_free_exec(t_exec *exec)
 {
 	if (exec->env_tab)
@@ -75,18 +108,30 @@ void	handle_pipes(t_cmd *cmd, int prev_read, int pipefd[2])
 		dup2_and_close(cmd->fd_out, STDOUT_FILENO);
 	else if (cmd->next != NULL)
 		dup2(pipefd[1], STDOUT_FILENO); 
-	close(pipefd[0]);
-	close(pipefd[1]);
+	safe_close(pipefd[0]);
+	safe_close(pipefd[1]);
+}
+
+int	is_builtin(char *cmd)
+{
+	(void)cmd;
+	return (0);
+}
+
+void	exec_builtin(t_cmd *cmd, t_env *envp)
+{
+	(void)cmd;
+	(void)envp;
+	return ;
 }
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 {
 	if (cmd->status == 1)
 	{
-		close(pipefd[1]); 
-		close(pipefd[0]);
-		if (prev_read != -1)
-			close(prev_read);
+		safe_close(pipefd[1]); 
+		safe_close(pipefd[0]);
+		safe_close(prev_read);
 		ft_exit_child(exec, 1);
 	}
 	handle_pipes(cmd, prev_read, pipefd);
@@ -96,6 +141,19 @@ void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 		ft_exit_child(exec, 0);
 	}
 	exec_external(cmd, exec);
+}
+
+int	count_cmds(t_cmd *cmd)
+{
+	int	result;
+
+	result = 0;
+	while (cmd)
+	{
+		result++;
+		cmd = cmd->next;
+	}
+	return (result);
 }
 
 void	init_exec(t_exec *exec, t_cmd *cmd, t_env *env)
@@ -114,36 +172,34 @@ void	exec_loop(t_exec *exec, t_cmd *curr, int *pipefd, int *prev_read)
 	i = 0;
 	while (curr)
 	{
+		pipefd[0] = -1;
+        pipefd[1] = -1;
 		if (curr->next && pipe(pipefd) == -1)
 			perror("pipe");
 		exec->pids[i] = fork();
 		if (exec->pids[i] == 0)
 			child_process(curr, exec, pipefd, *prev_read);
-		if (*prev_read != -1)
-			close(*prev_read);
+		safe_close(*prev_read);
 		if (curr->next)
 		{
-			close(pipefd[1]);
+			safe_close(pipefd[1]);
 			*prev_read = pipefd[0];
 		}
 		else
 			*prev_read = -1;
-		if (curr->fd_in > 2)
-			close(curr->fd_in);
-		if (curr->fd_out > 2)
-			close(curr->fd_out);
+		safe_close(curr->fd_in);
+		safe_close(curr->fd_out);
 		curr = curr->next;
 		i++;
 	}
 }
 
-void	update_exit_status(t_env *env, int code)
+void	update_exit_status(int code)
 {
 	g_exit_status = code;
-	(void)env;
 }
 
-void	wait_all(pid_t *pids, int count, t_env *env)
+void	wait_all(pid_t *pids, int count)
 {
 	int	i;
 	int	status;
@@ -163,7 +219,7 @@ void	wait_all(pid_t *pids, int count, t_env *env)
 		}
 		i++;
 	}
-	update_exit_status(env, exit_code);
+	update_exit_status(exit_code);
 }
 
 void	exec_line(t_cmd *cmd, t_env *env)
@@ -180,6 +236,6 @@ void	exec_line(t_cmd *cmd, t_env *env)
 		return ;
 	}
 	exec_loop(&exec, cmd, pipefd, &prev_read);
-	wait_all(exec.pids, exec.count, env);
+	wait_all(exec.pids, exec.count);
 	ft_free_exec(&exec);
 }
