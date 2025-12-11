@@ -6,8 +6,8 @@ Fonction et code:
 
 - [x] faire le pre parsing -> split en token
 - [x] check la synthax
-- [ ] executer la command, si redirection executer dans le bon ordre
-- [ ] stock les datas
+- [x] executer la command, si redirection executer dans le bon ordre
+- [x] stock les datas
 - [x] free les datas quand on sort du shell
 
 Demande du sujet:
@@ -19,12 +19,12 @@ Demande du sujet:
 - [ ] Ignore command with ; and \
 - [x] Handle ' and "
 - [ ] Execute $cmd in double quote
-- [ ] Redirections:
-  - [ ] <
-  - [ ] >
-  - [ ] <<
-  - [ ] >>
-- [ ] Pipes
+- [x] Redirections:
+  - [x] <
+  - [x] >
+  - [x] <<
+  - [x] >>
+- [x] Pipes
 - [ ] Environement variables
 - [ ] $? (exit status of last cmd
 - [ ] Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
