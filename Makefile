@@ -1,13 +1,26 @@
 NAME := minishell
 
+ESC := \033
+RESET := $(ESC)[0m
+TEXT_CYAN := $(ESC)[38;5;51m
+TEXT_BLUE := $(ESC)[38;5;39m
+TEXT_DARK_BLUE := $(ESC)[38;5;21m
+TEXT_PURPLE := $(ESC)[38;5;93m
+TEXT_NEON_GREEN := $(ESC)[38;5;46m
+TEXT_NEON_RED := $(ESC)[38;5;196m
+BG_RESET := $(RESET)
+BG_FRA_BLUE := $(ESC)[48;5;19m
+BG_FRA_WHITE := $(ESC)[48;5;255m
+BG_FRA_RED := $(ESC)[48;5;160m
+BG_BRA_GREEN := $(ESC)[48;5;28m
+BG_BRA_YELLOW := $(ESC)[48;5;220m
+BG_BRA_BLUE := $(ESC)[48;5;21m
+BG_ESP_RED := $(ESC)[48;5;160m
+BG_ESP_YELLOW := $(ESC)[48;5;220m
+YELLOW=\033[0;33m
+
 SRC_DIR := src/
 BUILD_DIR := build/
-GREEN=\033[0;32m
-YELLOW=\033[0;33m
-RED=\033[0;31m
-BLUE=\033[0;34m
-PURPLE=\033[0;35m
-NC=\033[0m
 EXEC_DIR := executer/
 EXEC_PIPE := execute_pipe/
 PARSER_DIR := parser/
@@ -41,10 +54,25 @@ CC := cc
 
 FLAGS := -Wall -Werror -Wextra -g
 
-all: ${NAME}
+all: header ${NAME}
+
+header:
+	@echo ""
+	@printf " $(TEXT_CYAN)%s$(RESET)\n" ' ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗     '
+	@printf " $(TEXT_CYAN)%s$(RESET)\n" ' ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║     '
+	@printf " $(TEXT_BLUE)%s$(RESET)\n" ' ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║     '
+	@printf " $(TEXT_BLUE)%s$(RESET)\n" ' ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║     '
+	@printf " $(TEXT_DARK_BLUE)%s$(RESET)\n" ' ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗'
+	@printf " $(TEXT_DARK_BLUE)%s$(RESET)\n" ' ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝'
+	@echo ""
+	@echo ""
+	@printf "       $(BG_BRA_GREEN)    $(BG_BRA_YELLOW)  $(BG_BRA_GREEN)    $(BG_RESET)           $(BG_FRA_BLUE)    $(BG_FRA_WHITE)    $(BG_FRA_RED)    $(BG_RESET)           $(BG_ESP_RED)            $(RESET)\n"
+	@printf "       $(BG_BRA_GREEN)  $(BG_BRA_YELLOW)  $(BG_BRA_BLUE)  $(BG_BRA_YELLOW)  $(BG_BRA_GREEN)  $(BG_RESET)           $(BG_FRA_BLUE)    $(BG_FRA_WHITE)    $(BG_FRA_RED)    $(BG_RESET)           $(BG_ESP_YELLOW)            $(RESET)\n"
+	@printf "       $(BG_BRA_GREEN)    $(BG_BRA_YELLOW)  $(BG_BRA_GREEN)    $(BG_RESET)           $(BG_FRA_BLUE)    $(BG_FRA_WHITE)    $(BG_FRA_RED)    $(BG_RESET)           $(BG_ESP_RED)            $(RESET)\n"
+	@echo ""
 
 $(NAME): $(LIBFT) ${OBJ}
-	@echo "$(GREEN)✅ Compilation of Minishell finished !$(NC)"
+	@echo "$(TEXT_NEON_GREEN)✅ Compilation of Minishell finished !$(RESET)"
 	@${CC} -o ${NAME} -I ${HEADERS} ${OBJ} ${LIBFT} ${FLAGS} -lreadline
 
 ${BUILD_DIR}%.o: ${SRC_DIR}%.c
@@ -53,13 +81,15 @@ ${BUILD_DIR}%.o: ${SRC_DIR}%.c
 
 $(LIBFT):
 	@make --no-print-directory -C $(LIBFT_DIR)
-	@echo "$(GREEN)✅ Compilation of libft finished !$(NC)"
+	@echo "$(TEXT_NEON_GREEN)✅ Compilation of libft finished !$(RESET)"
 
 clean:
+	@echo "$(YELLOW)🧹 file .o cleaned successfully $(RESET)"
 	@make --no-print-directory -C $(LIBFT_DIR) clean
 	@rm -f ${OBJ}
 
 fclean: clean
+	@echo "$(TEXT_NEON_RED)🧨 minishell deleted$(RESET)"
 	@make --no-print-directory -C $(LIBFT_DIR) fclean
 	@rm -f ${NAME}
 
