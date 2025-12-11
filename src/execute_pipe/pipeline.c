@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/10 20:22:15 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/10 19:00:22 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_exit_child(t_exec *exec, int exit_code)
 
 void	exec_external(t_cmd *cmd, t_exec *exec)
 {
-	char	*path;
+	char    *path;
 
 	path = getpath(exec->env_tab, cmd->args[0]);
 	if (!path)
@@ -64,7 +64,7 @@ void	dup2_and_close(int fd, int target_fd)
 	close(fd);
 }
 
-void	handle_pipes_and_redirs(t_cmd *cmd, int prev_read, int pipefd[2])
+void	handle_pipes(t_cmd *cmd, int prev_read, int pipefd[2])
 {
 	if (cmd->fd_in > -1)
 	{
@@ -84,7 +84,7 @@ void	handle_pipes_and_redirs(t_cmd *cmd, int prev_read, int pipefd[2])
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 {
-	handle_pipes_and_redirs(cmd, prev_read, pipefd);
+	handle_pipes(cmd, prev_read, pipefd);
 	if (is_builtin(cmd->args[0]))
 	{
 		exec_builtin(cmd, exec->env_list);
@@ -132,6 +132,35 @@ void	exec_loop(t_exec *exec, t_cmd *curr, int *pipefd, int *prev_read)
 	}
 }
 
+void	update_exit_status(t_env *env, int code)
+{
+	g_exit_status = code;
+	(void)env;
+}
+
+void	wait_all(pid_t *pids, int count, t_env *env)
+{
+	int	i;
+	int	status;
+	int	exit_code;
+
+	i = 0;
+	exit_code = 0;
+	while (i < count)
+	{
+		waitpid(pids[i], &status, 0);
+		if (i == count - 1)
+		{
+			if (WIFEXITED(status))
+				exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				exit_code = 128 + WTERMSIG(status);
+		}
+		i++;
+	}
+	update_exit_status(env, exit_code);
+}
+
 void	exec_line(t_cmd *cmd, t_env *env)
 {
 	t_exec	exec;
@@ -146,6 +175,6 @@ void	exec_line(t_cmd *cmd, t_env *env)
 		return ;
 	}
 	exec_loop(&exec, cmd, pipefd, &prev_read);
-	wait_all_and_update_exit_status(exec.pids, exec.count, env);
+	wait_all(exec.pids, exec.count, env);
 	ft_free_exec(&exec);
 }
