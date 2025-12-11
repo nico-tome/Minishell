@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:06:33 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 17:37:54 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 23:05:50 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,20 @@ int	check_redirections(t_token *token)
 			return (1);
 		first = 0;
 		token = token->next;
+	}
+	return (0);
+}
+
+int	check_forbiden_char(char *word)
+{
+	int	i;
+
+	i = 0;
+	while (word[i])
+	{
+		if (word[i] == ';' || word[i] == '\\')
+			return (1);
+		i++;
 	}
 	return (0);
 }

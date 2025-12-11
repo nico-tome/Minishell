@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 17:29:58 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 00:43:29 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-extern int g_exit_status;
+extern int	g_exit_status;
 
 typedef struct s_prompt_params
 {
@@ -39,14 +39,6 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }				t_env;
-
-typedef struct s_minishell
-{
-	t_env			*envp;
-	t_prompt_params	prompt_params;
-	int				exit_status;
-	char			*pwd;
-}				t_minishell;
 
 typedef enum e_token_type
 {
@@ -92,6 +84,14 @@ typedef struct s_double_index
 	int	i;
 }				t_double_index;
 
+typedef struct s_minishell
+{
+	t_env			*envp;
+	t_prompt_params	prompt_params;
+	char			*pwd;
+	t_token			*tokens;
+	t_cmd			*parsed_cmd;
+}				t_minishell;
 
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
@@ -110,5 +110,8 @@ void			free_env_list(t_env *env);
 int				check_pipe(t_token *token);
 int				check_redirections(t_token *token);
 void			free_tokens(t_token *token);
+int				check_forbiden_char(char *word);
+void			signal_handler(int signal);
+void			ms_exit(t_minishell *ms);
 
 #endif

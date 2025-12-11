@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 17:37:37 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 23:21:24 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ms_create_token(t_token *token, char *word)
 	}
 	token->next = next_token;
 	token->content = ft_strdup(word);
-	if (!ms_check_quoted(word))
+	if (!ms_check_quoted(word) || check_forbiden_char(word))
 		token->type = TOKEN_ERROR;
 	else if (ft_strncmp("|", word, ft_strlen(word)) == 0)
 		token->type = PIPE;

@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 16:31:58 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 00:46:09 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,38 @@ void	safe_close(int fd)
 
 void	free_env_list(t_env *env)
 {
-    t_env   *tmp;
+	t_env	*tmp;
 
-    while (env)
-    {
-        tmp = env->next;
-        if (env->key)
-            free(env->key);
-        if (env->value)
-            free(env->value);
-        free(env);
-        env = tmp;
-    }
+	while (env)
+	{
+		tmp = env->next;
+		if (env->key)
+			free(env->key);
+		if (env->value)
+			free(env->value);
+		free(env);
+		env = tmp;
+	}
 }
 
 void	free_cmd_list(t_cmd *cmd)
 {
-    t_cmd   *tmp;
+	t_cmd	*tmp;
 
-    while (cmd)
-    {
-        tmp = cmd->next;
-        if (cmd->args)
-            free_all(cmd->args);
-        if (cmd->cmd_path)
-            free(cmd->cmd_path);
-        safe_close(cmd->fd_in);
-        safe_close(cmd->fd_out);
-        free(cmd);
-        cmd = tmp;
-    }
+	while (cmd)
+	{
+		tmp = cmd->next;
+		if (cmd->args)
+			free_all(cmd->args);
+		if (cmd->cmd_path)
+			free(cmd->cmd_path);
+		safe_close(cmd->fd_in);
+		safe_close(cmd->fd_out);
+		free(cmd);
+		cmd = tmp;
+	}
 }
+
 void	ft_free_exec(t_exec *exec)
 {
 	if (exec->env_tab)
@@ -107,29 +108,50 @@ void	handle_pipes(t_cmd *cmd, int prev_read, int pipefd[2])
 	if (cmd->fd_out > -1)
 		dup2_and_close(cmd->fd_out, STDOUT_FILENO);
 	else if (cmd->next != NULL)
-		dup2(pipefd[1], STDOUT_FILENO); 
+		dup2(pipefd[1], STDOUT_FILENO);
 	safe_close(pipefd[0]);
 	safe_close(pipefd[1]);
 }
 
 int	is_builtin(char *cmd)
 {
-	(void)cmd;
+	int	size;
+
+	size = ft_strlen(cmd);
+	if (!ft_strncmp("exit", cmd, size) || !ft_strncmp("cd", cmd, size))
+		return (1);
+	else if (!ft_strncmp("echo", cmd, size) || !ft_strncmp("pwd", cmd, size))
+		return (1);
+	else if (!ft_strncmp("export", cmd, size) || !ft_strncmp("env", cmd, size))
+		return (1);
+	else if (!ft_strncmp("ms_header", cmd, size))
+		return (1);
+	else if (!ft_strncmp("set_prompt_exit", cmd, size))
+		return (1);
+	else if (!ft_strncmp("ntome", cmd, size)
+		|| !ft_strncmp("gajanvie", cmd, size))
+		return (1);
 	return (0);
 }
 
 void	exec_builtin(t_cmd *cmd, t_env *envp)
 {
-	(void)cmd;
+	int	size;
+
 	(void)envp;
-	return ;
+	size = ft_strlen(cmd->args[0]);
+	if (!ft_strncmp(cmd->args[0], "exit", size))
+		return ; 
+	/*en fait il faut qu'on passe ms dans la fonction exit, 
+	du coup si on a des builtins je sais pas si on doit les gerer dans le main ou rajouter ms dans les parametres des fonctions ici.
+	*/
 }
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 {
 	if (cmd->status == 1)
 	{
-		safe_close(pipefd[1]); 
+		safe_close(pipefd[1]);
 		safe_close(pipefd[0]);
 		safe_close(prev_read);
 		ft_exit_child(exec, 1);
@@ -173,7 +195,7 @@ void	exec_loop(t_exec *exec, t_cmd *curr, int *pipefd, int *prev_read)
 	while (curr)
 	{
 		pipefd[0] = -1;
-        pipefd[1] = -1;
+		pipefd[1] = -1;
 		if (curr->next && pipe(pipefd) == -1)
 			perror("pipe");
 		exec->pids[i] = fork();

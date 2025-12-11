@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 16:45:55 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 23:44:58 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_cmd	*create_new_cmd(void)
 {
-	t_cmd   *cmd;
+	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
@@ -28,11 +28,11 @@ t_cmd	*create_new_cmd(void)
 	return (cmd);
 }
 
-t_cmd   *parser(t_token *tokens, t_env *env)
+t_cmd	*parser(t_token *tokens, t_env *env)
 {
-	t_cmd   *cmd_list;
-	t_cmd   *curr_cmd;
-	
+	t_cmd	*cmd_list;
+	t_cmd	*curr_cmd;
+
 	cmd_list = create_new_cmd();
 	curr_cmd = cmd_list;
 	while (tokens->type != END)
@@ -44,7 +44,7 @@ t_cmd   *parser(t_token *tokens, t_env *env)
 		}
 		else if (tokens->type == REDIR_IN)
 		{
-			tokens = tokens->next; 
+			tokens = tokens->next;
 			curr_cmd->fd_in = open(tokens->content, O_RDONLY);
 			if (curr_cmd->fd_out == -1)
 			{

@@ -6,10 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:30:19 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 13:32:32 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 23:44:28 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 
 char	*join_path(char *path, char *cmd)
@@ -48,6 +49,13 @@ char	**ft_setup_path(t_env *env)
 	return (paths);
 }
 
+char	*ft_cmd_slash(char *cmd)
+{
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
+	return (NULL);
+}
+
 char	*getpath(t_env *env, char *cmd)
 {
 	char	*test_path;
@@ -55,16 +63,12 @@ char	*getpath(t_env *env, char *cmd)
 	int		i;
 
 	if (cmd && ft_strchr(cmd, '/'))
-	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
+		return (ft_cmd_slash(cmd));
 	paths = ft_setup_path(env);
 	if (!paths)
 		return (NULL);
 	i = 0;
-	while (paths[i])
+	while (paths[i++])
 	{
 		test_path = join_path(paths[i], cmd);
 		if (test_path && access(test_path, X_OK) == 0)
@@ -73,7 +77,6 @@ char	*getpath(t_env *env, char *cmd)
 			return (test_path);
 		}
 		free(test_path);
-		i++;
 	}
 	free_all(paths);
 	return (NULL);

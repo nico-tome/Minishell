@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 17:34:37 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 00:45:15 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	ms_print_hello(void)
 void	ms_init_data(t_minishell *ms, char **envp)
 {
 	ms->envp = init_env(envp);
-	ms->exit_status = 0;
 	ms->pwd = getcwd(NULL, 0);
 	ms->prompt_params = ms_init_prompt_params();
 }
@@ -59,11 +58,11 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	ms;
 	char		*prompt;
 	char		*cmd;
-	t_token		*tokens;
-	t_cmd		*parsed_cmd;
 
 	(void)ac;
 	(void)av;
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	ms_print_hello();
 	ms_init_data(&ms, envp);
 	while (1)
@@ -71,31 +70,32 @@ int	main(int ac, char **av, char **envp)
 		prompt = ms_get_prompt(ms);
 		cmd = readline(prompt);
 		free(prompt);
-		if (cmd[0] != '\0')
+		if (cmd && cmd[0] != '\0')
 		{
 			add_history(cmd);
-			tokens = ft_calloc(1, sizeof(t_token));
-			if (!tokens)
+			ms.tokens = ft_calloc(1, sizeof(t_token));
+			if (!ms.tokens)
 			{
 				free(cmd);
 				break ;
 			}
-			ms_tokenize_cmd(&tokens, cmd);
-			if (tokens && tokens->content && !ms_has_error(tokens)) 
+			ms_tokenize_cmd(&ms.tokens, cmd);
+			free(cmd);
+			if (ms.tokens && ms.tokens->content && !ms_has_error(ms.tokens))
 			{
-				printf("do cmd\n");
-				parsed_cmd = parser(tokens, ms.envp);
-				if (parsed_cmd)
+				ms.parsed_cmd = parser(ms.tokens, ms.envp);
+				if (ms.parsed_cmd)
 				{
-					exec_line(parsed_cmd, ms.envp); 
-					free_cmd_list(parsed_cmd);
+					exec_line(ms.parsed_cmd, ms.envp);
+					free_cmd_list(ms.parsed_cmd);
 				}
 			}
-			free_tokens(tokens);
+			free_tokens(ms.tokens);
 		}
-		free(cmd);
+		else
+			ms_exit(&ms);
 	}
 	free_env_list(ms.envp);
 	rl_clear_history();
-	return (ms.exit_status);
+	return (EXIT_SUCCESS);
 }

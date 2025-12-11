@@ -15,8 +15,8 @@ Demande du sujet:
 - [x] Display a prompt
 - [x] Have a working history
 - [x] Search and launch the right executable
-- [ ] Have a signal handler
-- [ ] Ignore command with ; and \
+- [x] Have a signal handler
+- [x] Ignore command with ; and \
 - [x] Handle ' and "
 - [ ] Execute $cmd in double quote
 - [x] Redirections:
@@ -28,7 +28,6 @@ Demande du sujet:
 - [ ] Environement variables
 - [ ] $? (exit status of last cmd
 - [ ] Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
-- [ ] Handle ctrl-C ctrl-D and ctrl-\
 - [ ] Built ins:
   - [ ] echo -n
   - [ ] cd
@@ -36,7 +35,7 @@ Demande du sujet:
   - [ ] export
   - [ ] unset
   - [ ] env
-  - [ ] exit
+  - [x] exit
 
 ## Function and utility
 

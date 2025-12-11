@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 00:49:21 by ntome            ###   ########.fr       */
+/*   Created: 2025/12/11 23:48:50 by ntome             #+#    #+#             */
+/*   Updated: 2025/12/12 00:11:40 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
-void	ms_exit(t_minishell *ms)
+void	signal_handler(int signal)
 {
-	if (ms->tokens)
-		free_tokens(ms->tokens);
-	if (ms->parsed_cmd)
-		free_cmd_list(ms->parsed_cmd);
-	if (ms->envp)
-		free_env_list(ms->envp);
-	rl_clear_history();
-	exit(EXIT_SUCCESS);
+	(void)signal;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_exit_status = 130;
 }

@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 13:17:50 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 13:19:43 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 23:12:16 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_env	*ft_env_new(char *str)
 		new->value = ft_strdup(str + i + 1);
 	else
 		new->value = NULL;
-		
 	new->next = NULL;
 	return (new);
 }
@@ -58,7 +57,7 @@ t_env	*init_env(char **envp)
 
 	env_list = NULL;
 	if (!envp || !envp[0])
-		return (NULL); 
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
