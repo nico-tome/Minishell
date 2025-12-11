@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 11:41:33 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:36:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_cmd
 	char			*cmd_path;
 	int				fd_in;
 	int				fd_out;
+	int				status;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -88,5 +89,7 @@ char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
 void			ms_tokenize_cmd(t_token **token, char *cmd);
 int				ms_has_error(t_token *token);
+void			free_all(char **tab);
+char			*getpath(char **envp, char *cmd);
 
 #endif

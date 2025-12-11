@@ -6,22 +6,13 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:30:37 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/11/04 09:49:18 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/11/07 17:22:35 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_space(char c)
-{
-	if (c == ' ')
-		return (1);
-	if (c >= 7 && c <= 13)
-		return (1);
-	return (0);
-}
-
-static size_t	nbr_word(const char *str)
+static size_t	nbr_word(const char *str, char c)
 {
 	size_t	i;
 	size_t	result;
@@ -30,10 +21,10 @@ static size_t	nbr_word(const char *str)
 	result = 0;
 	while (str != NULL && str[i])
 	{
-		if (!is_space(str[i]))
+		if (str[i] != c)
 		{
 			result ++;
-			while (str[i] && !is_space(str[i]))
+			while (str[i] && str[i] != c)
 				i ++;
 		}
 		else
@@ -42,7 +33,7 @@ static size_t	nbr_word(const char *str)
 	return (result);
 }
 
-static void	*free_all(char **tab)
+void	*free_all(char **tab)
 {
 	int	i;
 
@@ -56,19 +47,19 @@ static void	*free_all(char **tab)
 	return (NULL);
 }
 
-static char	*ft_split_word(const char *str)
+static char	*ft_split_word(const char *str, char sep)
 {
 	char	*tab;
 	size_t	i;
 
 	i = 0;
-	while (str[i] && !is_space(str[i]))
+	while (str[i] && str[i] != sep)
 		i ++;
 	tab = ft_calloc(i + 1, sizeof(char));
 	if (tab == NULL)
 		return (NULL);
 	i = 0;
-	while (str[i] && !is_space(str[i]))
+	while (str[i] && str[i] != sep)
 	{
 		tab[i] = str[i];
 		i ++;
@@ -76,7 +67,7 @@ static char	*ft_split_word(const char *str)
 	return (tab);
 }
 
-char	**ft_split(char const *s)
+char	**ft_split(char const *s, char c)
 {
 	char	**tab;
 	size_t	i;
@@ -86,12 +77,12 @@ char	**ft_split(char const *s)
 		return (NULL);
 	i = 0;
 	k = 0;
-	tab = ft_calloc(nbr_word(s) + 1, sizeof(char *));
+	tab = ft_calloc(nbr_word(s, c) + 1, sizeof(char *));
 	while (tab && s[i])
 	{
-		if (!is_space(s[i]))
+		if (s[i] != c)
 		{
-			tab[k] = ft_split_word(&s[i]);
+			tab[k] = ft_split_word(&s[i], c);
 			if (!tab[k])
 			{
 				free_all(tab);

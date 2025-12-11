@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/10 19:00:22 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:03:09 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	safe_close(int fd)
 void	ft_free_exec(t_exec *exec)
 {
 	if (exec->env_tab)
-		free_tab(exec->env_tab);
+		free_all(exec->env_tab);
 	if (exec->pids)
 		free(exec->pids);
 }
@@ -38,19 +38,16 @@ void	ft_exit_child(t_exec *exec, int exit_code)
 
 void	exec_external(t_cmd *cmd, t_exec *exec)
 {
-	char    *path;
-
-	path = getpath(exec->env_tab, cmd->args[0]);
-	if (!path)
+	if (!cmd->cmd_path)
 	{
 		ft_putstr_fd("Minishell: command not found: ", 2);
 		ft_putstr_fd(cmd->args[0], 2);
 		ft_putstr_fd("\n", 2);
 		ft_exit_child(exec, 127);
 	}
-	execve(path, cmd->args, exec->env_tab);
+	execve(cmd->cmd_path, cmd->args, exec->env_tab);
 	perror("execve");
-	free(path);
+	free(cmd->cmd_path);
 	ft_exit_child(exec, 126);
 }
 
@@ -84,6 +81,15 @@ void	handle_pipes(t_cmd *cmd, int prev_read, int pipefd[2])
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 {
+	if (cmd->status == 1)
+    {
+       
+        close(pipefd[1]); 
+        close(pipefd[0]);
+        if (prev_read != -1)
+            close(prev_read);
+        ft_exit_child(exec, 1);
+    }
 	handle_pipes(cmd, prev_read, pipefd);
 	if (is_builtin(cmd->args[0]))
 	{
