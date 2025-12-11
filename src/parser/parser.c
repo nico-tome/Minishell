@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/10 19:34:44 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:48:35 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,20 @@ t_cmd   *parser(t_token *tokens, t_env *env)
 			tokens = tokens->next; 
 			curr_cmd->fd_in = open(tokens->content, O_RDONLY);
 			if (curr_cmd->fd_out == -1)
+			{
+				curr_cmd->status = 1;
 				perror("file");
+			}
 		}
 		else if (tokens->type == REDIR_OUT)
 		{
 			tokens = tokens->next;
 			curr_cmd->fd_out = open(tokens->content, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			if (curr_cmd->fd_out == -1)
-				perror(tokens->content);
+			{
+				curr_cmd->status = 1;
+				perror("file");
+			}
 		}
 		else if (tokens->type == APPEND)
 		{
@@ -46,7 +52,10 @@ t_cmd   *parser(t_token *tokens, t_env *env)
 				close(curr_cmd->fd_out);
 			curr_cmd->fd_out = open(tokens->next->content, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			if (curr_cmd->fd_out == -1)
-				perror(tokens->content);
+			{
+				curr_cmd->status = 1;
+				perror("file");
+			}
 		}
 		else if (tokens->type == WORD)
 			add_to_cmd(curr_cmd, tokens->content);
