@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/10 23:33:51 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 11:41:33 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+
+extern int g_exit_status;
 
 typedef struct s_prompt_params
 {
@@ -65,6 +67,22 @@ typedef struct s_cmd
 	int				fd_out;
 	struct s_cmd	*next;
 }				t_cmd;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}				t_env;
+
+typedef struct s_exec
+{
+	t_cmd	*cmd_list;
+	t_env	*env_list;
+	char	**env_tab;
+	pid_t	*pids;
+	int		count;
+}				t_exec;
 
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
