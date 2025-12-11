@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/10 23:36:28 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 16:55:59 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*ms_get_next_word(char *cmd, int *i)
 		*i += 1;
 	}
 	if (start != *i)
-		word = ft_substr(cmd, start, *i - start + 1);
+		word = ft_substr(cmd, start, *i - start + (cmd[*i] == current_quote));
 	*i += (cmd[*i] == current_quote && current_quote);
 	return (word);
 }

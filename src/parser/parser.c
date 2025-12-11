@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 16:25:24 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:45:55 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd   *parser(t_token *tokens, t_env *env)
 	
 	cmd_list = create_new_cmd();
 	curr_cmd = cmd_list;
-	while (tokens)
+	while (tokens->type != END)
 	{
 		if (tokens->type == PIPE)
 		{
