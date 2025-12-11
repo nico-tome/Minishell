@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 23:13:22 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/10 20:05:39 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 17:34:16 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_prompt_params	ms_init_prompt_params(void)
 {
 	t_prompt_params	params;
 
-	params.exit_status = 0;
-	params.pwd = 0;
+	params.exit_status = 1;
+	params.pwd = 1;
 	return (params);
 }
 
@@ -27,7 +27,7 @@ char	*ms_get_prompt(t_minishell ms)
 	char	*tmp;
 	char	*exit_status;
 
-	exit_status = ft_itoa(ms.exit_status);
+	exit_status = ft_itoa(g_exit_status);
 	if (ms.prompt_params.pwd)
 		prompt = ft_strjoin(ms.pwd, " | 🐚: ");
 	else

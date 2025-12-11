@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 17:12:28 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 17:29:58 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ extern int g_exit_status;
 
 typedef struct s_prompt_params
 {
-	int	time;
 	int	exit_status;
 	int	pwd;
 }			t_prompt_params;

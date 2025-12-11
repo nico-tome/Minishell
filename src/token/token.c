@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 17:07:02 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 17:37:37 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ms_has_error(t_token *token)
 {
+	if (check_pipe(token) || check_redirections(token))
+		return (1);
 	while (token->type != END)
 	{
 		if (token->type == TOKEN_ERROR)
@@ -21,8 +23,6 @@ int	ms_has_error(t_token *token)
 		token = token->next;
 	}
 	if (token->type == TOKEN_ERROR)
-		return (1);
-	if (check_pipe(token) || check_redirections(token))
 		return (1);
 	return (0);
 }
@@ -78,7 +78,10 @@ void	ms_create_token(t_token *token, char *word)
 
 	next_token = malloc(sizeof(t_token));
 	if (next_token)
+	{
+		next_token->content = NULL;
 		next_token->type = END;
+	}
 	token->next = next_token;
 	token->content = ft_strdup(word);
 	if (!ms_check_quoted(word))
