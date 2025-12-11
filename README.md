@@ -4,20 +4,20 @@
 
 Fonction et code:
 
-- [ ] faire le pre parsing -> split en token
-- [ ] check la synthax
+- [x] faire le pre parsing -> split en token
+- [x] check la synthax
 - [ ] executer la command, si redirection executer dans le bon ordre
 - [ ] stock les datas
-- [ ] free les datas quand on sort du shell
+- [x] free les datas quand on sort du shell
 
 Demande du sujet:
 
-- [ ] Display a prompt
-- [ ] Have a working history
-- [ ] Search and launch the right executable
+- [x] Display a prompt
+- [x] Have a working history
+- [x] Search and launch the right executable
 - [ ] Have a signal handler
 - [ ] Ignore command with ; and \
-- [ ] Handle ' and "
+- [x] Handle ' and "
 - [ ] Execute $cmd in double quote
 - [ ] Redirections:
   - [ ] <
