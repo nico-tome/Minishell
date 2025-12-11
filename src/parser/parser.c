@@ -6,11 +6,29 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 11:48:35 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 12:58:09 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+#include "minishell.h"
+
+t_cmd	*create_new_cmd(void)
+{
+	t_cmd   *cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->args = NULL;
+	cmd->cmd_path = NULL;
+	cmd->fd_in = -2;
+	cmd->fd_out = -2;
+	cmd->status = 0;
+	cmd->next = NULL;
+	return (cmd);
+}
 
 t_cmd   *parser(t_token *tokens, t_env *env)
 {
@@ -58,7 +76,7 @@ t_cmd   *parser(t_token *tokens, t_env *env)
 			}
 		}
 		else if (tokens->type == WORD)
-			add_to_cmd(curr_cmd, tokens->content);
+			add_to_cmd(curr_cmd, tokens->content, env);
 		tokens = tokens->next;
 	}
 	return (cmd_list);

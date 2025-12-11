@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 12:03:09 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:09:45 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,13 @@ void	handle_pipes(t_cmd *cmd, int prev_read, int pipefd[2])
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 {
 	if (cmd->status == 1)
-    {
-       
-        close(pipefd[1]); 
-        close(pipefd[0]);
-        if (prev_read != -1)
-            close(prev_read);
-        ft_exit_child(exec, 1);
-    }
+	{
+		close(pipefd[1]); 
+		close(pipefd[0]);
+		if (prev_read != -1)
+			close(prev_read);
+		ft_exit_child(exec, 1);
+	}
 	handle_pipes(cmd, prev_read, pipefd);
 	if (is_builtin(cmd->args[0]))
 	{

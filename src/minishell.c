@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 14:42:06 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/10 23:39:43 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 13:22:05 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ms_print_hello(void)
 
 void	ms_init_data(t_minishell *ms, char **envp)
 {
-	ms->envp = envp;
+	ms->envp = init_env(envp);
 	ms->exit_status = 0;
 	ms->pwd = getcwd(NULL, 0);
 	ms->prompt_params = ms_init_prompt_params();
@@ -58,6 +58,7 @@ int	main(int ac, char **av, char **envp)
 	char		*prompt;
 	char		*cmd;
 	t_token		*tokens;
+	t_cmd		*parsed_cmd;
 
 	(void)ac;
 	(void)av;
@@ -78,23 +79,15 @@ int	main(int ac, char **av, char **envp)
 				printf("hello world\n");
 			else
 				printf("error !\n");
-			//ms_process_cmd(tokens);
+			parsed_cmd = parser(tokens, ms.envp);
+			exec_line(parsed_cmd, ms.envp);
+			/*
+			if (cmd_list->next == NULL && is_builtin_parent(cmd_list->args[0]))
+				exec_builtin(cmd_list, env_list);
+			else
+				exec_line(cmd_list, env_list);
+			*/
 		}
-		/* apres le parsing faut check ca soit on l'excute en bultin soit en pipeline mais mec cd /tmp | grep caca 
-		ca va dans la pipeline alors que juste cd /tmp on le fait en bultin
-		j'ai pas code is_builtin_parent c juste check si c pas un des bultin moi je travail sur exec_line
-
-		On peut pas isoler chaque commands de la pipeline ? 
-		Comme ça t'as juste a regarder si une command fait parti des builtins et on peut gerer plus facilement ?
-		
-		if (cmd_list->next == NULL && is_builtin_parent(cmd_list->args[0]))
-		{
-  			exec_builtin(cmd_list, env_list);
-		}
-		else
-		{
-			exec_line(cmd_list, env_list);
-		}*/
 		if (strcmp("pwd", cmd) == 0)
 		{
 			printf("%s\n", ms.pwd);

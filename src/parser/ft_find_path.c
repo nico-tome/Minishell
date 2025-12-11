@@ -6,13 +6,13 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:30:19 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 12:34:56 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:32:32 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*join_path(char	*path, char *cmd)
+char	*join_path(char *path, char *cmd)
 {
 	char	*result;
 	char	*in_path;
@@ -25,55 +25,56 @@ char	*join_path(char	*path, char *cmd)
 	return (result);
 }
 
-char	*find_path_envp(char **envp)
+char	*get_env_value(t_env *env, char *key)
 {
-	int		i;
-
-	i = 0;
-	while (envp[i])
+	while (env)
 	{
-		if (!(ft_strncmp("PATH=", envp[i], 5)))
-			return (envp[i] + 5);
-		i++;
+		if (ft_strncmp(env->key, key, sizeof(env->key)) == 0)
+			return (env->value);
+		env = env->next;
 	}
 	return (NULL);
 }
 
-char	**ft_setup_path(char **path, char **envp)
+char	**ft_setup_path(t_env *env)
 {
-	char	*path_envp;
+	char	*path_value;
+	char	**paths;
 
-	path_envp = find_path_envp(envp);
-	if (!path_envp)
+	path_value = get_env_value(env, "PATH");
+	if (!path_value)
 		return (NULL);
-	path = ft_split(path_envp, ':');
-	return (path);
+	paths = ft_split(path_value, ':');
+	return (paths);
 }
 
-char	*getpath(char **envp, char *cmd)
+char	*getpath(t_env *env, char *cmd)
 {
 	char	*test_path;
-	char	**path;
+	char	**paths;
 	int		i;
 
-	path = NULL;
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
-	path = ft_setup_path(path, envp);
-	if (!path)
+	if (cmd && ft_strchr(cmd, '/'))
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		return (NULL);
+	}
+	paths = ft_setup_path(env);
+	if (!paths)
 		return (NULL);
 	i = 0;
-	while (path[i])
+	while (paths[i])
 	{
-		test_path = join_path(path[i], cmd);
+		test_path = join_path(paths[i], cmd);
 		if (test_path && access(test_path, X_OK) == 0)
 		{
-			free_all(path);
+			free_all(paths);
 			return (test_path);
 		}
 		free(test_path);
 		i++;
 	}
-	free_all(path);
+	free_all(paths);
 	return (NULL);
 }
