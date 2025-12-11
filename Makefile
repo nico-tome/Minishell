@@ -21,6 +21,8 @@ LIBFT_DIR = src/libft
 SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(PROMPT_DIR)prompt.c \
 		$(SRC_DIR)$(TOKEN_DIR)token.c \
+		$(SRC_DIR)$(TOKEN_DIR)verify_tokens.c \
+		$(SRC_DIR)$(TOKEN_DIR)free_tokens.c \
 		$(SRC_DIR)ft_init_env.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_add_cmd.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_find_path.c \

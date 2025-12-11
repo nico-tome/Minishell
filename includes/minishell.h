@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 16:31:54 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:12:28 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,8 @@ void			update_exit_status(int code);
 char			**list_to_tab(t_env *env);
 void			free_cmd_list(t_cmd *cmd);
 void			free_env_list(t_env *env);
+int				check_pipe(t_token *token);
+int				check_redirections(t_token *token);
+void			free_tokens(t_token *token);
 
 #endif

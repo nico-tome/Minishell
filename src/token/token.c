@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 16:55:59 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/11 17:07:02 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ms_has_error(t_token *token)
 		token = token->next;
 	}
 	if (token->type == TOKEN_ERROR)
+		return (1);
+	if (check_pipe(token) || check_redirections(token))
 		return (1);
 	return (0);
 }
