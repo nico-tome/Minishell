@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:46:23 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 21:49:15 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 22:10:49 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ms_env(t_minishell *ms)
 	env = ms->envp;
 	while (env->next)
 	{
-		printf("%s\n", env->value);
+		printf("%s%s\n", env->key, env->value);
 		env = env->next;
 	}
 }
