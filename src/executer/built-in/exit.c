@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 17:56:05 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:38:57 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 {
 	(void)cmd;
 	// cmd = "exit" "10" "NULL"
+	if (ft_tablen(cmd) > 2)
+	{
+		printf("exit: too many arguments\n");
+		return ;
+	}
 	if (ms->tokens)
 		free_tokens(ms->tokens);
 	if (ms->parsed_cmd)

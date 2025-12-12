@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 10:29:13 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:45:49 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,37 @@ char	*ms_get_next_word(char *cmd, int *i)
 
 	word = NULL;
 	current_quote = 0;
-	*i += cmd[*i] == ' ';
 	start = *i;
 	while (cmd[*i])
 	{
 		if (cmd[*i] == '\'' || cmd[*i] == '"')
 		{
-			if (!current_quote)
-				current_quote = cmd[*i];
-			else if (cmd[*i] == current_quote)
-				break ;
+			start = *i;
+			current_quote = cmd[*i];
+			while (cmd[*i] && cmd[*i] != current_quote)
+				*i += 1;
+			*i += 1;
+			break;
 		}
-		if (cmd[*i] == ' ' && !current_quote)
-			break ;
+		if (cmd[*i] == '>' || cmd[*i] == '<' || cmd[*i] == '|')
+		{
+			start = *i;
+			current_quote = cmd[*i];
+			while (cmd[*i] && cmd[*i] == current_quote)
+				*i += 1;
+			break;
+		}
+		if (cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<' && cmd[*i] != '\'' && cmd[*i] != '"' && cmd[*i] != '|')
+		{
+			start = *i;
+			while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<' && cmd[*i] != '\'' && cmd[*i] != '"' && cmd[*i] != '|')
+				*i += 1;
+			break;
+		}
 		*i += 1;
 	}
 	if (start != *i)
 		word = ft_substr(cmd, start, *i - start + (cmd[*i] == current_quote));
-	*i += (cmd[*i] == current_quote && current_quote);
 	return (word);
 }
 
