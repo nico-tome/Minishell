@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 11:50:05 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:47:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,15 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	exec_builtin(t_minishell *ms)
+void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd)
 {
 	unsigned long	size;
 
 	size = sizeof(ms->parsed_cmd->args[0]);
 	if (!ft_strncmp(ms->parsed_cmd->args[0], "exit", size))
-		ms_exit(ms);
+		ms_exit(ms, exit_print, cmd);
+	if (!ft_strncmp(ms->parsed_cmd->args[0], "cd", size))
+		ms->status = cd(ms, ms->parsed_cmd);
 }
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
@@ -155,7 +157,7 @@ void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 	handle_pipes(cmd, prev_read, pipefd);
 	if (is_builtin(cmd->args[0]))
 	{
-		exec_builtin(exec->ms);
+		exec_builtin(exec->ms, 0, cmd);
 		ft_exit_child(exec, 0);
 	}
 	exec_external(cmd, exec);

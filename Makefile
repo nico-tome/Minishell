@@ -43,7 +43,8 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_find_path.c \
 		$(SRC_DIR)$(PARSER_DIR)parser.c \
 		$(SRC_DIR)$(EXEC_PIPE)pipeline.c \
-		$(SRC_DIR)$(EXEC_PIPE)env_utils.c \
+		$(SRC_DIR)env_utils.c \
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)cd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)exit.c
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))

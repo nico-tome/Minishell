@@ -6,13 +6,13 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:49:54 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 15:39:29 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:14:10 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static int	ft_tablen(char **tab)
+int	ft_tablen(char **tab)
 {
 	int	i;
 

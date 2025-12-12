@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 11:53:45 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:48:28 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,12 @@ int				check_redirections(t_token *token);
 void			free_tokens(t_token *token);
 int				check_forbiden_char(char *word);
 void			signal_handler(int signal);
-void			ms_exit(t_minishell *ms);
+void			ms_exit(t_minishell *ms, int print, t_cmd *cmd);
 int				is_builtin(char *cmd);
-void			exec_builtin(t_minishell *ms);
+void			exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd);
+int				ft_tablen(char **tab);
+int				cd(t_minishell *ms, t_cmd *cmd);
+char			*get_env(t_env *envp, char *env);
+void			update_env_val(t_env *env, char *key, char *new_val);
 
 #endif
