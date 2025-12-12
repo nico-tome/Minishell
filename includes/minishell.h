@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 17:55:39 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:19:31 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int				check_forbiden_char(char *word);
 void			signal_handler(int signal);
 void			ms_exit(t_minishell *ms, int print, char **cmd);
 int				is_builtin(char *cmd);
-void			exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd);
+void			exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec);
 int				ft_tablen(char **tab);
 int				cd(t_minishell *ms, t_cmd *cmd);
 char			*get_env(t_env *envp, char *env);

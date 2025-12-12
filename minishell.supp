@@ -50,4 +50,8 @@
    ...
    obj:/usr/bin/ls
    fun:(below main)
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3a1ea034a18967c125e859a9d01c3d4ea607e510
