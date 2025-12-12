@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 00:49:21 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 11:54:05 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ void	ms_exit(t_minishell *ms)
 	if (ms->envp)
 		free_env_list(ms->envp);
 	rl_clear_history();
-	exit(EXIT_SUCCESS);
+	exit(ms->status);
 }

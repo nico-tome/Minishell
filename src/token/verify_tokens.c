@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verify_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:06:33 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 23:05:50 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 10:36:35 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,23 @@ int	is_redirection(t_token *token)
 		return (0);
 }
 
-int	check_pipe(t_token *token)
+int check_pipe(t_token *token)
 {
-	int	first;
-
-	first = 1;
-	while (token->type != END)
+	if (token && token->type == PIPE)
 	{
-		if (token->type == PIPE && first)
-			return (1);
-		else if (token->type == PIPE && token->next->type == END)
-			return (1);
-		first = 0;
+		printf("Minishell: syntax error near unexpected token `|'\n");
+		return (1);
+	}
+	while (token)
+	{
+		if (token->type == PIPE)
+		{
+			if (!token->next || token->next->type == PIPE)
+			{
+				printf("Minishell: syntax error near unexpected token `|'\n");
+				return (1);
+			}
+		}
 		token = token->next;
 	}
 	return (0);
@@ -45,16 +50,18 @@ int	check_pipe(t_token *token)
 
 int	check_redirections(t_token *token)
 {
-	int	first;
-
-	first = 1;
-	while (token->type != END)
+	while (token)
 	{
-		if (is_redirection(token) && first)
+		if (is_redirection(token) && !token->next)
+		{
+			printf("Minishell: syntax error near unexpected token `%s'\n", token->next->content);
 			return (1);
-		else if (is_redirection(token) && token->next->type == END)
+		}
+		else if (is_redirection(token) && token->next->type != WORD)
+		{
+			printf("Minishell: syntax error near unexpected token `%s'\n", token->next->content);
 			return (1);
-		first = 0;
+		}
 		token = token->next;
 	}
 	return (0);

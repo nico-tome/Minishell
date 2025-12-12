@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 23:13:22 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 17:34:16 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 10:17:19 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_prompt_params	ms_init_prompt_params(void)
 {
 	t_prompt_params	params;
 
-	params.exit_status = 1;
-	params.pwd = 1;
+	params.exit_status = 0;
+	params.pwd = 0;
 	return (params);
 }
 

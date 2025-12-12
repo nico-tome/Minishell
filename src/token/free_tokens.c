@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:08:43 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 17:12:14 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 10:23:24 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 
 void	free_tokens(t_token *token)
 {
-	t_token	*next;
+	t_token	*tmp;
 
-	while (token->type != END)
+	if (!token)
+		return ;
+	while (token)
 	{
-		next = token->next;
+		tmp = token->next;
 		if (token->content)
 			free(token->content);
-		if (token)
-			free(token);
-		token = next;
-	}
-	if (token->content)
-		free(token->content);
-	if (token)
 		free(token);
+		token = tmp;
+	}
 }
