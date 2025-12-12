@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 21:40:27 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 21:51:06 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,6 @@ void			ms_get_word_redir(char *cmd, int *i, int *start);
 void			ms_get_word_quote(char *cmd, int *i, int *start);
 void			ms_get_word(char *cmd, int *i, int *start);
 void			ms_pwd(void);
+void			ms_env(t_minishell *ms);
 
 #endif
