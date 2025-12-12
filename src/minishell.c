@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 00:45:15 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 09:58:09 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ms_init_data(t_minishell *ms, char **envp)
 {
 	ms->envp = init_env(envp);
 	ms->pwd = getcwd(NULL, 0);
+	ms->tokens = NULL;
+	ms->parsed_cmd = NULL;
 	ms->prompt_params = ms_init_prompt_params();
 }
 
@@ -70,7 +72,9 @@ int	main(int ac, char **av, char **envp)
 		prompt = ms_get_prompt(ms);
 		cmd = readline(prompt);
 		free(prompt);
-		if (cmd && cmd[0] != '\0')
+		if (cmd == NULL)
+			ms_exit(&ms);
+		if (cmd[0] != '\0')
 		{
 			add_history(cmd);
 			ms.tokens = ft_calloc(1, sizeof(t_token));
@@ -92,8 +96,6 @@ int	main(int ac, char **av, char **envp)
 			}
 			free_tokens(ms.tokens);
 		}
-		else
-			ms_exit(&ms);
 	}
 	free_env_list(ms.envp);
 	rl_clear_history();
