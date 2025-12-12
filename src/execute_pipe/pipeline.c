@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 17:47:21 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:54:58 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd)
 
 	size = sizeof(ms->parsed_cmd->args[0]);
 	if (!ft_strncmp(ms->parsed_cmd->args[0], "exit", size))
-		ms_exit(ms, exit_print, cmd);
+		ms_exit(ms, exit_print, cmd->args);
 	if (!ft_strncmp(ms->parsed_cmd->args[0], "cd", size))
 		ms->status = cd(ms, ms->parsed_cmd);
 }

@@ -6,14 +6,16 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 17:48:16 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:56:05 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_exit(t_minishell *ms, int print, t_cmd *cmd)
+void	ms_exit(t_minishell *ms, int print, char **cmd)
 {
+	(void)cmd;
+	// cmd = "exit" "10" "NULL"
 	if (ms->tokens)
 		free_tokens(ms->tokens);
 	if (ms->parsed_cmd)
