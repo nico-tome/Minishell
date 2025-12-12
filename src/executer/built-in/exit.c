@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 17:56:05 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:15:50 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 		free_cmd_list(ms->parsed_cmd);
 	if (ms->envp)
 		free_env_list(ms->envp);
+	if (ms->pwd)
+		free(ms->pwd);
 	if (print)
 		printf("exit\n");
 	rl_clear_history();
