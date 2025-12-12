@@ -6,21 +6,38 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 18:48:21 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 20:39:59 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 
-void	ms_exit(t_minishell *ms, int print, char **cmd)
+int	is_numeric(char *str)
 {
-	(void)cmd;
-	// cmd = "exit" "10" "NULL"
-	if (ft_tablen(cmd) > 2)
+	int		i;
+	char	*str_val;
+
+	str_val = ft_lltoa(ft_atoll(str));
+	if (ft_strncmp(str, str_val, ft_strlen(str)))
 	{
-		printf("exit: too many arguments\n");
-		return ;
+		free(str_val);
+		return (0);
 	}
+	free(str_val);
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i])
+			&& !(i == 0 && (str[i] == '-' || str[i] == '+')))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	exit_free(t_minishell *ms)
+{
 	if (ms->tokens)
 		free_tokens(ms->tokens);
 	if (ms->parsed_cmd)
@@ -29,8 +46,31 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 		free_env_list(ms->envp);
 	if (ms->pwd)
 		free(ms->pwd);
+}
+
+void	ms_exit(t_minishell *ms, int print, char **cmd)
+{
+	int	args_num;
+
+	args_num = ft_tablen(cmd);
+	if (args_num >= 2 && !is_numeric(cmd[1]))
+	{
+		printf("petit coquillage: exit: %s : numeric argument needed\n",
+			cmd[1]);
+		ms->status = 2;
+		g_exit_status = 2;
+		return ;
+	}
+	else if (args_num > 2)
+	{
+		printf("petit coquillage: exit: too much arguments\n");
+		ms->status = 1;
+	}
+	else if (args_num == 2 && is_numeric(cmd[1]))
+		ms->status = ft_atoll(cmd[1]);
+	exit_free(ms);
 	if (print)
 		printf("exit\n");
 	rl_clear_history();
-	exit(ms->status);
+	exit(ms->status % 256);
 }

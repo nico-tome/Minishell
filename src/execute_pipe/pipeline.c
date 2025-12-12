@@ -6,10 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 18:20:21 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:39:17 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 
 void	safe_close(int fd)
@@ -147,6 +148,8 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 	}
 	if (!ft_strncmp(ms->parsed_cmd->args[0], "cd", size))
 		ms->status = cd(ms, ms->parsed_cmd);
+	if (!ft_strncmp(ms->parsed_cmd->args[0], "pwd", size))
+		ms_pwd();
 }
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)

@@ -37,6 +37,7 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(TOKEN_DIR)token.c \
 		$(SRC_DIR)$(TOKEN_DIR)verify_tokens.c \
 		$(SRC_DIR)$(TOKEN_DIR)free_tokens.c \
+		$(SRC_DIR)$(TOKEN_DIR)token_utils.c \
 		$(SRC_DIR)$(SIGNAL_DIR)signal.c \
 		$(SRC_DIR)ft_init_env.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_add_cmd.c \
@@ -45,7 +46,8 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(EXEC_PIPE)pipeline.c \
 		$(SRC_DIR)env_utils.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)cd.c \
-		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)exit.c
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)exit.c \
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)pwd.c
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))
 

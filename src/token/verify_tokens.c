@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:06:33 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 15:18:46 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:20:54 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_redirection(t_token *token)
 		return (0);
 }
 
-int check_pipe(t_token *token)
+int	check_pipe(t_token *token)
 {
 	if (token && token->type == PIPE)
 	{
@@ -54,12 +54,14 @@ int	check_redirections(t_token *token)
 	{
 		if (is_redirection(token) && !token->next)
 		{
-			printf("Minishell: syntax error near unexpected token `%s'\n", token->content);
+			printf("Minishell: syntax error near unexpected token `%s'\n",
+				token->content);
 			return (1);
 		}
 		else if (is_redirection(token) && token->next->type != WORD)
 		{
-			printf("Minishell: syntax error near unexpected token `%s'\n", token->next->content);
+			printf("Minishell: syntax error near unexpected token `%s'\n",
+				token->next->content);
 			return (1);
 		}
 		token = token->next;
@@ -77,6 +79,19 @@ int	check_forbiden_char(char *word)
 		if (word[i] == ';' || word[i] == '\\')
 			return (1);
 		i++;
+	}
+	return (0);
+}
+
+int	ms_has_error(t_token *token)
+{
+	if (check_pipe(token) || check_redirections(token))
+		return (1);
+	while (token)
+	{
+		if (token->type == TOKEN_ERROR)
+			return (1);
+		token = token->next;
 	}
 	return (0);
 }

@@ -6,22 +6,18 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 18:45:49 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 21:44:05 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_has_error(t_token *token)
+int	is_quote_redir(char c)
 {
-	if (check_pipe(token) || check_redirections(token))
+	if (c == '"' || c == '\'')
 		return (1);
-	while (token)
-	{
-		if (token->type == TOKEN_ERROR)
-			return (1);
-		token = token->next;
-	}
+	else if (c == '>' || c == '<' || c == '|')
+		return (2);
 	return (0);
 }
 
@@ -44,43 +40,28 @@ int	ms_check_quoted(char *word)
 char	*ms_get_next_word(char *cmd, int *i)
 {
 	int		start;
-	char	*word;
-	char	current_quote;
 
-	word = NULL;
-	current_quote = 0;
 	start = *i;
 	while (cmd[*i])
 	{
-		if (cmd[*i] == '\'' || cmd[*i] == '"')
+		if (is_quote_redir(cmd[*i]) == 1)
 		{
-			start = *i;
-			current_quote = cmd[*i];
-			while (cmd[*i] && cmd[*i] != current_quote)
-				*i += 1;
-			*i += 1;
-			break;
+			ms_get_word_quote(cmd, i, &start);
+			return (ft_substr(cmd, start, *i - start));
 		}
-		if (cmd[*i] == '>' || cmd[*i] == '<' || cmd[*i] == '|')
+		if (is_quote_redir(cmd[*i]) == 2)
 		{
-			start = *i;
-			current_quote = cmd[*i];
-			while (cmd[*i] && cmd[*i] == current_quote)
-				*i += 1;
-			break;
+			ms_get_word_redir(cmd, i, &start);
+			return (ft_substr(cmd, start, *i - start));
 		}
-		if (cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<' && cmd[*i] != '\'' && cmd[*i] != '"' && cmd[*i] != '|')
+		if (cmd[*i] != ' ' && !is_quote_redir(cmd[*i]))
 		{
-			start = *i;
-			while (cmd[*i] && cmd[*i] != ' ' && cmd[*i] != '>' && cmd[*i] != '<' && cmd[*i] != '\'' && cmd[*i] != '"' && cmd[*i] != '|')
-				*i += 1;
-			break;
+			ms_get_word(cmd, i, &start);
+			return (ft_substr(cmd, start, *i - start));
 		}
 		*i += 1;
 	}
-	if (start != *i)
-		word = ft_substr(cmd, start, *i - start + (cmd[*i] == current_quote));
-	return (word);
+	return (NULL);
 }
 
 void	ms_create_token(t_token *token, char *word)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 18:19:31 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:40:27 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_exec
 	char		**env_tab;
 	pid_t		*pids;
 	int			count;
-	t_minishell *ms;
+	t_minishell	*ms;
 }				t_exec;
 
 char			*ms_get_prompt(t_minishell ms);
@@ -116,10 +116,16 @@ int				check_forbiden_char(char *word);
 void			signal_handler(int signal);
 void			ms_exit(t_minishell *ms, int print, char **cmd);
 int				is_builtin(char *cmd);
-void			exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec);
+void			exec_builtin(t_minishell *ms, int e_p, t_cmd *cmd, t_exec *e);
 int				ft_tablen(char **tab);
 int				cd(t_minishell *ms, t_cmd *cmd);
 char			*get_env(t_env *envp, char *env);
 void			update_env_val(t_env *env, char *key, char *new_val);
+int				ms_has_error(t_token *token);
+int				is_quote_redir(char c);
+void			ms_get_word_redir(char *cmd, int *i, int *start);
+void			ms_get_word_quote(char *cmd, int *i, int *start);
+void			ms_get_word(char *cmd, int *i, int *start);
+void			ms_pwd(void);
 
 #endif

@@ -1,22 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 21:37:01 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 21:44:31 by ntome            ###   ########.fr       */
+/*   Created: 2025/12/12 20:30:59 by ntome             #+#    #+#             */
+/*   Updated: 2025/12/12 20:37:52 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "libft.h"
 
-void	ms_pwd(void)
+long long int	ft_atoll(const char *nptr)
 {
-	char	*path;
+	int				sign;
+	long long int	result;
 
-	path = getcwd(NULL, 0);
-	printf("%s\n", path);
-	free(path);
+	sign = 1;
+	result = 0;
+	while ((*nptr >= 9 && *nptr <= 13) || *nptr == ' ')
+		nptr++;
+	if (*nptr == '-')
+	{
+		sign = -1;
+		nptr++;
+	}
+	else if (*nptr == '+')
+		nptr++;
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		result = result * 10 + (*nptr - '0');
+		nptr++;
+	}
+	return (sign * result);
 }

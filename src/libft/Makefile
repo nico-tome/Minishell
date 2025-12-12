@@ -6,7 +6,7 @@
 #    By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 20:10:19 by gajanvie          #+#    #+#              #
-#    Updated: 2025/11/08 11:44:51 by gajanvie         ###   ########.fr        #
+#    Updated: 2025/12/12 20:32:31 by ntome            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ SRCS = $(SRCD)ft_isalnum.c \
        $(SRCD)ft_atoi.c \
        $(SRCD)ft_isalpha.c \
        $(SRCD)ft_itoa.c \
+	   $(SRCD)ft_lltoa.c \
+	   $(SRCD)ft_atoll.c \
        $(SRCD)ft_memcpy.c \
        $(SRCD)ft_putendl_fd.c \
        $(SRCD)ft_strchr.c \

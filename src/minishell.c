@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 18:19:38 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 20:58:03 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	main(int ac, char **av, char **envp)
 				ms.parsed_cmd = parser(ms.tokens, ms.envp);
 				if (ms.parsed_cmd)
 				{
-					if (ms.parsed_cmd->next == NULL && is_builtin(ms.parsed_cmd->args[0]))
+					if (ms.parsed_cmd->next == NULL
+						&& is_builtin(ms.parsed_cmd->args[0]))
 						exec_builtin(&ms, 1, ms.parsed_cmd, NULL);
 					else
 						exec_line(&ms);
