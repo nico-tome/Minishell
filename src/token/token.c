@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/11 23:21:24 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 10:29:13 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@ int	ms_has_error(t_token *token)
 {
 	if (check_pipe(token) || check_redirections(token))
 		return (1);
-	while (token->type != END)
+	while (token)
 	{
 		if (token->type == TOKEN_ERROR)
 			return (1);
 		token = token->next;
 	}
-	if (token->type == TOKEN_ERROR)
-		return (1);
 	return (0);
 }
 
@@ -74,15 +72,7 @@ char	*ms_get_next_word(char *cmd, int *i)
 
 void	ms_create_token(t_token *token, char *word)
 {
-	t_token	*next_token;
-
-	next_token = malloc(sizeof(t_token));
-	if (next_token)
-	{
-		next_token->content = NULL;
-		next_token->type = END;
-	}
-	token->next = next_token;
+	token->next = NULL;
 	token->content = ft_strdup(word);
 	if (!ms_check_quoted(word) || check_forbiden_char(word))
 		token->type = TOKEN_ERROR;
@@ -116,8 +106,12 @@ void	ms_tokenize_cmd(t_token **tokens, char *cmd)
 		word = ms_get_next_word(cmd, &i);
 		if (word)
 		{
+			actual_token->next = ft_calloc(1, sizeof(t_token));
 			if (!actual_token->next)
-				break ;
+			{
+				free(word);
+				return ;
+			}
 			actual_token = actual_token->next;
 		}
 	}

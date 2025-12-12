@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 00:43:29 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 17:48:28 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
-typedef struct s_exec
-{
-	t_cmd	*cmd_list;
-	t_env	*env_list;
-	char	**env_tab;
-	pid_t	*pids;
-	int		count;
-}				t_exec;
-
 typedef struct s_double_index
 {
 	int	j;
@@ -91,7 +82,18 @@ typedef struct s_minishell
 	char			*pwd;
 	t_token			*tokens;
 	t_cmd			*parsed_cmd;
+	int				status;
 }				t_minishell;
+
+typedef struct s_exec
+{
+	t_cmd		*cmd_list;
+	t_env		*env_list;
+	char		**env_tab;
+	pid_t		*pids;
+	int			count;
+	t_minishell *ms;
+}				t_exec;
 
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
@@ -102,7 +104,7 @@ char			*getpath(t_env *env, char *cmd);
 void			add_to_cmd(t_cmd *cmd, char *content, t_env *env);
 t_cmd			*parser(t_token *tokens, t_env *env);
 t_env			*init_env(char **envp);
-void			exec_line(t_cmd *cmd, t_env *env);
+void			exec_line(t_minishell *ms);
 void			update_exit_status(int code);
 char			**list_to_tab(t_env *env);
 void			free_cmd_list(t_cmd *cmd);
@@ -112,6 +114,12 @@ int				check_redirections(t_token *token);
 void			free_tokens(t_token *token);
 int				check_forbiden_char(char *word);
 void			signal_handler(int signal);
-void			ms_exit(t_minishell *ms);
+void			ms_exit(t_minishell *ms, int print, t_cmd *cmd);
+int				is_builtin(char *cmd);
+void			exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd);
+int				ft_tablen(char **tab);
+int				cd(t_minishell *ms, t_cmd *cmd);
+char			*get_env(t_env *envp, char *env);
+void			update_env_val(t_env *env, char *key, char *new_val);
 
 #endif

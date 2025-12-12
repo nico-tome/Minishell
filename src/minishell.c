@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 09:58:09 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:49:28 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ms_init_data(t_minishell *ms, char **envp)
 	ms->pwd = getcwd(NULL, 0);
 	ms->tokens = NULL;
 	ms->parsed_cmd = NULL;
+	ms->status = 0;
 	ms->prompt_params = ms_init_prompt_params();
 }
 
@@ -73,7 +74,7 @@ int	main(int ac, char **av, char **envp)
 		cmd = readline(prompt);
 		free(prompt);
 		if (cmd == NULL)
-			ms_exit(&ms);
+			ms_exit(&ms, 1, NULL);
 		if (cmd[0] != '\0')
 		{
 			add_history(cmd);
@@ -84,18 +85,23 @@ int	main(int ac, char **av, char **envp)
 				break ;
 			}
 			ms_tokenize_cmd(&ms.tokens, cmd);
-			free(cmd);
 			if (ms.tokens && ms.tokens->content && !ms_has_error(ms.tokens))
 			{
 				ms.parsed_cmd = parser(ms.tokens, ms.envp);
 				if (ms.parsed_cmd)
 				{
-					exec_line(ms.parsed_cmd, ms.envp);
+					if (ms.parsed_cmd->next == NULL && is_builtin(ms.parsed_cmd->args[0]))
+						exec_builtin(&ms, 1, ms.parsed_cmd);
+					else
+						exec_line(&ms);
 					free_cmd_list(ms.parsed_cmd);
+					ms.parsed_cmd = NULL;
 				}
 			}
 			free_tokens(ms.tokens);
+			ms.tokens = NULL;
 		}
+		free(cmd);
 	}
 	free_env_list(ms.envp);
 	rl_clear_history();

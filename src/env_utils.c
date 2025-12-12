@@ -6,11 +6,26 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:32:47 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 15:38:46 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:39:42 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	update_env_val(t_env *env, char *key, char *new_val)
+{
+	while (env)
+	{
+		if (ft_strncmp(env->key, key, ft_strlen(env->key)) == 0)
+		{
+			if (env->value)
+				free(env->value);
+			env->value = ft_strdup(new_val);
+			return ;
+		}
+		env = env->next;
+	}
+}
 
 int	ft_env_size(t_env *env)
 {
@@ -76,4 +91,15 @@ char	**list_to_tab(t_env *env)
 	}
 	tab[i] = NULL;
 	return (tab);
+}
+
+char	*get_env(t_env *envp, char *env)
+{
+	while (envp)
+	{
+		if (!ft_strncmp(env, envp->key, ft_strlen(env)))
+			return (envp->value);
+		envp = envp->next;
+	}
+	return (NULL);
 }

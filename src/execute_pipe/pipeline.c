@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 00:46:09 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/12 17:47:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,17 +134,15 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	exec_builtin(t_cmd *cmd, t_env *envp)
+void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd)
 {
-	int	size;
+	unsigned long	size;
 
-	(void)envp;
-	size = ft_strlen(cmd->args[0]);
-	if (!ft_strncmp(cmd->args[0], "exit", size))
-		return ; 
-	/*en fait il faut qu'on passe ms dans la fonction exit, 
-	du coup si on a des builtins je sais pas si on doit les gerer dans le main ou rajouter ms dans les parametres des fonctions ici.
-	*/
+	size = sizeof(ms->parsed_cmd->args[0]);
+	if (!ft_strncmp(ms->parsed_cmd->args[0], "exit", size))
+		ms_exit(ms, exit_print, cmd);
+	if (!ft_strncmp(ms->parsed_cmd->args[0], "cd", size))
+		ms->status = cd(ms, ms->parsed_cmd);
 }
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
@@ -159,7 +157,7 @@ void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 	handle_pipes(cmd, prev_read, pipefd);
 	if (is_builtin(cmd->args[0]))
 	{
-		exec_builtin(cmd, exec->env_list);
+		exec_builtin(exec->ms, 0, cmd);
 		ft_exit_child(exec, 0);
 	}
 	exec_external(cmd, exec);
@@ -178,13 +176,14 @@ int	count_cmds(t_cmd *cmd)
 	return (result);
 }
 
-void	init_exec(t_exec *exec, t_cmd *cmd, t_env *env)
+void	init_exec(t_exec *exec, t_minishell *ms)
 {
-	exec->cmd_list = cmd;
-	exec->env_list = env;
-	exec->count = count_cmds(cmd);
-	exec->env_tab = list_to_tab(env);
+	exec->cmd_list = ms->parsed_cmd;
+	exec->env_list = ms->envp;
+	exec->count = count_cmds(ms->parsed_cmd);
+	exec->env_tab = list_to_tab(ms->envp);
 	exec->pids = malloc(sizeof(pid_t) * exec->count);
+	exec->ms = ms;
 }
 
 void	exec_loop(t_exec *exec, t_cmd *curr, int *pipefd, int *prev_read)
@@ -244,20 +243,20 @@ void	wait_all(pid_t *pids, int count)
 	update_exit_status(exit_code);
 }
 
-void	exec_line(t_cmd *cmd, t_env *env)
+void	exec_line(t_minishell *ms)
 {
 	t_exec	exec;
 	int		pipefd[2];
 	int		prev_read;
 
 	prev_read = -1;
-	init_exec(&exec, cmd, env);
+	init_exec(&exec, ms);
 	if (!exec.pids || !exec.env_tab)
 	{
 		ft_free_exec(&exec);
 		return ;
 	}
-	exec_loop(&exec, cmd, pipefd, &prev_read);
+	exec_loop(&exec, ms->parsed_cmd, pipefd, &prev_read);
 	wait_all(exec.pids, exec.count);
 	ft_free_exec(&exec);
 }
