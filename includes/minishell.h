@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/13 16:50:57 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/13 23:43:35 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,7 @@ int				ft_env_size(t_env *env);
 int				init_cd(int *print_path, t_cmd *cmd, int *should_free);
 int				switch_dir(char *path, int should_free, int print_path);
 t_cmd			*create_new_cmd(void);
+void			ft_env_add_back(t_env **lst, t_env *new);
+t_env			*ft_env_new(char *str);
 
 #endif

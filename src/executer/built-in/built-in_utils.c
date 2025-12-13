@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:57:29 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/13 15:57:55 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/13 23:38:03 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,6 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 		ms_echo(ms, cmd);
 	if (!ft_strcmp(cmd_name, "ms_header"))
 		ms_print_hello();
+	if (!ft_strcmp(cmd_name, "export"))
+		ms_export(ms, cmd);
 }
