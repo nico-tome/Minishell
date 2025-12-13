@@ -43,14 +43,20 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_add_cmd.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_find_path.c \
 		$(SRC_DIR)$(PARSER_DIR)parser.c \
-		$(SRC_DIR)$(EXEC_PIPE)pipeline.c \
+		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)pipeline.c \
+		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)clear_pipeline.c \
+		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)ft_wait_all.c \
+		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)init_exec.c \
 		$(SRC_DIR)env_utils.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)cd.c \
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)init_cd.c \
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)built-in_utils.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)exit.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)pwd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)env.c \
-		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)unset.c
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)unset.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)echo.c
+
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))
 

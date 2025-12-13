@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/13 15:26:23 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/13 16:50:57 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,16 @@ void			ms_env(t_minishell *ms);
 int				ft_unset(t_minishell *ms, char **args);
 void			ms_echo(t_minishell *ms, t_cmd *cmd);
 void			ms_print_hello(void);
+void			wait_all(pid_t *pids, int count);
+char			*ft_join_value(char *key, char *value);
+void			dup2_and_close(int fd, int target_fd);
+void			safe_close(int fd);
+void			ft_exit_child(t_exec *exec, int exit_code);
+void			ft_free_exec(t_exec *exec);
+void			init_exec(t_exec *exec, t_minishell *ms);
+int				ft_env_size(t_env *env);
+int				init_cd(int *print_path, t_cmd *cmd, int *should_free);
+int				switch_dir(char *path, int should_free, int print_path);
+t_cmd			*create_new_cmd(void);
 
 #endif

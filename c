@@ -1,0 +1,11 @@
+a
+b
+build
+c
+compile_commands.json
+includes
+Makefile
+minishell
+minishell.supp
+README.md
+src

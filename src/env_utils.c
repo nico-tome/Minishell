@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:32:47 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 15:39:42 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:01:01 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,32 +65,20 @@ char	*ft_join_value(char *key, char *value)
 	return (str);
 }
 
-char	**list_to_tab(t_env *env)
+void	free_env_list(t_env *env)
 {
-	char	**tab;
-	int		size;
-	int		i;
 	t_env	*tmp;
 
-	size = ft_env_size(env);
-	tab = malloc(sizeof(char *) * (size + 1));
-	if (!tab)
-		return (NULL);
-	i = 0;
-	tmp = env;
-	while (tmp)
+	while (env)
 	{
-		tab[i] = ft_join_value(tmp->key, tmp->value);
-		if (!tab[i])
-		{
-			free_all(tab);
-			return (NULL);
-		}
-		tmp = tmp->next;
-		i++;
+		tmp = env->next;
+		if (env->key)
+			free(env->key);
+		if (env->value)
+			free(env->value);
+		free(env);
+		env = tmp;
 	}
-	tab[i] = NULL;
-	return (tab);
 }
 
 char	*get_env(t_env *envp, char *env)

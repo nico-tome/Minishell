@@ -6,26 +6,57 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 10:37:22 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:59:22 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_cmd	*create_new_cmd(void)
+void	token_pipe(t_cmd **curr_cmd)
 {
-	t_cmd	*cmd;
+	(*curr_cmd)->next = create_new_cmd();
+	*curr_cmd = (*curr_cmd)->next;
+}
 
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->args = NULL;
-	cmd->cmd_path = NULL;
-	cmd->fd_in = -2;
-	cmd->fd_out = -2;
-	cmd->status = 0;
-	cmd->next = NULL;
-	return (cmd);
+void	token_redir_in(t_token **tokens, t_cmd **curr_cmd)
+{
+	if ((*curr_cmd)->fd_in > -1)
+		close((*curr_cmd)->fd_in);
+	(*tokens) = (*tokens)->next;
+	(*curr_cmd)->fd_in = open((*tokens)->content, O_RDONLY);
+	if ((*curr_cmd)->fd_in == -1)
+	{
+		(*curr_cmd)->status = 1;
+		perror((*tokens)->content);
+	}
+}
+
+void	token_redir_out(t_token **tokens, t_cmd **curr_cmd)
+{
+	if ((*curr_cmd)->fd_out > -1)
+		close((*curr_cmd)->fd_out);
+	(*tokens) = (*tokens)->next;
+	(*curr_cmd)->fd_out = open((*tokens)->content,
+			O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if ((*curr_cmd)->fd_out == -1)
+	{
+		(*curr_cmd)->status = 1;
+		perror((*tokens)->content);
+	}
+}
+
+void	token_append(t_token **tokens, t_cmd **curr_cmd)
+{
+	if ((*curr_cmd)->fd_out > -1)
+		close((*curr_cmd)->fd_out);
+	*tokens = (*tokens)->next;
+	(*curr_cmd)->fd_out = open((*tokens)->content,
+			O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if ((*curr_cmd)->fd_out == -1)
+	{
+		(*curr_cmd)->status = 1;
+		perror("file");
+	}
 }
 
 t_cmd	*parser(t_token *tokens, t_env *env)
@@ -38,41 +69,13 @@ t_cmd	*parser(t_token *tokens, t_env *env)
 	while (tokens)
 	{
 		if (tokens->type == PIPE)
-		{
-			curr_cmd->next = create_new_cmd();
-			curr_cmd = curr_cmd->next;
-		}
+			token_pipe(&curr_cmd);
 		else if (tokens->type == REDIR_IN)
-		{
-			tokens = tokens->next;
-			curr_cmd->fd_in = open(tokens->content, O_RDONLY);
-			if (curr_cmd->fd_out == -1)
-			{
-				curr_cmd->status = 1;
-				perror("file");
-			}
-		}
+			token_redir_in(&tokens, &curr_cmd);
 		else if (tokens->type == REDIR_OUT)
-		{
-			tokens = tokens->next;
-			curr_cmd->fd_out = open(tokens->content, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			if (curr_cmd->fd_out == -1)
-			{
-				curr_cmd->status = 1;
-				perror("file");
-			}
-		}
+			token_redir_out(&tokens, &curr_cmd);
 		else if (tokens->type == APPEND)
-		{
-			if (curr_cmd->fd_out > -1)
-				close(curr_cmd->fd_out);
-			curr_cmd->fd_out = open(tokens->next->content, O_CREAT | O_WRONLY | O_APPEND, 0644);
-			if (curr_cmd->fd_out == -1)
-			{
-				curr_cmd->status = 1;
-				perror("file");
-			}
-		}
+			token_append(&tokens, &curr_cmd);
 		else if (tokens->type == WORD)
 			add_to_cmd(curr_cmd, tokens->content, env);
 		tokens = tokens->next;

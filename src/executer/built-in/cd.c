@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 14:07:33 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/13 14:48:38 by titan            ###   ########.fr       */
+/*   Updated: 2025/12/13 16:42:06 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,51 @@ char	*expand_tilde(t_minishell *ms, char *path)
 		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
 		return (NULL);
 	}
-	if (!path || ft_strncmp(path, "~", ft_strlen(path)) == 0)
+	if (!path || ft_strcmp(path, "~") == 0)
 		return (ft_strdup(home));
 	new_path = ft_strjoin(home, path + 1);
 	return (new_path);
+}
+
+int	specific_cd(t_minishell *ms, char **path, int *print_path, t_cmd *cmd)
+{
+	if (!cmd->args[1])
+	{
+		*path = get_env(ms->envp, "HOME");
+		if (!*path)
+		{
+			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
+			return (1);
+		}
+		return (0);
+	}
+	else if (ft_strcmp(cmd->args[1], "-") == 0)
+	{
+		*path = get_env(ms->envp, "OLDPWD");
+		if (!*path)
+		{
+			ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
+			return (1);
+		}
+		*print_path = 1;
+		return (0);
+	}
+	return (2);
+}
+
+int	other_specific_cd(t_minishell *ms, char **path,
+	int *should_free, t_cmd *cmd)
+{
+	if (cmd->args[1][0] == '~')
+	{
+		*path = expand_tilde(ms, cmd->args[1]);
+		if (!*path)
+			return (1);
+		*should_free = 1;
+	}
+	else
+		*path = cmd->args[1];
+	return (0);
 }
 
 int	cd(t_minishell *ms, t_cmd *cmd)
@@ -53,53 +94,21 @@ int	cd(t_minishell *ms, t_cmd *cmd)
 	char	*path;
 	int		print_path;
 	int		should_free;
+	int		ret;
 
 	path = NULL;
-	print_path = 0;
-	should_free = 0;
-	if (ft_tablen(cmd->args) > 2)
-	{
-		ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
+	if (init_cd(&print_path, cmd, &should_free))
 		return (1);
-	}
-	if (!cmd->args[1])
-	{
-		path = get_env(ms->envp, "HOME");
-		if (!path)
-		{
-			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
-			return (1);
-		}
-	}
-	else if (ft_strncmp(cmd->args[1], "-", ft_strlen(cmd->args[1])) == 0)
-	{
-		path = get_env(ms->envp, "OLDPWD");
-		if (!path)
-		{
-			ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
-			return (1);
-		}
-		print_path = 1;
-	}
-	else if (cmd->args[1][0] == '~')
-	{
-		path = expand_tilde(ms, cmd->args[1]);
-		if (!path)
-			return (1);
-		should_free = 1;
-	}
-	else
-		path = cmd->args[1];
-	if (chdir(path) == -1)
-	{
-		ft_putstr_fd("Minishell: cd: ", 2);
-		perror(path);
-		if (should_free)
-			free(path);
+	ret = specific_cd(ms, &path, &print_path, cmd);
+	if (ret == 1)
 		return (1);
+	if (ret == 2)
+	{
+		if (other_specific_cd(ms, &path, &should_free, cmd))
+			return (1);
 	}
-	if (print_path)
-		printf("%s\n", path);
+	if (switch_dir(path, should_free, print_path))
+		return (1);
 	update_pwds(ms);
 	if (should_free)
 		free(path);

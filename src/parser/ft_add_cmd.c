@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:49:54 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 14:14:10 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:50:41 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,20 @@ void	add_to_cmd(t_cmd *cmd, char *content, t_env *env)
 	cmd->args = new_args;
 	if (i == 0)
 		cmd->cmd_path = getpath(env, content);
+}
+
+t_cmd	*create_new_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->args = NULL;
+	cmd->cmd_path = NULL;
+	cmd->fd_in = -2;
+	cmd->fd_out = -2;
+	cmd->status = 0;
+	cmd->next = NULL;
+	return (cmd);
 }
