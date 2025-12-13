@@ -48,7 +48,8 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)cd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)exit.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)pwd.c \
-		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)env.c
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)env.c \
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)echo.c
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))
 
