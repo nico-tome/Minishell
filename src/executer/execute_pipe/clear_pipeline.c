@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 16:02:05 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/13 16:03:17 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:04:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ void	ft_exit_child(t_exec *exec, int exit_code)
 		free_cmd_list(exec->cmd_list);
 	if (exec->env_list)
 		free_env_list(exec->env_list);
+	if (exec->ms->tokens)
+		free_tokens(exec->ms->tokens);
+	if (exec->ms->pwd)
+		free(exec->ms->pwd);
+	rl_clear_history();
 	exit(exit_code);
 }
 
