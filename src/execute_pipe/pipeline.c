@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/12 21:50:53 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/13 14:48:28 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,42 +116,43 @@ void	handle_pipes(t_cmd *cmd, int prev_read, int pipefd[2])
 
 int	is_builtin(char *cmd)
 {
-	int	size;
-
-	size = ft_strlen(cmd);
-	if (!ft_strncmp("exit", cmd, size) || !ft_strncmp("cd", cmd, size))
+	if (!ft_strcmp("exit", cmd) || !ft_strcmp("cd", cmd))
 		return (1);
-	else if (!ft_strncmp("echo", cmd, size) || !ft_strncmp("pwd", cmd, size))
+	else if (!ft_strcmp("echo", cmd) || !ft_strcmp("pwd", cmd))
 		return (1);
-	else if (!ft_strncmp("export", cmd, size) || !ft_strncmp("env", cmd, size))
+	else if (!ft_strcmp("export", cmd) || !ft_strcmp("env", cmd))
 		return (1);
-	else if (!ft_strncmp("ms_header", cmd, size))
+	else if (!ft_strcmp("ms_header", cmd))
 		return (1);
-	else if (!ft_strncmp("set_prompt_exit", cmd, size))
+	else if (!ft_strcmp("set_prompt_exit", cmd))
 		return (1);
-	else if (!ft_strncmp("ntome", cmd, size)
-		|| !ft_strncmp("gajanvie", cmd, size))
+	else if (!ft_strcmp("ntome", cmd)
+		|| !ft_strcmp("gajanvie", cmd))
+		return (1);
+	else if (!ft_strcmp("unset", cmd))
 		return (1);
 	return (0);
 }
 
 void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 {
-	unsigned long	size;
+	char			*cmd_name;
 
-	size = sizeof(ms->parsed_cmd->args[0]);
-	if (!ft_strncmp(ms->parsed_cmd->args[0], "exit", size))
+	cmd_name = cmd->args[0];
+	if (!ft_strcmp(cmd_name, "exit"))
 	{
 		if (exec)
 			ft_free_exec(exec);
 		ms_exit(ms, exit_print, cmd->args);
 	}
-	if (!ft_strncmp(ms->parsed_cmd->args[0], "cd", size))
-		ms->status = cd(ms, ms->parsed_cmd);
-	if (!ft_strncmp(ms->parsed_cmd->args[0], "pwd", size))
+	if (!ft_strcmp(cmd_name, "cd"))
+		ms->status = cd(ms, cmd);
+	if (!ft_strcmp(cmd_name, "pwd"))
 		ms_pwd();
-	if (!ft_strncmp(ms->parsed_cmd->args[0], "env", size))
+	if (!ft_strcmp(cmd_name, "env"))
 		ms_env(ms);
+	if (!ft_strcmp(cmd_name, "unset"))
+		ft_unset(ms, cmd->args);
 }
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)

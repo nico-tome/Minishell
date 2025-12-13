@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 21:51:06 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/13 14:36:19 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@ void			ms_get_word_quote(char *cmd, int *i, int *start);
 void			ms_get_word(char *cmd, int *i, int *start);
 void			ms_pwd(void);
 void			ms_env(t_minishell *ms);
+int				ft_unset(t_minishell *ms, char **args);
 
 #endif

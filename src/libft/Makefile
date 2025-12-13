@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+         #
+#    By: titan <titan@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 20:10:19 by gajanvie          #+#    #+#              #
-#    Updated: 2025/12/12 20:32:31 by ntome            ###   ########.fr        #
+#    Updated: 2025/12/13 14:23:15 by titan            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ SRCS = $(SRCD)ft_isalnum.c \
        $(SRCD)ft_lstdelone_bonus.c \
        $(SRCD)ft_lstlast_bonus.c \
        $(SRCD)ft_lstnew_bonus.c \
-       $(SRCD)ft_lstsize_bonus.c
+       $(SRCD)ft_lstsize_bonus.c \
+       $(SRCD)ft_strcmp.c
 
 OBJS 	= $(SRCS:$(SRCD)%.c=$(OBJDIR)%.o)
 
