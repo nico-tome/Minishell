@@ -25,15 +25,15 @@ Demande du sujet:
   - [x] <<
   - [x] >>
 - [x] Pipes
-- [ ] Environement variables
-- [ ] $? (exit status of last cmd
+- [x] Environement variables
+- [x] $? (exit status of last cmd
 - [x] Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
 - [x] Built ins:
-  - [ ] echo -n
+  - [x] echo -n
   - [x] cd
   - [x] pwd
   - [ ] export
-  - [ ] unset
+  - [x] unset
   - [x] env
   - [x] exit
 

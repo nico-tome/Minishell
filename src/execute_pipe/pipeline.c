@@ -6,10 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/13 14:02:54 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/13 15:19:06 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 
 void	safe_close(int fd)
@@ -153,6 +154,8 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 		ms_env(ms);
 	if (!ft_strncmp(ms->parsed_cmd->args[0], "echo", size))
 		ms_echo(ms, cmd);
+	if (!ft_strncmp(ms->parsed_cmd->args[0], "ms_header", size))
+		ms_print_hello();
 }
 
 void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)

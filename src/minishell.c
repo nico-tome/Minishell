@@ -6,17 +6,12 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/13 14:14:41 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/13 15:23:06 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#define C1 "\033[38;5;129m"
-#define C2 "\033[38;5;171m"
-#define C3 "\033[38;5;210m"
-#define C4 "\033[38;5;45m"
-#define RESET "\033[0m"
+#include "libft.h"
 
 int	g_exit_status = 0;
 
@@ -48,12 +43,22 @@ void	ms_print_hello(void)
 
 void	ms_init_data(t_minishell *ms, char **envp)
 {
+	char	*old_shlvl;
+	char	*new_shlvl;
+
 	ms->envp = init_env(envp);
 	ms->pwd = getcwd(NULL, 0);
 	ms->tokens = NULL;
 	ms->parsed_cmd = NULL;
 	ms->status = 0;
 	ms->prompt_params = ms_init_prompt_params();
+	old_shlvl = get_env(ms->envp, "SHLVL");
+	if (old_shlvl)
+	{
+		new_shlvl = ft_itoa(ft_atoi(old_shlvl) + 1);
+		update_env_val(ms->envp, "SHLVL", new_shlvl);
+		free(new_shlvl);
+	}
 }
 
 int	main(int ac, char **av, char **envp)
