@@ -19,7 +19,7 @@ void	ms_env(t_minishell *ms)
 	env = ms->envp;
 	while (env->next)
 	{
-		printf("%s%s\n", env->key, env->value);
+		printf("%s%s%s\n", env->key, "=", env->value);
 		env = env->next;
 	}
 }
