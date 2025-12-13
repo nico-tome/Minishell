@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/13 14:36:19 by titan            ###   ########.fr       */
+/*   Updated: 2025/12/13 15:26:23 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@
 # include "libft.h"
 # include <sys/types.h>
 # include <sys/wait.h>
+
+# define C1 "\033[38;5;129m"
+# define C2 "\033[38;5;171m"
+# define C3 "\033[38;5;210m"
+# define C4 "\033[38;5;45m"
+# define C5 "\033[32m"
+# define C6 "\033[33m"
+# define RESET "\033[0m"
 
 extern int	g_exit_status;
 
@@ -129,5 +137,7 @@ void			ms_get_word(char *cmd, int *i, int *start);
 void			ms_pwd(void);
 void			ms_env(t_minishell *ms);
 int				ft_unset(t_minishell *ms, char **args);
+void			ms_echo(t_minishell *ms, t_cmd *cmd);
+void			ms_print_hello(void);
 
 #endif

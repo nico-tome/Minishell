@@ -6,10 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 23:13:22 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 21:35:14 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/13 15:34:53 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 
 t_prompt_params	ms_init_prompt_params(void)
@@ -26,10 +27,10 @@ char	*add_abs_path(char *pwd, char *home)
 	char	*result_path;
 	char	*result_prompt;
 
-	result_path = ft_strjoin("~", pwd + ft_strlen(home));
+	result_path = ft_strjoin("\033[32m~", pwd + ft_strlen(home));
 	if (!result_path)
 		return (NULL);
-	result_prompt = ft_strjoin(result_path, " | 🐚: ");
+	result_prompt = ft_strjoin(result_path, " \033[0m| 🐚: ");
 	free(result_path);
 	return (result_prompt);
 }
@@ -41,9 +42,18 @@ char	*create_exit_str(void)
 	char	*exit_status;
 
 	exit_status = ft_itoa(g_exit_status);
-	result = ft_strjoin(exit_status, ") ");
-	tmp = result;
-	result = ft_strjoin("(", result);
+	if (ft_strncmp(exit_status, "0", ft_strlen(exit_status)))
+	{
+		result = ft_strjoin(exit_status, ") \033[0m");
+		tmp = result;
+		result = ft_strjoin("\033[31m(", result);
+	}
+	else
+	{
+		result = ft_strjoin(exit_status, ") \033[0m");
+		tmp = result;
+		result = ft_strjoin("\033[92m(", result);
+	}
 	free(tmp);
 	free(exit_status);
 	return (result);

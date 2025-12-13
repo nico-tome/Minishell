@@ -50,6 +50,7 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)pwd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)env.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)unset.c
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)echo.c
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))
 
