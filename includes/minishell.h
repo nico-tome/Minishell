@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/13 23:43:35 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/14 19:31:44 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,5 +152,7 @@ int				switch_dir(char *path, int should_free, int print_path);
 t_cmd			*create_new_cmd(void);
 void			ft_env_add_back(t_env **lst, t_env *new);
 t_env			*ft_env_new(char *str);
+int				ms_export(t_minishell *ms, t_cmd *cmd);
+
 
 #endif
