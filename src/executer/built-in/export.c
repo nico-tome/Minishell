@@ -6,54 +6,62 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:38:09 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/14 19:32:07 by titan            ###   ########.fr       */
+/*   Updated: 2025/12/15 00:30:02 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 
-int	is_valid_key(char *str)
+int	is_valid_export_key(char *str)
 {
 	int	i;
 
 	i = 0;
 	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (1);
+		return (0);
 	while (str[i] && str[i] != '=')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (1);
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int	add_or_update_env(t_minishell *ms, char *key, char *value)
 {
-	t_env	*new_node;
-	char	*new_val;
+	t_env	*old_env;
 
-	new_node = get_env(ms->envp, key);
-	if (new_node)
+	old_env = get_env_node(ms->envp, key);
+	if (old_env)
 	{
 		if (value)
 		{
-			new_val = ft_strdup(value);
-			if (!new_val)
+			if (!value)
 				return (1);
-			if (new_node->value)
-				free(new_node->value);
-			new_node->value = ft_strdup(value);
+			if (old_env->value)
+				free(old_env->value);
+			old_env->value = ft_strdup(value);
 		}
 	}
 	else
 	{
-		//new_node = ft_lstnewenvp(key, value); faut la code parce que ft_new_env marche pas avec key value
-		if (!new_node)
+		old_env = ft_env_new(key);
+		if (!old_env)
 			return (1);
-		ft_env_add_back(&ms->envp, new_node);
+		if (value)
+			old_env->value = ft_strdup(value);
+		ft_env_add_back(&ms->envp, old_env);
 	}
 	return (0);
+}
+
+void	print_export_values(t_minishell *ms)
+{
+	(void)ms;
+	//la soit on transforme la liste en char** et c'est plus facile a sort mais faut bien gerer les free.
+	//soit on loop a travers la struct et faut réussir a sort mais là j'y arrive pas j'ai le cerveau mort mdrr.
 }
 
 int	ms_export(t_minishell *ms, t_cmd *cmd)
@@ -66,7 +74,7 @@ int	ms_export(t_minishell *ms, t_cmd *cmd)
 
 	if (ft_tablen(cmd->args) == 1)
 	{
-		//afficher dans l'ordre alphabetique
+		print_export_values(ms);
 		return (0);
 	}
 	i = 1;
@@ -77,7 +85,7 @@ int	ms_export(t_minishell *ms, t_cmd *cmd)
 			ft_putstr_fd("Minishell: export: `", 2);
 			ft_putstr_fd(cmd->args[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
-			ms->status = 1; 
+			ms->status = 1;
 		}
 		else
 		{
@@ -104,7 +112,8 @@ int	ms_export(t_minishell *ms, t_cmd *cmd)
 				return (1);
 			}
 			ret = add_or_update_env(ms, key, value);
-			free(key);
+			if (key)
+				free(key);
 			if (value)
 				free(value);
 			if (ret != 0)

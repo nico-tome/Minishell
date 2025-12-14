@@ -48,6 +48,7 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)ft_wait_all.c \
 		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)init_exec.c \
 		$(SRC_DIR)env_utils.c \
+		$(SRC_DIR)env_utils2.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)cd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)init_cd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)built-in_utils.c \
@@ -55,7 +56,8 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)pwd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)env.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)unset.c \
-		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)echo.c
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)echo.c \
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)export.c
 
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))
