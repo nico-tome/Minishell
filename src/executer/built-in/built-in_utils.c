@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built-in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:57:29 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/14 19:31:30 by titan            ###   ########.fr       */
+/*   Updated: 2025/12/15 14:55:35 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 		ms_exit(ms, exit_print, cmd->args);
 	}
 	if (!ft_strcmp(cmd_name, "cd"))
-		g_exit_status = cd(ms, cmd);
+		ms->status = cd(ms, cmd);
 	if (!ft_strcmp(cmd_name, "pwd"))
 		ms_pwd();
 	if (!ft_strcmp(cmd_name, "env"))
@@ -56,5 +56,5 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 	if (!ft_strcmp(cmd_name, "ms_header"))
 		ms_print_hello();
 	if (!ft_strcmp(cmd_name, "export"))
-		g_exit_status = ms_export(ms, cmd);
+		ms->status = ms_export(ms, cmd);
 }

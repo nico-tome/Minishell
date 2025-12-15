@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 14:57:30 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/15 15:03:56 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_env_var(t_minishell *ms, char *word, int *i)
 	if (!env_name)
 		return ;
 	if (!ft_strncmp(env_name, "?", ft_strlen(env_name)))
-		printf("%d", g_exit_status);
+		printf("%d", ms->status);
 	else if (!ft_strncmp(env_name, "$", ft_strlen(env_name)))
 		printf("$$");
 	else

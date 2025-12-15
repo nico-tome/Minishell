@@ -6,11 +6,10 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:30:19 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/11 23:44:28 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/15 14:37:16 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <minishell.h>
 
 char	*join_path(char *path, char *cmd)

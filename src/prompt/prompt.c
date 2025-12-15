@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 23:13:22 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/13 15:34:53 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/15 14:56:47 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ char	*add_abs_path(char *pwd, char *home)
 	return (result_prompt);
 }
 
-char	*create_exit_str(void)
+char	*create_exit_str(t_minishell ms)
 {
 	char	*tmp;
 	char	*result;
 	char	*exit_status;
 
-	exit_status = ft_itoa(g_exit_status);
+	exit_status = ft_itoa(ms.status);
 	if (ft_strncmp(exit_status, "0", ft_strlen(exit_status)))
 	{
 		result = ft_strjoin(exit_status, ") \033[0m");
@@ -66,7 +66,7 @@ char	*ms_get_prompt(t_minishell ms)
 	char	*exit_status;
 	char	*home;
 
-	exit_status = create_exit_str();
+	exit_status = create_exit_str(ms);
 	if (ms.prompt_params.pwd)
 	{
 		home = get_env(ms.envp, "HOME");
