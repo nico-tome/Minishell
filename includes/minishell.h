@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/14 22:50:53 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/15 12:04:19 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void			ms_env(t_minishell *ms);
 int				ft_unset(t_minishell *ms, char **args);
 void			ms_echo(t_minishell *ms, t_cmd *cmd);
 void			ms_print_hello(void);
-void			wait_all(pid_t *pids, int count);
+void			wait_all(pid_t *pids, int count, t_minishell *ms);
 char			*ft_join_value(char *key, char *value);
 void			dup2_and_close(int fd, int target_fd);
 void			safe_close(int fd);
@@ -154,5 +154,6 @@ void			ft_env_add_back(t_env **lst, t_env *new);
 t_env			*ft_env_new(char *str);
 int				ms_export(t_minishell *ms, t_cmd *cmd);
 t_env			*get_env_node(t_env *envp, char *env);
+char			*ft_rand_name(void);
 
 #endif
