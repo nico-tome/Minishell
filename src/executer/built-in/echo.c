@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/13 17:38:08 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/15 14:57:30 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ms_echo(t_minishell *ms, t_cmd *cmd)
 	{
 		print_echo(ms, cmd->args[i], is_quoted(cmd->args[i]));
 		i++;
-		if (!is_quoted(cmd->args[i]))
+		if (cmd->args[i] && !is_quoted(cmd->args[i]))
 			printf(" ");
 	}
 	printf("\n");

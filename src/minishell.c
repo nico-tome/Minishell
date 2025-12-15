@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/15 12:27:28 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/15 14:52:24 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,11 @@ int	main(int ac, char **av, char **envp)
 					free_cmd_list(ms.parsed_cmd);
 					ms.parsed_cmd = NULL;
 				}
+			}
+			else
+			{
+				ms.status = 2;
+				g_exit_status = 2;
 			}
 			free_tokens(ms.tokens);
 			ms.tokens = NULL;
