@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built-in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:57:29 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/13 15:57:55 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/14 19:31:30 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,6 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 		ms_echo(ms, cmd);
 	if (!ft_strcmp(cmd_name, "ms_header"))
 		ms_print_hello();
+	if (!ft_strcmp(cmd_name, "export"))
+		g_exit_status = ms_export(ms, cmd);
 }

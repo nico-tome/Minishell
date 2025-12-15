@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 21:46:23 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 00:04:07 by ntome            ###   ########.fr       */
+/*   Created: 2025/12/14 22:48:58 by ntome             #+#    #+#             */
+/*   Updated: 2025/12/14 22:49:52 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ms_env(t_minishell *ms)
+t_env	*get_env_node(t_env *envp, char *env)
 {
-	t_env	*env;
-
-	env = ms->envp;
-	while (env)
+	while (envp)
 	{
-		printf("%s%s%s\n", env->key, "=", env->value);
-		env = env->next;
+		if (!ft_strncmp(env, envp->key, ft_strlen(env)))
+			return (envp);
+		envp = envp->next;
 	}
+	return (NULL);
 }

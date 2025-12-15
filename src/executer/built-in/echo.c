@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/13 15:17:21 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/13 17:38:08 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,18 @@ void	print_env_var(t_minishell *ms, char *word, int *i)
 void	print_echo(t_minishell *ms, char *word, int quoted)
 {
 	int		i;
+	int		size;
 	char	first_quote;
 
+	size = ft_strlen(word);
 	i = quoted;
 	if (quoted)
 		first_quote = word[0];
 	else
 		first_quote = '\0';
-	while (word[i] && word[i] != first_quote)
+	while (i < size && word[i] && word[i] != first_quote)
 	{
-		if (word[i] == '$' && first_quote == '"')
+		if (word[i] == '$' && first_quote != '\'')
 			print_env_var(ms, word, &i);
 		else
 			printf("%c", word[i]);

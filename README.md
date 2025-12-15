@@ -18,7 +18,7 @@ Demande du sujet:
 - [x] Have a signal handler
 - [x] Ignore command with ; and \
 - [x] Handle ' and "
-- [ ] Execute $cmd in double quote
+- [x] Execute $cmd in double quote
 - [x] Redirections:
   - [x] <
   - [x] >
