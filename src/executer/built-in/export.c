@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:38:09 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 00:30:02 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/15 10:49:29 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	add_or_update_env(t_minishell *ms, char *key, char *value)
 	t_env	*old_env;
 
 	old_env = get_env_node(ms->envp, key);
-	if (old_env)
+	if (old_env && ft_strcmp(key, "_"))
 	{
 		if (value)
 		{
@@ -45,7 +45,7 @@ int	add_or_update_env(t_minishell *ms, char *key, char *value)
 			old_env->value = ft_strdup(value);
 		}
 	}
-	else
+	else if (ft_strcmp(key, "_"))
 	{
 		old_env = ft_env_new(key);
 		if (!old_env)
