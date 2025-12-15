@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/15 12:04:27 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/15 12:31:26 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 		safe_close(pipefd[0]);
 		safe_close(prev_read);
 		ft_exit_child(exec, 1);
+	}
+	if (!cmd->args || !cmd->args[0])
+	{
+		safe_close(pipefd[1]);
+		safe_close(pipefd[0]);
+		safe_close(prev_read);
+		ft_exit_child(exec, 0);
 	}
 	handle_pipes(cmd, prev_read, pipefd);
 	if (is_builtin(cmd->args[0]))
