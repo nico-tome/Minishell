@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:32:47 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/14 23:58:51 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/15 14:35:34 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,18 @@ char	*ft_join_value(char *key, char *value)
 	if (!key)
 		return (NULL);
 	len_k = ft_strlen(key);
-	len_v = ft_strlen(value);
+	len_v = 0;
+	if (value)
+		len_v = ft_strlen(value);
 	str = malloc(sizeof(char) * (len_k + len_v + 2));
 	if (!str)
 		return (NULL);
 	index.i = -1;
 	while (++index.i < len_k)
 		str[index.i] = key[index.i];
-	str[index.i++] = '=';
+	str[index.i] = '\0';
+	if (value)
+		str[index.i++] = '=';
 	index.j = 0;
 	while (value && value[index.j])
 		str[index.i++] = value[index.j++];
