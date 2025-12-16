@@ -6,10 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:38:09 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 15:02:44 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/16 15:12:20 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 
 int	is_valid_export_key(char *str)
@@ -28,10 +29,30 @@ int	is_valid_export_key(char *str)
 	return (1);
 }
 
+char	*get_new_value(t_minishell *ms, char *value)
+{
+	char	*new_value;
+	char	*expand;
+
+	if (!value)
+		return (NULL);
+	if (value[0] == '"' || value[0] == '\'')
+		new_value = ft_substr(value, 1, ft_strlen(value) - 2);
+	if (!new_value)
+		return (NULL);
+	if (new_value[0] == '$')
+	{
+		expand = get_env(ms->envp, )
+	}
+}
+
 int	add_or_update_env(t_minishell *ms, char *key, char *value)
 {
 	t_env	*old_env;
+	char	*new_value;
 
+	if (value)
+		new_value = get_new_value(value);
 	old_env = get_env_node(ms->envp, key);
 	if (old_env && ft_strcmp(key, "_"))
 	{
@@ -41,7 +62,7 @@ int	add_or_update_env(t_minishell *ms, char *key, char *value)
 				return (1);
 			if (old_env->value)
 				free(old_env->value);
-			old_env->value = ft_strdup(value);
+			old_env->value = ft_strdup(new_value);
 		}
 	}
 	else if (ft_strcmp(key, "_"))
@@ -50,9 +71,11 @@ int	add_or_update_env(t_minishell *ms, char *key, char *value)
 		if (!old_env)
 			return (1);
 		if (value)
-			old_env->value = ft_strdup(value);
+			old_env->value = ft_strdup(new_value);
 		ft_env_add_back(&ms->envp, old_env);
 	}
+	if (new_value)
+		free(new_value);
 	return (0);
 }
 
@@ -163,6 +186,12 @@ int	ms_export(t_minishell *ms, t_cmd *cmd)
 				key = ft_strdup(cmd->args[i]);
 				value = ft_strdup(equal + 1);
 				*equal = '=';
+				if (!value[0] && cmd->args[i + 1] && (cmd->args[i + 1][0] == '"' || cmd->args[i + 1][0] == '\''))
+				{
+					i++;
+					free(value);
+					value = ft_strdup(cmd->args[i]);
+				}
 			}
 			if (!key || (equal && !value))
 			{
