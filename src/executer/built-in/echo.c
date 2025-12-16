@@ -6,10 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 15:03:56 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/16 15:33:02 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 
 int	is_quoted(char *word)
@@ -72,14 +73,25 @@ void	print_echo(t_minishell *ms, char *word, int quoted)
 void	ms_echo(t_minishell *ms, t_cmd *cmd)
 {
 	int	i;
+	int	new_line;
 
 	i = 1;
+	new_line = 1;
 	while (cmd->args[i])
 	{
-		print_echo(ms, cmd->args[i], is_quoted(cmd->args[i]));
-		i++;
-		if (cmd->args[i] && !is_quoted(cmd->args[i]))
-			printf(" ");
+		if (i == 1 && !ft_strcmp(cmd->args[i], "-n"))
+		{
+			new_line = 0;
+			i++;
+		}
+		else
+		{
+			print_echo(ms, cmd->args[i], is_quoted(cmd->args[i]));
+			i++;
+			if (cmd->args[i] && !is_quoted(cmd->args[i]))
+				printf(" ");
+		}
 	}
-	printf("\n");
+	if (new_line)
+		printf("\n");
 }
