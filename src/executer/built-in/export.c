@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:38:09 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 14:36:30 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/15 17:39:32 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,11 @@ void	print_export_values(t_minishell *ms)
 	free_all(tab);
 }
 
+void	check_value(char **value)
+{
+	
+}
+
 int	ms_export(t_minishell *ms, t_cmd *cmd)
 {
 	int		i;
@@ -162,6 +167,7 @@ int	ms_export(t_minishell *ms, t_cmd *cmd)
 				*equal = '\0';
 				key = ft_strdup(cmd->args[i]);
 				value = ft_strdup(equal + 1);
+				check_value(&value);
 				*equal = '=';
 			}
 			if (!key || (equal && !value))
