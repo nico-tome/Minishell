@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:38:09 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/16 15:12:20 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/16 15:08:13 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,14 +149,43 @@ void	print_export_values(t_minishell *ms)
 	free_all(tab);
 }
 
-int	ms_export(t_minishell *ms, t_cmd *cmd)
+int	process_export_arg(t_minishell *ms, char *arg)
 {
-	int		i;
 	char	*equal;
 	char	*key;
 	char	*value;
 	int		ret;
 
+	equal = ft_strchr(arg, '=');
+	if (!equal)
+	{
+		key = ft_strdup(arg);
+		value = NULL;
+	}
+	else
+	{
+		*equal = '\0';
+		key = ft_strdup(arg);
+		value = ft_strdup(equal + 1);
+		*equal = '=';
+	}
+	if (!key || (equal && !value))
+		return (free(key), free(value), 1);
+	ret = add_or_update_env(ms, key, value);
+	free(key);
+	if (value)
+		free(value);
+	return (ret);
+}
+
+int	ms_export(t_minishell *ms, t_cmd *cmd)
+{
+	int		i;
+	char	*clean_arg;
+	int		ret;
+	char	*expanded;
+
+	ret = 0;
 	if (ft_tablen(cmd->args) == 1)
 	{
 		print_export_values(ms);
@@ -165,55 +194,27 @@ int	ms_export(t_minishell *ms, t_cmd *cmd)
 	i = 1;
 	while (cmd->args[i])
 	{
-		if (!is_valid_export_key(cmd->args[i]))
+		expanded = ft_expand_arg(ms, cmd->args[i]);
+		clean_arg = ft_remove_quotes(expanded);
+		if (expanded)
+			free(expanded);
+		if (!clean_arg)
+			return (1);
+		if (!is_valid_export_key(clean_arg))
 		{
 			ft_putstr_fd("Minishell: export: `", 2);
 			ft_putstr_fd(cmd->args[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
-			ms->status = 1;
+			ret = 1;
 		}
 		else
 		{
-			equal = ft_strchr(cmd->args[i], '=');
-			if (!equal)
-			{
-				key = ft_strdup(cmd->args[i]);
-				value = NULL;
-			}
-			else
-			{
-				*equal = '\0';
-				key = ft_strdup(cmd->args[i]);
-				value = ft_strdup(equal + 1);
-				*equal = '=';
-				if (!value[0] && cmd->args[i + 1] && (cmd->args[i + 1][0] == '"' || cmd->args[i + 1][0] == '\''))
-				{
-					i++;
-					free(value);
-					value = ft_strdup(cmd->args[i]);
-				}
-			}
-			if (!key || (equal && !value))
-			{
-				if (key)
-					free(key);
-				if (value)
-					free(value);
-				ft_putstr_fd("Minishell: malloc error in export\n", 2);
-				return (1);
-			}
-			ret = add_or_update_env(ms, key, value);
-			if (key)
-				free(key);
-			if (value)
-				free(value);
-			if (ret != 0)
-			{
-				ft_putstr_fd("Minishell: malloc error in export\n", 2);
-				return (1);
-			}
+			if (process_export_arg(ms, clean_arg))
+				ret = 1;
 		}
+		free(clean_arg);
 		i++;
 	}
-	return (ms->status);
+	ms->status = ret;
+	return (ret);
 }

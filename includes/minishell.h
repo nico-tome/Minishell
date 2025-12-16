@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 12:04:19 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/16 14:39:55 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,7 @@ t_env			*ft_env_new(char *str);
 int				ms_export(t_minishell *ms, t_cmd *cmd);
 t_env			*get_env_node(t_env *envp, char *env);
 char			*ft_rand_name(void);
+char			*ft_remove_quotes(char *str);
+char			*ft_expand_arg(t_minishell *ms, char *str);
 
 #endif

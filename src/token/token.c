@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/13 14:17:09 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/16 15:03:15 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,42 @@ int	ms_check_quoted(char *word)
 
 char	*ms_get_next_word(char *cmd, int *i)
 {
+	char	*word;
 	int		start;
+	char	quote;
 
-	start = *i;
 	while (cmd[*i])
 	{
-		if (is_quote_redir(cmd[*i]) == 1)
-		{
-			ms_get_word_quote(cmd, i, &start);
-			return (ft_substr(cmd, start, *i - start));
-		}
 		if (is_quote_redir(cmd[*i]) == 2)
 		{
-			ms_get_word_redir(cmd, i, &start);
-			return (ft_substr(cmd, start, *i - start));
+			start = *i;
+			(*i)++;
+			if (cmd[*i] && cmd[*i] == cmd[*i - 1])
+				(*i)++;
+			word = ft_substr(cmd, start, *i - start);
+			return (word);
 		}
-		if (cmd[*i] != ' ' && !is_quote_redir(cmd[*i]))
+		if (cmd[*i] != ' ')
 		{
-			ms_get_word(cmd, i, &start);
-			return (ft_substr(cmd, start, *i - start));
+			start = *i;
+			while (cmd[*i] && cmd[*i] != ' ' && is_quote_redir(cmd[*i]) != 2)
+			{
+				if (is_quote_redir(cmd[*i]) == 1)
+				{
+					quote = cmd[*i];
+					(*i)++;
+					while (cmd[*i] && cmd[*i] != quote)
+						(*i)++;
+					if (cmd[*i])
+						(*i)++;
+				}
+				else
+					(*i)++;
+			}
+			word = ft_substr(cmd, start, *i - start);
+			return (word);
 		}
-		*i += 1;
+		(*i)++;
 	}
 	return (NULL);
 }
