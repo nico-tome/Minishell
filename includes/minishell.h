@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/16 14:39:55 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/16 17:30:18 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ void			add_to_cmd(t_cmd *cmd, char *content, t_env *env);
 t_cmd			*parser(t_token *tokens, t_env *env);
 t_env			*init_env(char **envp);
 void			exec_line(t_minishell *ms);
-void			update_exit_status(int code);
 char			**list_to_tab(t_env *env);
 void			free_cmd_list(t_cmd *cmd);
 void			free_env_list(t_env *env);
@@ -157,5 +156,6 @@ t_env			*get_env_node(t_env *envp, char *env);
 char			*ft_rand_name(void);
 char			*ft_remove_quotes(char *str);
 char			*ft_expand_arg(t_minishell *ms, char *str);
+int				gajanvie(void);
 
 #endif

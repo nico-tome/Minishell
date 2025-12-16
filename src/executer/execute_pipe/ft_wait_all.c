@@ -6,16 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:58:51 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/15 12:03:53 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/16 15:40:58 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	update_exit_status(int code)
-{
-	g_exit_status = code;
-}
 
 void	wait_all(pid_t *pids, int count, t_minishell *ms)
 {

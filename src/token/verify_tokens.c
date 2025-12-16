@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:06:33 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/12 21:20:54 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/16 17:50:05 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_pipe(t_token *token)
 {
 	if (token && token->type == PIPE)
 	{
-		printf("Minishell: syntax error near unexpected token `|'\n");
+		ft_putstr_fd("Minishell: syntax error near unexpected token `|'\n", 2);
 		return (1);
 	}
 	while (token)
@@ -39,7 +39,7 @@ int	check_pipe(t_token *token)
 		{
 			if (!token->next || token->next->type == PIPE)
 			{
-				printf("Minishell: syntax error near unexpected token `|'\n");
+				ft_putstr_fd("Minishell: syntax error near unexpected token `|'\n", 2);
 				return (1);
 			}
 		}
@@ -54,14 +54,15 @@ int	check_redirections(t_token *token)
 	{
 		if (is_redirection(token) && !token->next)
 		{
-			printf("Minishell: syntax error near unexpected token `%s'\n",
+			printf("`%s'\n",
 				token->content);
 			return (1);
 		}
 		else if (is_redirection(token) && token->next->type != WORD)
 		{
-			printf("Minishell: syntax error near unexpected token `%s'\n",
-				token->next->content);
+			ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
+			ft_putstr_fd(token->next->content, 2);
+			ft_putstr_fd("'\n", 2);
 			return (1);
 		}
 		token = token->next;
