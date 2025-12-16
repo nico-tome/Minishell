@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 14:56:00 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/15 15:03:56 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ms_echo(t_minishell *ms, t_cmd *cmd)
 	{
 		print_echo(ms, cmd->args[i], is_quoted(cmd->args[i]));
 		i++;
-		if (!is_quoted(cmd->args[i]))
+		if (cmd->args[i] && !is_quoted(cmd->args[i]))
 			printf(" ");
 	}
 	printf("\n");
