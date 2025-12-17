@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 01:47:22 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/17 02:13:29 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,17 @@ int	print_echo(t_minishell *ms, char *word, int quoted)
 	return (len);
 }
 
+int	is_valide_env(t_minishell *ms, char *env)
+{
+	char	*value;
+
+	value = get_env(ms->envp, env);
+	if (!value)
+		return (0);
+	free(value);
+	return (1);
+}
+
 void	ms_echo(t_minishell *ms, t_cmd *cmd)
 {
 	int	i;
@@ -87,15 +98,16 @@ void	ms_echo(t_minishell *ms, t_cmd *cmd)
 	new_line = 1;
 	while (cmd->args[i])
 	{
-		if (i == 1 && !ft_strcmp(cmd->args[i], "-n"))
+		if (!ft_strcmp(cmd->args[i], "-n"))
 		{
 			new_line = 0;
-			i++;
+			while (cmd->args[i] && !ft_strcmp(cmd->args[i], "-n"))
+				i++;
 		}
 		else
 		{
 			if (print_echo(ms, cmd->args[i], is_quoted(cmd->args[i])) &&
-				cmd->args[i + 1] && !is_quoted(cmd->args[i + 1]))
+				cmd->args[i + 1] && !is_quoted(cmd->args[i + 1]) && is_valide_env(ms, cmd->args[i + 1]))
 				printf(" ");
 			i++;
 		}
