@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:57:29 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/16 17:30:05 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:28:54 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,7 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 	if (!ft_strcmp(cmd_name, "export"))
 		ms->status = ms_export(ms, cmd);
 	if (!ft_strcmp(cmd_name, "gajanvie"))
-		ms->status = gajanvie();
+		ms->status = gajanvie(cmd->args);
+	if (!ft_strcmp(cmd_name, "ntome"))
+		ms->status = ntome(cmd->args);
 }

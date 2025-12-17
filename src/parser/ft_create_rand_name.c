@@ -6,11 +6,16 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 16:18:38 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/15 12:01:44 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:20:28 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	make_printable(char *c)
+{
+	*c = ((unsigned char)*c % 94) + 33;
+}
 
 void	convert_alphabetical(unsigned int index, char *c)
 {
