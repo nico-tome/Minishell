@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/16 17:52:04 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/17 01:46:06 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_numeric(char *str)
 	char	*str_val;
 
 	str_val = ft_lltoa(ft_atoll(str));
-	if (ft_strncmp(str, str_val, ft_strlen(str)))
+	if (ft_strncmp(str, str_val, ft_strlen(str)) && str[0] != '+')
 	{
 		free(str_val);
 		return (0);
