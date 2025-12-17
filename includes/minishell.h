@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/16 17:30:18 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/17 20:08:31 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef enum e_token_type
 	HEREDOC,
 	APPEND,
 	TOKEN_ERROR,
-	END,
+	EMPTY,
 }				t_token_type;
 
 typedef struct s_token
@@ -105,7 +105,11 @@ typedef struct s_exec
 
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
-void			ms_tokenize_cmd(t_token **token, char *cmd);
+void			ms_tokenize_cmd(t_minishell *ms, t_token **token, char *cmd);
+char			*clean_token(t_minishell *ms, char *token, int check_quote);
+char			*extract_quote(t_minishell *ms, char *token, int *i);
+char			*extract_env(t_minishell *ms, char *token, int *i);
+char			*extract_word(char *token, int *i);
 int				ms_has_error(t_token *token);
 void			free_all(char **tab);
 char			*getpath(t_env *env, char *cmd);
@@ -136,7 +140,7 @@ void			ms_get_word(char *cmd, int *i, int *start);
 void			ms_pwd(void);
 void			ms_env(t_minishell *ms);
 int				ft_unset(t_minishell *ms, char **args);
-void			ms_echo(t_minishell *ms, t_cmd *cmd);
+void			ms_echo(t_cmd *cmd);
 void			ms_print_hello(void);
 void			wait_all(pid_t *pids, int count, t_minishell *ms);
 char			*ft_join_value(char *key, char *value);

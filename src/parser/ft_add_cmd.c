@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:49:54 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/13 16:50:41 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/17 20:58:04 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	add_to_cmd(t_cmd *cmd, char *content, t_env *env)
 	int		size;
 	int		i;
 
+	//printf("content: %s\n", content);
 	size = ft_tablen(cmd->args);
 	new_args = malloc(sizeof(char *) * (size + 2));
 	if (!new_args)
@@ -37,7 +38,7 @@ void	add_to_cmd(t_cmd *cmd, char *content, t_env *env)
 	i = 0;
 	while (i < size)
 	{
-		new_args[i] = cmd->args[i];
+		new_args[i] = ft_strdup(cmd->args[i]);
 		i++;
 	}
 	new_args[i] = ft_strdup(content);

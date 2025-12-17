@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/15 14:52:24 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/17 18:29:29 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int ac, char **av, char **envp)
 				free(cmd);
 				break ;
 			}
-			ms_tokenize_cmd(&ms.tokens, cmd);
+			ms_tokenize_cmd(&ms, &ms.tokens, cmd);
 			if (ms.tokens && ms.tokens->content && !ms_has_error(ms.tokens))
 			{
 				ms.parsed_cmd = parser(ms.tokens, ms.envp);

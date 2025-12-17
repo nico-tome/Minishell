@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/15 11:56:47 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/17 20:54:30 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_cmd	*parser(t_token *tokens, t_env *env)
 			token_redir_out(&tokens, &curr_cmd);
 		else if (tokens->type == APPEND)
 			token_append(&tokens, &curr_cmd);
-		else if (tokens->type == WORD)
+		else if (tokens->type == WORD && tokens->content)
 			add_to_cmd(curr_cmd, tokens->content, env);
 		else if (tokens->type == HEREDOC)
 			token_heredoc(&tokens, &curr_cmd);

@@ -6,10 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/16 15:03:15 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/17 21:45:44 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 
 int	is_quote_redir(char c)
@@ -21,106 +22,128 @@ int	is_quote_redir(char c)
 	return (0);
 }
 
-int	ms_check_quoted(char *word)
+char	*join_token_part(char **token, char *part)
 {
-	char	current;
+	char	*tmp;
 
-	current = 0;
-	while (*word)
-	{
-		if (!current && (*word == '\'' || *word == '"'))
-			current = *word;
-		else if (current && *word == current)
-			current = 0;
-		word++;
-	}
-	return (current == 0);
+	tmp = *token;
+	*token = ft_strjoin(*token, part);
+	free(tmp);
+	return (*token);
 }
 
-char	*ms_get_next_word(char *cmd, int *i)
+char	*clean_token(t_minishell *ms, char *token, int check_quote)
 {
-	char	*word;
-	int		start;
-	char	quote;
+	char	*clean_token;
+	int		i;
+	char	*part;
+	char	*tmp;
 
-	while (cmd[*i])
+	i = 0;
+	clean_token = NULL;
+	while (token[i])
 	{
-		if (is_quote_redir(cmd[*i]) == 2)
+		if (check_quote && (token[i] == '"' || token[i] == '\''))
+			part = extract_quote(ms, token, &i);
+		else if (token[i] == '$')
+			part = extract_env(ms, token, &i);
+		else
+			part = extract_word(token, &i);
+		if (!clean_token && part)
+			clean_token = ft_strdup(part);
+		else if (part)
 		{
-			start = *i;
-			(*i)++;
-			if (cmd[*i] && cmd[*i] == cmd[*i - 1])
-				(*i)++;
-			word = ft_substr(cmd, start, *i - start);
-			return (word);
+			tmp = clean_token;
+			clean_token = ft_strjoin(clean_token, part);
+			free(tmp);
 		}
-		if (cmd[*i] != ' ')
-		{
-			start = *i;
-			while (cmd[*i] && cmd[*i] != ' ' && is_quote_redir(cmd[*i]) != 2)
-			{
-				if (is_quote_redir(cmd[*i]) == 1)
-				{
-					quote = cmd[*i];
-					(*i)++;
-					while (cmd[*i] && cmd[*i] != quote)
-						(*i)++;
-					if (cmd[*i])
-						(*i)++;
-				}
-				else
-					(*i)++;
-			}
-			word = ft_substr(cmd, start, *i - start);
-			return (word);
-		}
-		(*i)++;
+		if (part)
+			free(part);
 	}
-	return (NULL);
+	if (token)
+		free(token);
+	return (clean_token);
 }
 
 void	ms_create_token(t_token *token, char *word)
 {
 	token->next = NULL;
-	token->content = ft_strdup(word);
-	if (!ms_check_quoted(word) || check_forbiden_char(word))
+	token->content = NULL;
+	if (word)
+		token->content = ft_strdup(word);
+	if (word && check_forbiden_char(word))
 		token->type = TOKEN_ERROR;
-	else if (ft_strncmp("|", word, ft_strlen(word)) == 0)
+	else if (word && ft_strncmp("|", word, ft_strlen(word)) == 0)
 		token->type = PIPE;
-	else if (ft_strncmp("<", word, ft_strlen(word)) == 0)
+	else if (word && ft_strncmp("<", word, ft_strlen(word)) == 0)
 		token->type = REDIR_IN;
-	else if (ft_strncmp(">", word, ft_strlen(word)) == 0)
+	else if (word && ft_strncmp(">", word, ft_strlen(word)) == 0)
 		token->type = REDIR_OUT;
-	else if (ft_strncmp("<<", word, ft_strlen(word)) == 0)
+	else if (word && ft_strncmp("<<", word, ft_strlen(word)) == 0)
 		token->type = HEREDOC;
-	else if (ft_strncmp(">>", word, ft_strlen(word)) == 0)
+	else if (word && ft_strncmp(">>", word, ft_strlen(word)) == 0)
 		token->type = APPEND;
+	else if (!word)
+			token->type = EMPTY;
+	else if (is_quote_redir(word[0]) == 2)
+		token->type = TOKEN_ERROR;
 	else
 		token->type = WORD;
 }
 
-void	ms_tokenize_cmd(t_token **tokens, char *cmd)
+void	skip_spaces(char *cmd, int *i)
+{
+	while (cmd[*i] && cmd[*i] == ' ')
+		*i += 1;
+}
+
+void	get_next_chunk(char *cmd, int *i)
+{
+	char	quoted;
+
+	quoted = 0;
+	if (is_quote_redir(cmd[*i]) == 2)
+	{
+		while (cmd[*i] && is_quote_redir(cmd[*i]) == 2)
+			*i += 1;
+	}
+	else
+	{
+		while (cmd[*i] && !(cmd[*i] == ' ' && !quoted) && !(is_quote_redir(cmd[*i]) == 2 && !quoted))
+		{
+			if (is_quote_redir(cmd[*i]) == 1 && !quoted)
+				quoted = cmd[*i];
+			else if (is_quote_redir(cmd[*i]) == 1 && quoted)
+				quoted = 0;
+			*i += 1;
+		}
+	}
+}
+
+void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 {
 	t_token	*actual_token;
-	char	*word;
+	char	*token;
 	int		i;
+	int		start;
 
 	actual_token = *tokens;
 	i = 0;
-	word = ms_get_next_word(cmd, &i);
-	while (word)
+	while (cmd[i])
 	{
-		ms_create_token(actual_token, word);
-		free(word);
-		word = ms_get_next_word(cmd, &i);
-		if (word)
+		skip_spaces(cmd, &i);
+		start = i;
+		get_next_chunk(cmd, &i);
+		token = ft_substr(cmd, start, i - start);
+		token = clean_token(ms, token, 1);
+		ms_create_token(actual_token, token);
+		free(token);
+		if (cmd[i] == ' ' && token)
 		{
+			i++;
 			actual_token->next = ft_calloc(1, sizeof(t_token));
 			if (!actual_token->next)
-			{
-				free(word);
 				return ;
-			}
 			actual_token = actual_token->next;
 		}
 	}

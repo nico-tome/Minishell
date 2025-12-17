@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 01:46:06 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/17 21:37:58 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 		ms->status = ft_atoll(cmd[1]);
 	exit_free(ms);
 	if (print)
-		printf("exit\n");
+		write(2, "exit\n", 5);
 	rl_clear_history();
 	exit(ms->status % 256);
 }
