@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/16 15:33:02 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/17 01:40:25 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_quoted(char *word)
 	return (0);
 }
 
-void	print_env_var(t_minishell *ms, char *word, int *i)
+int	print_env_var(t_minishell *ms, char *word, int *i)
 {
 	char	*env_name;
 	char	*env_value;
@@ -33,29 +33,33 @@ void	print_env_var(t_minishell *ms, char *word, int *i)
 	while (word[*i] && (ft_isalnum(word[*i]) || word[*i] == '_'))
 		*i += 1;
 	env_name = ft_substr(word, start, *i - start);
-	if (!env_name)
-		return ;
-	if (!ft_strncmp(env_name, "?", ft_strlen(env_name)))
+	if (!env_name[0])
+		printf("$");
+	else if (!ft_strncmp(env_name, "?", ft_strlen(env_name)))
 		printf("%d", ms->status);
 	else if (!ft_strncmp(env_name, "$", ft_strlen(env_name)))
-		printf("$$");
+		printf("$");
 	else
 	{
 		env_value = get_env(ms->envp, env_name);
-		if (env_value)
-			printf("%s", env_value);
+		if (!env_value)
+			return (0);
+		printf("%s", env_value);
 	}
 	free(env_name);
+	return (1);
 }
 
-void	print_echo(t_minishell *ms, char *word, int quoted)
+int	print_echo(t_minishell *ms, char *word, int quoted)
 {
 	int		i;
 	int		size;
 	char	first_quote;
+	int		len;
 
 	size = ft_strlen(word);
 	i = quoted;
+	len = 0;
 	if (quoted)
 		first_quote = word[0];
 	else
@@ -63,11 +67,15 @@ void	print_echo(t_minishell *ms, char *word, int quoted)
 	while (i < size && word[i] && word[i] != first_quote)
 	{
 		if (word[i] == '$' && first_quote != '\'')
-			print_env_var(ms, word, &i);
+			len += print_env_var(ms, word, &i);
 		else
+		{
+			len++;
 			printf("%c", word[i]);
-		i++;
+			i++;
+		}
 	}
+	return (len);
 }
 
 void	ms_echo(t_minishell *ms, t_cmd *cmd)
@@ -86,10 +94,10 @@ void	ms_echo(t_minishell *ms, t_cmd *cmd)
 		}
 		else
 		{
-			print_echo(ms, cmd->args[i], is_quoted(cmd->args[i]));
-			i++;
-			if (cmd->args[i] && !is_quoted(cmd->args[i]))
+			if (print_echo(ms, cmd->args[i], is_quoted(cmd->args[i])) &&
+				cmd->args[i + 1] && !is_quoted(cmd->args[i + 1]))
 				printf(" ");
+			i++;
 		}
 	}
 	if (new_line)

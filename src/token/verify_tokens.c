@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:06:33 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/16 17:50:05 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/17 01:19:49 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,7 @@ int	check_redirections(t_token *token)
 	while (token)
 	{
 		if (is_redirection(token) && !token->next)
-		{
-			printf("`%s'\n",
-				token->content);
 			return (1);
-		}
 		else if (is_redirection(token) && token->next->type != WORD)
 		{
 			ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);

@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/15 12:34:33 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/16 15:59:33 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ void	exec_line(t_minishell *ms)
 		ft_free_exec(&exec);
 		return ;
 	}
+	signal(SIGINT, SIG_IGN);
 	exec_loop(&exec, ms->parsed_cmd, pipefd, &prev_read);
 	wait_all(exec.pids, exec.count, ms);
+	signal(SIGINT, signal_handler);
 	ft_free_exec(&exec);
 }
