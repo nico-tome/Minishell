@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 20:08:31 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/17 21:49:38 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,10 @@ t_env			*get_env_node(t_env *envp, char *env);
 char			*ft_rand_name(void);
 char			*ft_remove_quotes(char *str);
 char			*ft_expand_arg(t_minishell *ms, char *str);
-int				gajanvie(void);
+int				gajanvie(char **cmd);
+int				ntome(char **cmd);
+void			print_latina(void);
+int				gamble(void);
+void			make_printable(char *c);
 
 #endif
