@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 13:57:41 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:03:36 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,23 @@ int	is_valide_env(t_minishell *ms, char *env)
 	return (1);
 }
 
+int	is_option_n(char *option)
+{
+	int i;
+
+	if (!ft_strcmp(option, "-n"))
+		return (1);
+	if (!ft_strncmp(option, "-n", 2))
+	{
+		i = 2;
+		while (option[i] == 'n')
+			i++;
+		if (option[i] == '\0')
+			return (1);		
+	}
+	return (0);
+}
+
 int	ms_echo(t_cmd *cmd)
 {
 	int	i;
@@ -31,7 +48,7 @@ int	ms_echo(t_cmd *cmd)
 
 	i = 1;
 	new_line = 1;
-	while (cmd->args[i] && !ft_strcmp(cmd->args[i], "-n"))
+	while (cmd->args[i] && is_option_n(cmd->args[i]))
 	{
 		new_line = 0;
 		i++;

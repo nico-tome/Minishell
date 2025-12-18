@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 14:43:04 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 14:51:09 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,10 @@ void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 		token = clean_token(ms, token, 1);
 		ms_create_token(actual_token, token, token_infos.start, token_infos.i, cmd);
 		free(token);
-		if (cmd[token_infos.i] == ' ' && token)
-		{
+		while (cmd[token_infos.i] && cmd[token_infos.i] == ' ')
 			token_infos.i++;
+		if (cmd[token_infos.i] && token)
+		{
 			actual_token->next = ft_calloc(1, sizeof(t_token));
 			if (!actual_token->next)
 				return ;
