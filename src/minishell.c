@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/17 18:29:29 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 13:36:05 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	main(int ac, char **av, char **envp)
 						&& is_builtin(ms.parsed_cmd->args[0]))
 					{
 						if (ms.parsed_cmd->status == 1)
-             				ms.status = 1;
+			 				ms.status = 1;
 						else
 							exec_builtin(&ms, 1, ms.parsed_cmd, NULL);
 					}
@@ -110,11 +110,10 @@ int	main(int ac, char **av, char **envp)
 					ms.parsed_cmd = NULL;
 				}
 			}
+			else if (ms.tokens && !ms.tokens->content)
+				ms.status = 0;
 			else
-			{
 				ms.status = 2;
-				g_exit_status = 2;
-			}
 			free_tokens(ms.tokens);
 			ms.tokens = NULL;
 		}

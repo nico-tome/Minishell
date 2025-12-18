@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 21:02:48 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 13:57:41 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_valide_env(t_minishell *ms, char *env)
 	return (1);
 }
 
-void	ms_echo(t_cmd *cmd)
+int	ms_echo(t_cmd *cmd)
 {
 	int	i;
 	int	new_line;
@@ -45,4 +45,5 @@ void	ms_echo(t_cmd *cmd)
 	}
 	if (new_line)
 		printf("\n");
+	return (0);
 }

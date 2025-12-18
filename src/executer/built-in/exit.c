@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 21:51:05 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 13:33:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	is_numeric(char *str)
 	int		i;
 	char	*str_val;
 
+	if (ft_strncmp(str, "-9223372036854775808", 21) == 0)
+		return (1);
 	str_val = ft_lltoa(ft_atoll(str));
 	if (ft_strncmp(str, str_val, ft_strlen(str)) && str[0] != '+')
 	{
@@ -59,7 +61,6 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 		ft_putstr_fd(cmd[1], 2);
 		ft_putstr_fd(" : numeric argument needed\n", 2);
 		ms->status = 2;
-		g_exit_status = 2;
 		return ;
 	}
 	else if (args_num > 2)

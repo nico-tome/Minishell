@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 13:09:38 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 13:24:18 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*clean_token(t_minishell *ms, char *token, int check_quote)
 		else if (token[i] == '$')
 			part = extract_env(ms, token, &i);
 		else
-			part = extract_word(token, &i);
+			part = extract_word(token, &i, check_quote);
 		if (!clean_token && part)
 			clean_token = ft_strdup(part);
 		else if (part)

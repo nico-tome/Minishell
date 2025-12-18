@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 12:49:04 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 13:58:33 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void			ms_tokenize_cmd(t_minishell *ms, t_token **token, char *cmd);
 char			*clean_token(t_minishell *ms, char *token, int check_quote);
 char			*extract_quote(t_minishell *ms, char *token, int *i);
 char			*extract_env(t_minishell *ms, char *token, int *i);
-char			*extract_word(char *token, int *i);
+char			*extract_word(char *token, int *i, int check_quote);
 int				ms_has_error(t_token *token);
 void			free_all(char **tab);
 char			*getpath(t_env *env, char *cmd);
@@ -147,7 +147,7 @@ void			ms_get_word(char *cmd, int *i, int *start);
 void			ms_pwd(void);
 void			ms_env(t_minishell *ms);
 int				ft_unset(t_minishell *ms, char **args);
-void			ms_echo(t_cmd *cmd);
+int				ms_echo(t_cmd *cmd);
 void			ms_print_hello(void);
 void			wait_all(pid_t *pids, int count, t_minishell *ms);
 char			*ft_join_value(char *key, char *value);

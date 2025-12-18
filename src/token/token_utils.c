@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:05:51 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 21:28:29 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 13:23:23 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,19 @@ char	*extract_quote(t_minishell *ms, char *token, int *i)
 	return (extracted);
 }
 
-char	*extract_word(char *token, int *i)
+char	*extract_word(char *token, int *i, int check_quote)
 {
 	int		start;
 	char	*result;
 
 	result = NULL;
 	start = *i;
-	while (token[*i] && token[*i] != '$'
-		&& token[*i] != '"' && token[*i] != '\'')
-		*i += 1;
+	while (token[*i] && token[*i] != '$')
+	{
+		if (check_quote && (token[*i] == '"' || token[*i] == '\''))
+			break ;
+        *i += 1;
+    }
 	result = ft_substr(token, start, *i - start);
 	return (result);
 }

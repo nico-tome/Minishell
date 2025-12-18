@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/16 15:59:33 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 14:30:10 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	exec_external(t_cmd *cmd, t_exec *exec)
 	}
 	execve(cmd->cmd_path, cmd->args, exec->env_tab);
 	perror("execve");
-	free(cmd->cmd_path);
 	ft_exit_child(exec, 126);
 }
 
