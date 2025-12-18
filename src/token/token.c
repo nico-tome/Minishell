@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 13:24:18 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:43:04 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ms_create_token(t_token *token, char *word, int start, int i, char *cmd)
 	token->type = EMPTY;
 	if (word)
 		token->content = ft_strdup(word);
-	if (word && check_forbiden_char(word))
+	if (word && check_forbiden_char(word, chunk))
 		token->type = TOKEN_ERROR;
 	else if (word && !ft_strcmp("|", word) && !ft_strcmp("|", chunk))
 		token->type = PIPE;

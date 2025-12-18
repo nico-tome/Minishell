@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:06:33 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 01:19:49 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 14:42:19 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,13 @@ int	check_redirections(t_token *token)
 	return (0);
 }
 
-int	check_forbiden_char(char *word)
+int	check_forbiden_char(char *word, char *chunk)
 {
 	int	i;
 
 	i = 0;
+	if (chunk[0] == '"' || chunk[0] == '\'')
+		return (0);
 	while (word[i])
 	{
 		if (word[i] == ';' || word[i] == '\\')
