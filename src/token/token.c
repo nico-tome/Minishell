@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 21:45:44 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 13:09:38 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,30 +65,33 @@ char	*clean_token(t_minishell *ms, char *token, int check_quote)
 	return (clean_token);
 }
 
-void	ms_create_token(t_token *token, char *word)
+void	ms_create_token(t_token *token, char *word, int start, int i, char *cmd)
 {
+	char	*chunk;
+
+	chunk = ft_substr(cmd, start, i - start);
 	token->next = NULL;
 	token->content = NULL;
+	token->type = EMPTY;
 	if (word)
 		token->content = ft_strdup(word);
 	if (word && check_forbiden_char(word))
 		token->type = TOKEN_ERROR;
-	else if (word && ft_strncmp("|", word, ft_strlen(word)) == 0)
+	else if (word && !ft_strcmp("|", word) && !ft_strcmp("|", chunk))
 		token->type = PIPE;
-	else if (word && ft_strncmp("<", word, ft_strlen(word)) == 0)
+	else if (word && !ft_strcmp("<", word) && !ft_strcmp("<", chunk))
 		token->type = REDIR_IN;
-	else if (word && ft_strncmp(">", word, ft_strlen(word)) == 0)
+	else if (word && !ft_strcmp(">", word) && !ft_strcmp(">", chunk))
 		token->type = REDIR_OUT;
-	else if (word && ft_strncmp("<<", word, ft_strlen(word)) == 0)
+	else if (word && !ft_strcmp("<<", word) && !ft_strcmp("<<", chunk))
 		token->type = HEREDOC;
-	else if (word && ft_strncmp(">>", word, ft_strlen(word)) == 0)
+	else if (word && !ft_strcmp(">>", word) && !ft_strcmp(">>", chunk))
 		token->type = APPEND;
-	else if (!word)
-			token->type = EMPTY;
-	else if (is_quote_redir(word[0]) == 2)
+	else if (word && is_quote_redir(chunk[0]) != 1 && is_quote_redir(word[0]) == 2)
 		token->type = TOKEN_ERROR;
 	else
 		token->type = WORD;
+	free(chunk);
 }
 
 void	skip_spaces(char *cmd, int *i)
@@ -122,25 +125,24 @@ void	get_next_chunk(char *cmd, int *i)
 
 void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 {
-	t_token	*actual_token;
+	t_token			*actual_token;
+	t_token_infos	token_infos;
 	char	*token;
-	int		i;
-	int		start;
 
 	actual_token = *tokens;
-	i = 0;
-	while (cmd[i])
+	token_infos.i = 0;
+	while (cmd[token_infos.i])
 	{
-		skip_spaces(cmd, &i);
-		start = i;
-		get_next_chunk(cmd, &i);
-		token = ft_substr(cmd, start, i - start);
+		skip_spaces(cmd, &token_infos.i);
+		token_infos.start = token_infos.i;
+		get_next_chunk(cmd, &token_infos.i);
+		token = ft_substr(cmd, token_infos.start, token_infos.i - token_infos.start);
 		token = clean_token(ms, token, 1);
-		ms_create_token(actual_token, token);
+		ms_create_token(actual_token, token, token_infos.start, token_infos.i, cmd);
 		free(token);
-		if (cmd[i] == ' ' && token)
+		if (cmd[token_infos.i] == ' ' && token)
 		{
-			i++;
+			token_infos.i++;
 			actual_token->next = ft_calloc(1, sizeof(t_token));
 			if (!actual_token->next)
 				return ;

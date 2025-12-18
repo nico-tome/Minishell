@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/17 21:49:38 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/18 12:49:04 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@
 # define RESET "\033[0m"
 
 extern int	g_exit_status;
+
+typedef struct s_token_infos
+{
+	int	start;
+	int	i;
+	int	in_quote;
+}				t_token_infos;
 
 typedef struct s_prompt_params
 {
