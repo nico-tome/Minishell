@@ -32,10 +32,12 @@ Demande du sujet:
   - [x] echo -n
   - [x] cd
   - [x] pwd
-  - [ ] export
+  - [x] export
   - [x] unset
   - [x] env
   - [x] exit
+- [ ] proteger tous les mallocs
+- [ ] Norme
 
 ## Function and utility
 
