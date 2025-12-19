@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:57:29 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/18 13:57:56 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 18:07:09 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
+void	exec_builtin_custom(t_minishell *ms, t_cmd *cmd)
+{
+	char	*cmd_name;
+
+	cmd_name = cmd->args[0];
+	if (!ft_strcmp(cmd_name, "gajanvie"))
+		ms->status = gajanvie(cmd->args);
+	if (!ft_strcmp(cmd_name, "ntome"))
+		ms->status = ntome(cmd->args);
+	if (!ft_strcmp(cmd_name, "ms_header"))
+		ms_print_hello();
+}
+
 void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 {
 	char			*cmd_name;
@@ -53,12 +66,7 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 		ft_unset(ms, cmd->args);
 	if (!ft_strcmp(cmd_name, "echo"))
 		ms->status = ms_echo(cmd);
-	if (!ft_strcmp(cmd_name, "ms_header"))
-		ms_print_hello();
 	if (!ft_strcmp(cmd_name, "export"))
 		ms->status = ms_export(ms, cmd);
-	if (!ft_strcmp(cmd_name, "gajanvie"))
-		ms->status = gajanvie(cmd->args);
-	if (!ft_strcmp(cmd_name, "ntome"))
-		ms->status = ntome(cmd->args);
+	exec_builtin_custom(ms, cmd);
 }

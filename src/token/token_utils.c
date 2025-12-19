@@ -6,11 +6,10 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:05:51 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 12:09:39 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 17:59:33 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <minishell.h>
 
 char	*extract_env_name(char *token, int *i)
@@ -97,4 +96,11 @@ char	*extract_word(char *token, int *i, int check_quote)
 	}
 	result = ft_substr(token, start, *i - start);
 	return (result);
+}
+
+int	check_token_error(char *word, char *chunk)
+{
+	if (word && is_quote_redir(chunk[0]) != 1 && is_quote_redir(word[0]) == 2)
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:27:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/17 13:37:17 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 18:10:07 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,17 @@ void	not_valid_gajanvie(char **cmd)
 	ft_putstr_fd(" is not a valid argument\n", 2);
 }
 
+void	print_gajanvie_error(void)
+{
+	ft_putstr_fd("\n try:\n\tgajanvie shoot", 1);
+	ft_putstr_fd("\n\tgajanvie gamble\n\tgajanvie latina\n\n", 1);
+}
+
 int	gajanvie(char **cmd)
 {
 	int	ret;
 	int	len;
-	
+
 	len = ft_tablen(cmd);
 	ret = 0;
 	if (len > 2)
@@ -71,7 +77,7 @@ int	gajanvie(char **cmd)
 		return (1);
 	}
 	if (len == 1)
-		ft_putstr_fd("\n try:\n\tgajanvie shoot\n\tgajanvie gamble\n\tgajanvie latina\n\n", 1);
+		print_gajanvie_error();
 	else if (!ft_strcmp(cmd[1], "shoot"))
 		print_shoot();
 	else if (!ft_strcmp(cmd[1], "gamble"))

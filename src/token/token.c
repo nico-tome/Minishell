@@ -6,31 +6,12 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 12:51:15 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/19 18:03:54 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-
-int	is_quote_redir(char c)
-{
-	if (c == '"' || c == '\'')
-		return (1);
-	else if (c == '>' || c == '<' || c == '|')
-		return (2);
-	return (0);
-}
-
-char	*join_token_part(char **token, char *part)
-{
-	char	*tmp;
-
-	tmp = *token;
-	*token = ft_strjoin(*token, part);
-	free(tmp);
-	return (*token);
-}
 
 char	*clean_token(t_minishell *ms, char *token, int check_quote)
 {
@@ -70,11 +51,11 @@ char	*clean_token(t_minishell *ms, char *token, int check_quote)
 	return (clean_token);
 }
 
-void	ms_create_token(t_token *token, char *word, int start, int i, char *cmd)
+void	create_token(t_token *token, char *word, t_token_infos t_i, char *cmd)
 {
 	char	*chunk;
 
-	chunk = ft_substr(cmd, start, i - start);
+	chunk = ft_substr(cmd, t_i.start, t_i.i - t_i.start);
 	token->next = NULL;
 	token->content = NULL;
 	token->type = EMPTY;
@@ -92,7 +73,7 @@ void	ms_create_token(t_token *token, char *word, int start, int i, char *cmd)
 		token->type = HEREDOC;
 	else if (word && !ft_strcmp(">>", word) && !ft_strcmp(">>", chunk))
 		token->type = APPEND;
-	else if (word && is_quote_redir(chunk[0]) != 1 && is_quote_redir(word[0]) == 2)
+	else if (check_token_error(word, chunk))
 		token->type = TOKEN_ERROR;
 	else
 		token->type = WORD;
@@ -117,7 +98,8 @@ void	get_next_chunk(char *cmd, int *i)
 	}
 	else
 	{
-		while (cmd[*i] && !(cmd[*i] == ' ' && !quoted) && !(is_quote_redir(cmd[*i]) == 2 && !quoted))
+		while (cmd[*i] && !(cmd[*i] == ' ' && !quoted)
+			&& !(is_quote_redir(cmd[*i]) == 2 && !quoted))
 		{
 			if (is_quote_redir(cmd[*i]) == 1 && !quoted)
 				quoted = cmd[*i];
@@ -131,23 +113,23 @@ void	get_next_chunk(char *cmd, int *i)
 void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 {
 	t_token			*actual_token;
-	t_token_infos	token_infos;
-	char	*token;
+	t_token_infos	t_infos;
+	char			*token;
 
 	actual_token = *tokens;
-	token_infos.i = 0;
-	while (cmd[token_infos.i])
+	t_infos.i = 0;
+	while (cmd[t_infos.i])
 	{
-		skip_spaces(cmd, &token_infos.i);
-		token_infos.start = token_infos.i;
-		get_next_chunk(cmd, &token_infos.i);
-		token = ft_substr(cmd, token_infos.start, token_infos.i - token_infos.start);
+		skip_spaces(cmd, &t_infos.i);
+		t_infos.start = t_infos.i;
+		get_next_chunk(cmd, &t_infos.i);
+		token = ft_substr(cmd, t_infos.start, t_infos.i - t_infos.start);
 		token = clean_token(ms, token, 1);
-		ms_create_token(actual_token, token, token_infos.start, token_infos.i, cmd);
+		create_token(actual_token, token, t_infos, cmd);
 		free(token);
-		while (cmd[token_infos.i] && cmd[token_infos.i] == ' ')
-			token_infos.i++;
-		if (cmd[token_infos.i] && token)
+		while (cmd[t_infos.i] && cmd[t_infos.i] == ' ')
+			t_infos.i++;
+		if (cmd[t_infos.i] && token)
 		{
 			actual_token->next = ft_calloc(1, sizeof(t_token));
 			if (!actual_token->next)

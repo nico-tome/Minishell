@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 15:03:36 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 18:07:46 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_valide_env(t_minishell *ms, char *env)
 
 int	is_option_n(char *option)
 {
-	int i;
+	int	i;
 
 	if (!ft_strcmp(option, "-n"))
 		return (1);
@@ -36,7 +36,7 @@ int	is_option_n(char *option)
 		while (option[i] == 'n')
 			i++;
 		if (option[i] == '\0')
-			return (1);		
+			return (1);
 	}
 	return (0);
 }

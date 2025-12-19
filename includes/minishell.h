@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 16:30:47 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/19 17:55:13 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,5 +183,6 @@ void			make_printable(char *c);
 void			exit_free(t_minishell *ms);
 int				print_export_error(char *arg);
 void			print_export_values(t_minishell *ms);
+int				check_token_error(char *word, char *chunk);
 
 #endif

@@ -6,10 +6,11 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:06:33 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 14:42:19 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/19 18:01:12 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 
 int	is_redirection(t_token *token)
@@ -39,7 +40,8 @@ int	check_pipe(t_token *token)
 		{
 			if (!token->next || token->next->type == PIPE)
 			{
-				ft_putstr_fd("Minishell: syntax error near unexpected token `|'\n", 2);
+				ft_putstr_fd("Minishell: syntax error ", 2);
+				ft_putstr_fd("near unexpected token `|'\n", 2);
 				return (1);
 			}
 		}

@@ -6,11 +6,10 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:38:09 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 16:54:12 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/19 18:08:12 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <minishell.h>
 
 int	is_valid_export_key(char *str)
@@ -107,7 +106,6 @@ int	process_export_arg(t_minishell *ms, char *arg, int join)
 		*(equal - join) = '\0';
 		key = ft_strdup(arg);
 		value = ft_strdup(equal + 1);
-		*equal = '=';
 	}
 	if (!key || (equal && !value))
 		return (free(key), free(value), 1);

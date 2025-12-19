@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/19 12:11:11 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 17:46:17 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	main(int ac, char **av, char **envp)
 						&& is_builtin(ms.parsed_cmd->args[0]))
 					{
 						if (ms.parsed_cmd->status == 1)
-			 				ms.status = 1;
+							ms.status = 1;
 						else
 							exec_builtin(&ms, 1, ms.parsed_cmd, NULL);
 					}

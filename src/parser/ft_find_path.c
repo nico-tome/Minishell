@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:30:19 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/18 13:55:49 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 18:12:37 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,7 @@ char	*getpath(t_env *env, char *cmd)
 		return (ft_cmd_slash(cmd));
 	paths = ft_setup_path(env);
 	if (!paths)
-	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
+		return (ft_cmd_slash(cmd));
 	i = 0;
 	while (paths[i])
 	{
