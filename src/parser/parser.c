@@ -6,11 +6,13 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/17 21:50:25 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/19 12:10:19 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static t_heredoc_vars	g_heredoc_data;
 
 void	token_pipe(t_cmd **curr_cmd)
 {
@@ -25,10 +27,11 @@ void	run_heredoc(char *delimiter, int fd_out)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (!line)
+			break ;
+		if (ft_strcmp(line, delimiter) == 0)
 		{
-			if (line)
-				free(line);
+			free(line);
 			break ;
 		}
 		write(fd_out, line, ft_strlen(line));
@@ -37,38 +40,80 @@ void	run_heredoc(char *delimiter, int fd_out)
 	}
 }
 
-void	token_heredoc(t_token **tokens, t_cmd **curr_cmd)
+void	heredoc_sigint_handler(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	safe_close(g_heredoc_data.tmp_fd);
+	if (g_heredoc_data.rand_name)
+		free(g_heredoc_data.rand_name);
+	if (g_heredoc_data.ms)
+		exit_free(g_heredoc_data.ms);
+	if (g_heredoc_data.cmd)
+		free_cmd_list(g_heredoc_data.cmd);
+	rl_clear_history();
+	exit(130);
+}
+
+void	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
 {
 	int		tmp_fd;
 	char	*delimiter;
 	char	*rand_name;
+	pid_t	pid;
+	int		status;
 
 	safe_close((*curr_cmd)->fd_in);
 	*tokens = (*tokens)->next;
 	delimiter = (*tokens)->content;
 	rand_name = ft_rand_name();
 	if (!rand_name)
-	{
-		(*curr_cmd)->status = 1;
-		perror("heredoc temp file");
 		return ;
-	}
-	tmp_fd = open(rand_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (tmp_fd == -1)
+	pid = fork();
+	if (pid == 0)
 	{
-		(*curr_cmd)->status = 1;
-		perror("heredoc temp file");
-		return ;
+		tmp_fd = open(rand_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		g_heredoc_data.tmp_fd = tmp_fd;
+		g_heredoc_data.rand_name = rand_name;
+		g_heredoc_data.ms = ms;
+		g_heredoc_data.cmd = *curr_cmd;
+		if (tmp_fd == -1)
+		{
+			perror("heredoc temp file");
+			rl_clear_history();
+			free_cmd_list(*curr_cmd);
+			exit_free(ms);
+			exit(1);
+		}
+		signal(SIGINT, heredoc_sigint_handler);
+		run_heredoc(delimiter, tmp_fd);
+		close(tmp_fd);
+		free(rand_name);
+		exit_free(ms);
+		free_cmd_list(*curr_cmd);
+		rl_clear_history();
+		exit(0);
 	}
-	run_heredoc(delimiter, tmp_fd);
-	close(tmp_fd);
-	(*curr_cmd)->fd_in = open(rand_name, O_RDONLY);
-	unlink(rand_name);
-	free(rand_name);
-	if ((*curr_cmd)->fd_in == -1)
+	else
 	{
-		(*curr_cmd)->status = 1;
-		perror("heredoc open");
+		signal(SIGINT, SIG_IGN);
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			(*curr_cmd)->status = 130;
+			unlink(rand_name);
+			free(rand_name);
+			return ;
+		}
+		signal(SIGINT, signal_handler);
+		(*curr_cmd)->fd_in = open(rand_name, O_RDONLY);
+		unlink(rand_name);
+		free(rand_name);
+		if ((*curr_cmd)->fd_in == -1)
+		{
+			(*curr_cmd)->status = 1;
+			perror("heredoc open");
+		}
 	}
 }
 
@@ -113,7 +158,7 @@ void	token_append(t_token **tokens, t_cmd **curr_cmd)
 	}
 }
 
-t_cmd	*parser(t_token *tokens, t_env *env)
+t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
 {
 	t_cmd	*cmd_list;
 	t_cmd	*curr_cmd;
@@ -133,7 +178,7 @@ t_cmd	*parser(t_token *tokens, t_env *env)
 		else if (tokens->type == WORD && tokens->content)
 			add_to_cmd(curr_cmd, tokens->content, env);
 		else if (tokens->type == HEREDOC)
-			token_heredoc(&tokens, &curr_cmd);
+			token_heredoc(&tokens, &curr_cmd, ms);
 		tokens = tokens->next;
 	}
 	return (cmd_list);

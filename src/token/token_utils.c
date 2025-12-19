@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:05:51 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 13:23:23 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 12:09:39 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*extract_env_name(char *token, int *i)
 	while (token[*i] && token[*i] != '$' && token[*i] != '?')
 	{
 		if (!ft_isalnum(token[*i]) && token[*i] != '_')
-			break;
+			break ;
 		if (ft_isdigit(token[*i]) && *i - start == 0)
 		{
 			*i += 1;
@@ -93,8 +93,8 @@ char	*extract_word(char *token, int *i, int check_quote)
 	{
 		if (check_quote && (token[*i] == '"' || token[*i] == '\''))
 			break ;
-        *i += 1;
-    }
+		*i += 1;
+	}
 	result = ft_substr(token, start, *i - start);
 	return (result);
 }

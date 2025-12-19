@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 14:51:09 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 11:52:49 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ char	*clean_token(t_minishell *ms, char *token, int check_quote)
 	{
 		if (check_quote && (token[i] == '"' || token[i] == '\''))
 			part = extract_quote(ms, token, &i);
+		else if (check_quote && token[i] == '$' && (token[i + 1] == '\'' || token[i + 1] == '"'))
+		{
+			i++;
+			continue ;
+		}
 		else if (token[i] == '$')
 			part = extract_env(ms, token, &i);
 		else

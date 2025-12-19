@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 14:42:59 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/19 12:11:41 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,14 @@ typedef struct s_exec
 	t_minishell	*ms;
 }				t_exec;
 
+typedef struct s_heredoc_vars
+{
+	int			tmp_fd;
+	char		*rand_name;
+	t_minishell	*ms;
+	t_cmd		*cmd;
+}				t_heredoc_vars;
+
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
 void			ms_tokenize_cmd(t_minishell *ms, t_token **token, char *cmd);
@@ -121,7 +129,7 @@ int				ms_has_error(t_token *token);
 void			free_all(char **tab);
 char			*getpath(t_env *env, char *cmd);
 void			add_to_cmd(t_cmd *cmd, char *content, t_env *env);
-t_cmd			*parser(t_token *tokens, t_env *env);
+t_cmd			*parser(t_token *tokens, t_env *env, t_minishell *ms);
 t_env			*init_env(char **envp);
 void			exec_line(t_minishell *ms);
 char			**list_to_tab(t_env *env);
@@ -172,5 +180,6 @@ int				ntome(char **cmd);
 void			print_latina(void);
 int				gamble(void);
 void			make_printable(char *c);
+void			exit_free(t_minishell *ms);
 
 #endif
