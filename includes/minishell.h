@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 12:11:41 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:30:47 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,7 @@ void			print_latina(void);
 int				gamble(void);
 void			make_printable(char *c);
 void			exit_free(t_minishell *ms);
+int				print_export_error(char *arg);
+void			print_export_values(t_minishell *ms);
 
 #endif

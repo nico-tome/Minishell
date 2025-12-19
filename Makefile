@@ -59,6 +59,7 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)unset.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)echo.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)export_utils.c \
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)export_print.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)export_expand.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)gajanvie.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)latina.c \

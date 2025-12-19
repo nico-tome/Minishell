@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 14:16:41 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/16 14:41:38 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:24:10 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ char	*ft_remove_quotes(char *str)
 		i++;
 	}
 	return (new);
+}
+
+int	print_export_error(char *arg)
+{
+	ft_putstr_fd("Minishell: export: `", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:38:09 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/16 15:30:16 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:54:12 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,18 @@ int	is_valid_export_key(char *str)
 	i = 0;
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
-	while (str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
+	}
+	if (str[i] == '+')
+	{
+		if (!str[i + 1])
+			return (0);
+		if (str[i + 1] != '=')
+			return (0);
 	}
 	return (1);
 }
@@ -57,77 +64,34 @@ int	add_or_update_env(t_minishell *ms, char *key, char *value)
 	return (0);
 }
 
-void	print_tab_sort(char *tab)
+int	join_env(t_minishell *ms, char *key, char *value)
 {
-	int	i;
+	t_env	*old_env;
+	char	*tmp;
 
-	i = 0;
-	printf("declare -x ");
-	while (tab[i] && tab[i] != '=')
+	old_env = get_env_node(ms->envp, key);
+	if (old_env && ft_strcmp(key, "_"))
 	{
-		printf("%c", tab[i]);
-		i++;
-	}
-	if (tab[i])
-		printf("%c", tab[i++]);
-	else
-	{
-		printf("\n");
-		return ;
-	}
-	printf("%c", '"');
-	while (tab[i])
-	{
-		printf("%c", tab[i]);
-		i++;
-	}
-	printf("%c%c", '"', '\n');
-}
-
-char	**bubble_sort(char **tab)
-{
-	int		i;
-	int		j;
-	char	*temp;
-
-	i = 0;
-	while (tab[i])
-	{
-		j = i + 1;
-		while (tab[j])
+		if (value)
 		{
-			if (ft_strcmp(tab[i], tab[j]) > 0)
-			{
-				temp = tab[i];
-				tab[i] = tab[j];
-				tab[j] = temp;
-			}
-			j++;
+			tmp = old_env->value;
+			old_env->value = ft_strjoin(old_env->value, value);
+			free(tmp);
 		}
-		i++;
 	}
-	return (tab);
-}
-
-void	print_export_values(t_minishell *ms)
-{
-	char	**tab;
-	int		i;
-
-	tab = list_to_tab(ms->envp);
-	if (!tab)
-		return ;
-	tab = bubble_sort(tab);
-	i = 0;
-	while (tab[i])
+	else if (ft_strcmp(key, "_"))
 	{
-		print_tab_sort(tab[i]);
-		i++;
+		old_env = ft_env_new(key);
+		if (!old_env)
+			return (1);
+		if (value)
+			old_env->value = ft_strdup(value);
+		ft_env_add_back(&ms->envp, old_env);
 	}
-	free_all(tab);
+	return (0);
 }
 
-int	process_export_arg(t_minishell *ms, char *arg)
+int	process_export_arg(t_minishell *ms, char *arg, int join)
 {
 	char	*equal;
 	char	*key;
@@ -135,21 +99,22 @@ int	process_export_arg(t_minishell *ms, char *arg)
 	int		ret;
 
 	equal = ft_strchr(arg, '=');
+	value = NULL;
 	if (!equal)
-	{
 		key = ft_strdup(arg);
-		value = NULL;
-	}
 	else
 	{
-		*equal = '\0';
+		*(equal - join) = '\0';
 		key = ft_strdup(arg);
 		value = ft_strdup(equal + 1);
 		*equal = '=';
 	}
 	if (!key || (equal && !value))
 		return (free(key), free(value), 1);
-	ret = add_or_update_env(ms, key, value);
+	if (join)
+		ret = join_env(ms, key, value);
+	else
+		ret = add_or_update_env(ms, key, value);
 	free(key);
 	if (value)
 		free(value);
@@ -159,9 +124,7 @@ int	process_export_arg(t_minishell *ms, char *arg)
 int	ms_export(t_minishell *ms, t_cmd *cmd)
 {
 	int		i;
-	char	*clean_arg;
 	int		ret;
-	char	*expanded;
 
 	ret = 0;
 	if (ft_tablen(cmd->args) == 1)
@@ -169,30 +132,19 @@ int	ms_export(t_minishell *ms, t_cmd *cmd)
 		print_export_values(ms);
 		return (0);
 	}
-	i = 1;
-	while (cmd->args[i])
+	i = 0;
+	while (cmd->args[++i])
 	{
-		expanded = ft_expand_arg(ms, cmd->args[i]);
-		clean_arg = ft_remove_quotes(expanded);
-		if (expanded)
-			free(expanded);
-		if (!clean_arg)
-			return (1);
-		if (!is_valid_export_key(clean_arg))
-		{
-			ft_putstr_fd("Minishell: export: `", 2);
-			ft_putstr_fd(cmd->args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			ret = 1;
-		}
+		if (!is_valid_export_key(cmd->args[i]))
+			ret = print_export_error(cmd->args[i]);
 		else
 		{
-			if (process_export_arg(ms, clean_arg))
-				ret = 1;
+			if (!ft_strchr(cmd->args[i], '+'))
+				ret += process_export_arg(ms, cmd->args[i], 0);
+			else
+				ret += process_export_arg(ms, cmd->args[i], 1);
 		}
-		free(clean_arg);
-		i++;
 	}
 	ms->status = ret;
-	return (ret);
+	return (ret > 0);
 }
