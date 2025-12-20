@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 17:55:13 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/20 16:24:23 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,6 @@ int				ms_export(t_minishell *ms, t_cmd *cmd);
 t_env			*get_env_node(t_env *envp, char *env);
 char			*ft_rand_name(void);
 char			*ft_remove_quotes(char *str);
-char			*ft_expand_arg(t_minishell *ms, char *str);
 int				gajanvie(char **cmd);
 int				ntome(char **cmd);
 void			print_latina(void);
