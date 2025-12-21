@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/21 11:10:13 by titan            ###   ########.fr       */
+/*   Updated: 2025/12/21 18:10:45 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ typedef struct s_token_infos
 	int	i;
 	int	in_quote;
 }				t_token_infos;
+
+typedef struct s_clean_token_infos
+{
+	int		i;
+	char	*part;
+	char	*clean_token;
+}				t_clean_token_infos;
 
 typedef struct s_prompt_params
 {
@@ -175,5 +182,14 @@ void			exit_free(t_minishell *ms);
 int				print_export_error(char *arg);
 void			print_export_values(t_minishell *ms);
 int				check_token_error(char *word, char *chunk);
+int				need_to_continue(int check_quote, char *token, int *i);
+char			*get_part(t_minishell *ms, char *token, int *i, int c_q);
+void			token_append(t_token **tokens, t_cmd **curr_cmd);
+void			token_redir_out(t_token **tokens, t_cmd **curr_cmd);
+void			token_redir_in(t_token **tokens, t_cmd **curr_cmd);
+void			heredoc_sigint_handler(int sig);
+void			run_heredoc(char *delimiter, int fd_out);
+void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd **c_cmd);
+void			other_pid(t_cmd **curr_cmd, int pid, char *r_name);
 
 #endif

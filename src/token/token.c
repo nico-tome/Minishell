@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 18:03:54 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/21 17:36:28 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,31 @@
 
 char	*clean_token(t_minishell *ms, char *token, int check_quote)
 {
-	char	*clean_token;
-	int		i;
-	char	*part;
-	char	*tmp;
+	t_clean_token_infos	cti;
+	char				*tmp;
 
-	i = 0;
-	clean_token = NULL;
-	while (token[i])
+	cti.i = 0;
+	cti.clean_token = NULL;
+	while (token[cti.i])
 	{
-		if (check_quote && (token[i] == '"' || token[i] == '\''))
-			part = extract_quote(ms, token, &i);
-		else if (check_quote && token[i] == '$' && (token[i + 1] == '\'' || token[i + 1] == '"'))
-		{
-			i++;
+		if (need_to_continue(check_quote, token, &cti.i))
 			continue ;
-		}
-		else if (token[i] == '$')
-			part = extract_env(ms, token, &i);
 		else
-			part = extract_word(token, &i, check_quote);
-		if (!clean_token && part)
-			clean_token = ft_strdup(part);
-		else if (part)
+			cti.part = get_part(ms, token, &cti.i, check_quote);
+		if (!cti.clean_token && cti.part)
+			cti.clean_token = ft_strdup(cti.part);
+		else if (cti.part)
 		{
-			tmp = clean_token;
-			clean_token = ft_strjoin(clean_token, part);
+			tmp = cti.clean_token;
+			cti.clean_token = ft_strjoin(cti.clean_token, cti.part);
 			free(tmp);
 		}
-		if (part)
-			free(part);
+		if (cti.part)
+			free(cti.part);
 	}
 	if (token)
 		free(token);
-	return (clean_token);
+	return (cti.clean_token);
 }
 
 void	create_token(t_token *token, char *word, t_token_infos t_i, char *cmd)

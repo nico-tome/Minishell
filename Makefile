@@ -44,6 +44,7 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_add_cmd.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_find_path.c \
 		$(SRC_DIR)$(PARSER_DIR)parser.c \
+		$(SRC_DIR)$(PARSER_DIR)parser_utils.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_create_rand_name.c \
 		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)pipeline.c \
 		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)clear_pipeline.c \

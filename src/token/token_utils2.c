@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 18:02:05 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 18:02:32 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/21 17:30:17 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ int	is_quote_redir(char c)
 	return (0);
 }
 
+int	need_to_continue(int check_quote, char *token, int *i)
+{
+	if (check_quote && token[*i] == '$'
+		&& (token[*i + 1] == '\'' || token[*i + 1] == '"'))
+	{
+		*i += 1;
+		return (1);
+	}
+	return (0);
+}
+
 char	*join_token_part(char **token, char *part)
 {
 	char	*tmp;
@@ -29,4 +40,13 @@ char	*join_token_part(char **token, char *part)
 	*token = ft_strjoin(*token, part);
 	free(tmp);
 	return (*token);
+}
+
+char	*get_part(t_minishell *ms, char *token, int *i, int check_quote)
+{
+	if (check_quote && (token[*i] == '"' || token[*i] == '\''))
+		return (extract_quote(ms, token, i));
+	else if (token[*i] == '$')
+		return (extract_env(ms, token, i));
+	return (extract_word(token, i, check_quote));
 }

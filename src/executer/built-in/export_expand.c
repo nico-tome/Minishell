@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_expand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 14:32:55 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/16 14:44:25 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/21 18:27:31 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,48 +59,41 @@ void	safe_append(char **s1, char *s2)
 	free(tmp);
 }
 
+void	update_res(t_minishell *ms, char **res, char *str, int *i)
+{
+	char	*name;
+	char	*tmp_val;
+
+	*i += 1;
+	name = get_var_name(str, i);
+	tmp_val = get_var_value(ms, name);
+	safe_append(res, tmp_val);
+	free(name);
+	free(tmp_val);
+}
+
 char	*ft_expand_arg(t_minishell *ms, char *str)
 {
-	char	*res;
-	char	*tmp_val;
-	char	*name;
-	char	c[2];
-	int		i;
-	int		q;
+	char			*res;
+	char			c[2];
+	t_double_index	vec2;
 
-	i = 0;
-	q = 0;
+	vec2.i = 0;
+	vec2.j = 0;
 	res = ft_strdup("");
 	c[1] = '\0';
-	while (str[i])
+	while (str[vec2.i])
 	{
-		if (str[i] == '\'' && q != 2)
-		{
-			if (q == 0)
-				q = 1;
-			else
-				q = 0;
-		}
-		else if (str[i] == '"' && q != 1)
-		{
-			if (q == 0)
-				q = 2;
-			else
-				q = 0;
-		}
-		if (str[i] == '$' && q != 1 && (ft_isalnum(str[i + 1])
-				|| str[i + 1] == '_' || str[i + 1] == '?'))
-		{
-			i++;
-			name = get_var_name(str, &i);
-			tmp_val = get_var_value(ms, name);
-			safe_append(&res, tmp_val);
-			free(name);
-			free(tmp_val);
-		}
+		if (str[vec2.i] == '\'' && vec2.j != 2)
+			vec2.j = vec2.j == 0;
+		else if (str[vec2.i] == '"' && vec2.j != 1)
+			vec2.j = 2 * (vec2.j == 0);
+		if (str[vec2.i] == '$' && vec2.j != 1 && (ft_isalnum(str[vec2.i + 1])
+				|| str[vec2.i + 1] == '_' || str[vec2.i + 1] == '?'))
+			update_res(ms, &res, str, &vec2.i);
 		else
 		{
-			c[0] = str[i++];
+			c[0] = str[vec2.i++];
 			safe_append(&res, c);
 		}
 	}

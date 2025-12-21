@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/21 11:11:36 by titan            ###   ########.fr       */
+/*   Updated: 2025/12/21 18:32:39 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,28 @@ void	ms_init_data(t_minishell *ms, char **envp)
 	}
 }
 
+void	exec_cmd(t_minishell *ms)
+{
+	ms->parsed_cmd = parser(ms->tokens, ms->envp, ms);
+	if (ms->parsed_cmd)
+	{
+		if (ms->parsed_cmd->next == NULL
+			&& ms->parsed_cmd->args
+			&& ms->parsed_cmd->args[0]
+			&& is_builtin(ms->parsed_cmd->args[0]))
+		{
+			if (ms->parsed_cmd->status == 1)
+				ms->status = 1;
+			else
+				exec_builtin(ms, 1, ms->parsed_cmd, NULL);
+		}
+		else
+			exec_line(ms);
+		free_cmd_list(ms->parsed_cmd);
+		ms->parsed_cmd = NULL;
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	ms;
@@ -90,26 +112,7 @@ int	main(int ac, char **av, char **envp)
 			}
 			ms_tokenize_cmd(&ms, &ms.tokens, cmd);
 			if (ms.tokens && ms.tokens->content && !ms_has_error(ms.tokens))
-			{
-				ms.parsed_cmd = parser(ms.tokens, ms.envp, &ms);
-				if (ms.parsed_cmd)
-				{
-					if (ms.parsed_cmd->next == NULL
-						&& ms.parsed_cmd->args
-						&& ms.parsed_cmd->args[0]
-						&& is_builtin(ms.parsed_cmd->args[0]))
-					{
-						if (ms.parsed_cmd->status == 1)
-							ms.status = 1;
-						else
-							exec_builtin(&ms, 1, ms.parsed_cmd, NULL);
-					}
-					else
-						exec_line(&ms);
-					free_cmd_list(ms.parsed_cmd);
-					ms.parsed_cmd = NULL;
-				}
-			}
+				exec_cmd(&ms);
 			else if (ms.tokens && !ms.tokens->content)
 				ms.status = 0;
 			else
