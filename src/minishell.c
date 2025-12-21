@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/19 17:46:17 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/21 11:11:36 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	main(int ac, char **av, char **envp)
 			ms.tokens = NULL;
 		}
 		free(cmd);
+		g_exit_status = ms.status;
 	}
 	free_env_list(ms.envp);
 	rl_clear_history();

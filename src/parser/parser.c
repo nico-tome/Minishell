@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/19 12:10:19 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/21 11:17:58 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static t_heredoc_vars	g_heredoc_data;
 
 void	token_pipe(t_cmd **curr_cmd)
 {
@@ -26,6 +24,8 @@ void	run_heredoc(char *delimiter, int fd_out)
 
 	while (1)
 	{
+		if (g_exit_status == 130)
+			break ;
 		line = readline("> ");
 		if (!line)
 			break ;
@@ -44,15 +44,7 @@ void	heredoc_sigint_handler(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	safe_close(g_heredoc_data.tmp_fd);
-	if (g_heredoc_data.rand_name)
-		free(g_heredoc_data.rand_name);
-	if (g_heredoc_data.ms)
-		exit_free(g_heredoc_data.ms);
-	if (g_heredoc_data.cmd)
-		free_cmd_list(g_heredoc_data.cmd);
-	rl_clear_history();
-	exit(130);
+	g_exit_status = 130;
 }
 
 void	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
@@ -73,10 +65,6 @@ void	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
 	if (pid == 0)
 	{
 		tmp_fd = open(rand_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		g_heredoc_data.tmp_fd = tmp_fd;
-		g_heredoc_data.rand_name = rand_name;
-		g_heredoc_data.ms = ms;
-		g_heredoc_data.cmd = *curr_cmd;
 		if (tmp_fd == -1)
 		{
 			perror("heredoc temp file");
@@ -92,6 +80,8 @@ void	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
 		exit_free(ms);
 		free_cmd_list(*curr_cmd);
 		rl_clear_history();
+		if (g_exit_status == 130)
+			exit(130);
 		exit(0);
 	}
 	else

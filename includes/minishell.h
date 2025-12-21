@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/20 16:24:23 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/21 11:10:13 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,6 @@ typedef struct s_exec
 	int			count;
 	t_minishell	*ms;
 }				t_exec;
-
-typedef struct s_heredoc_vars
-{
-	int			tmp_fd;
-	char		*rand_name;
-	t_minishell	*ms;
-	t_cmd		*cmd;
-}				t_heredoc_vars;
 
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
