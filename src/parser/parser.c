@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/21 18:10:39 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/22 17:39:59 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
 		else if (tokens->type == APPEND)
 			token_append(&tokens, &curr_cmd);
 		else if (tokens->type == WORD && tokens->content)
-			add_to_cmd(curr_cmd, tokens->content, env);
+			add_to_cmd(curr_cmd, tokens->content, env, 0);
 		else if (tokens->type == HEREDOC)
 			token_heredoc(&tokens, &curr_cmd, ms);
 		tokens = tokens->next;

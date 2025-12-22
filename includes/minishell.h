@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/21 18:10:45 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/22 17:39:10 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char			*extract_word(char *token, int *i, int check_quote);
 int				ms_has_error(t_token *token);
 void			free_all(char **tab);
 char			*getpath(t_env *env, char *cmd);
-void			add_to_cmd(t_cmd *cmd, char *content, t_env *env);
+void			add_to_cmd(t_cmd *cmd, char *content, t_env *env, int i);
 t_cmd			*parser(t_token *tokens, t_env *env, t_minishell *ms);
 t_env			*init_env(char **envp);
 void			exec_line(t_minishell *ms);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_add_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 12:49:54 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/20 16:31:10 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/22 17:40:09 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ int	ft_tablen(char **tab)
 	return (i);
 }
 
-void	add_to_cmd(t_cmd *cmd, char *content, t_env *env)
+void	add_to_cmd(t_cmd *cmd, char *content, t_env *env, int i)
 {
 	char	**new_args;
 	int		size;
-	int		i;
 
 	size = ft_tablen(cmd->args);
 	new_args = malloc(sizeof(char *) * (size + 2));
@@ -37,10 +36,15 @@ void	add_to_cmd(t_cmd *cmd, char *content, t_env *env)
 	i = 0;
 	while (i < size)
 	{
-		new_args[i] = ft_strdup(cmd->args[i]);
+		new_args[i] = cmd->args[i];
 		i++;
 	}
 	new_args[i] = ft_strdup(content);
+	if (!new_args[i])
+	{
+		free(new_args);
+		return ;
+	}
 	new_args[i + 1] = NULL;
 	if (cmd->args)
 		free(cmd->args);
