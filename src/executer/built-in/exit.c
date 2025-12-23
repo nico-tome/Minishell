@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/24 00:30:56 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/24 00:34:14 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 	int	args_num;
 
 	args_num = ft_tablen(cmd);
+	if (print)
+		ft_putstr_fd("exit\n", 2);
 	if (args_num >= 2 && !is_numeric(cmd[1]))
 	{
 		ft_putstr_fd("petit coquillage: exit: ", 2);
@@ -64,15 +66,13 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 	}
 	else if (args_num > 2)
 	{
-		ft_putstr_fd("petit coquillage: exit: too much arguments\n", 2);
+		ft_putstr_fd("petit coquillage: exit: too many arguments\n", 2);
 		ms->status = 1;
 		return ;
 	}
 	else if (args_num == 2 && is_numeric(cmd[1]))
 		ms->status = ft_atoll(cmd[1]);
 	exit_free(ms);
-	if (print)
-		ft_putstr_fd("exit\n", 2);
 	rl_clear_history();
 	exit(ms->status % 256);
 }
