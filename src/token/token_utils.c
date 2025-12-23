@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:05:51 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/19 17:59:33 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/23 23:46:46 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ char	*extract_word(char *token, int *i, int check_quote)
 
 int	check_token_error(char *word, char *chunk)
 {
-	if (word && is_quote_redir(chunk[0]) != 1 && is_quote_redir(word[0]) == 2)
+	if (word && is_quote_redir(chunk[0]) != 1 && is_quote_redir(word[0]) == 2
+		&& !ft_strcmp(word, chunk))
 		return (1);
 	return (0);
 }

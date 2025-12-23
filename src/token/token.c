@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/21 17:36:28 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/23 23:50:26 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	create_token(t_token *token, char *word, t_token_infos t_i, char *cmd)
 
 void	skip_spaces(char *cmd, int *i)
 {
-	while (cmd[*i] && cmd[*i] == ' ')
+	while (cmd[*i] && cmd[*i] >= 7 && cmd[*i] <= 32)
 		*i += 1;
 }
 
@@ -89,7 +89,7 @@ void	get_next_chunk(char *cmd, int *i)
 	}
 	else
 	{
-		while (cmd[*i] && !(cmd[*i] == ' ' && !quoted)
+		while (cmd[*i] && !(cmd[*i] <= 32 && !quoted)
 			&& !(is_quote_redir(cmd[*i]) == 2 && !quoted))
 		{
 			if (is_quote_redir(cmd[*i]) == 1 && !quoted)
