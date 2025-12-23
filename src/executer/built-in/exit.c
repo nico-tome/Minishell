@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/18 13:33:21 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/24 00:30:56 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 		ft_putstr_fd(cmd[1], 2);
 		ft_putstr_fd(" : numeric argument needed\n", 2);
 		ms->status = 2;
-		return ;
 	}
 	else if (args_num > 2)
 	{
 		ft_putstr_fd("petit coquillage: exit: too much arguments\n", 2);
 		ms->status = 1;
+		return ;
 	}
 	else if (args_num == 2 && is_numeric(cmd[1]))
 		ms->status = ft_atoll(cmd[1]);
