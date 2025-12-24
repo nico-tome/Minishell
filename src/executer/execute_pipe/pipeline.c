@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/18 14:30:10 by gajanvie         ###   ########.fr       */
+/*   Updated: 2025/12/24 01:05:02 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	child_process(t_cmd *cmd, t_exec *exec, int *pipefd, int prev_read)
 		safe_close(prev_read);
 		ft_exit_child(exec, 0);
 	}
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	handle_pipes(cmd, prev_read, pipefd);
 	if (is_builtin(cmd->args[0]))
 	{
