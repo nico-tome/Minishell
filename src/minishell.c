@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/21 18:32:39 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/24 01:16:41 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int	main(int ac, char **av, char **envp)
 			free_tokens(ms.tokens);
 			ms.tokens = NULL;
 		}
+		else
+			ms.status = 0;
 		free(cmd);
 		g_exit_status = ms.status;
 	}
