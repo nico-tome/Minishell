@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/23 23:35:28 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/29 12:57:14 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,5 +191,6 @@ void			heredoc_sigint_handler(int sig);
 void			run_heredoc(char *delimiter, int fd_out);
 void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd **c_cmd);
 void			other_pid(t_cmd **curr_cmd, int pid, char *r_name);
+void			ms_custom_maia(void);
 
 #endif

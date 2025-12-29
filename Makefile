@@ -66,6 +66,7 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)latina.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)gamble.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)ntome.c \
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)maia.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)export.c
 
 
