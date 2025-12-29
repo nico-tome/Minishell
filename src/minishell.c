@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/24 01:16:41 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/29 18:54:54 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,26 @@ void	exec_cmd(t_minishell *ms)
 	}
 }
 
+void	has_cmd(t_minishell *ms, char *cmd)
+{
+	add_history(cmd);
+	ms->tokens = ft_calloc(1, sizeof(t_token));
+	if (!ms->tokens)
+	{
+		free(cmd);
+		return ;
+	}
+	ms_tokenize_cmd(ms, &ms->tokens, cmd);
+	if (ms->tokens && ms->tokens->content && !ms_has_error(ms->tokens))
+		exec_cmd(ms);
+	else if (ms->tokens && !ms->tokens->content)
+		ms->status = 0;
+	else
+		ms->status = 2;
+	free_tokens(ms->tokens);
+	ms->tokens = NULL;
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	ms;
@@ -102,24 +122,7 @@ int	main(int ac, char **av, char **envp)
 		if (cmd == NULL)
 			ms_exit(&ms, 1, NULL);
 		if (cmd[0] != '\0')
-		{
-			add_history(cmd);
-			ms.tokens = ft_calloc(1, sizeof(t_token));
-			if (!ms.tokens)
-			{
-				free(cmd);
-				break ;
-			}
-			ms_tokenize_cmd(&ms, &ms.tokens, cmd);
-			if (ms.tokens && ms.tokens->content && !ms_has_error(ms.tokens))
-				exec_cmd(&ms);
-			else if (ms.tokens && !ms.tokens->content)
-				ms.status = 0;
-			else
-				ms.status = 2;
-			free_tokens(ms.tokens);
-			ms.tokens = NULL;
-		}
+			has_cmd(&ms, cmd);
 		else
 			ms.status = 0;
 		free(cmd);

@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/24 00:23:49 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/29 19:12:36 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	get_next_chunk(char *cmd, int *i)
 		{
 			if (is_quote_redir(cmd[*i]) == 1 && !quoted)
 				quoted = cmd[*i];
-			else if (is_quote_redir(cmd[*i]) == 1 && quoted)
+			else if (cmd[*i] == quoted)
 				quoted = 0;
 			*i += 1;
 		}
