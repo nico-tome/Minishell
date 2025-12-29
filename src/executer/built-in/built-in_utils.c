@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:57:29 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/29 12:56:04 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/29 18:22:51 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
 	if (!ft_strcmp(cmd_name, "cd"))
 		ms->status = cd(ms, cmd);
 	if (!ft_strcmp(cmd_name, "pwd"))
-		ms_pwd();
+		ms_pwd(ms);
 	if (!ft_strcmp(cmd_name, "env"))
 		ms_env(ms);
 	if (!ft_strcmp(cmd_name, "unset"))

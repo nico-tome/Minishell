@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/29 12:57:14 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/29 18:23:12 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int				is_quote_redir(char c);
 void			ms_get_word_redir(char *cmd, int *i, int *start);
 void			ms_get_word_quote(char *cmd, int *i, int *start);
 void			ms_get_word(char *cmd, int *i, int *start);
-void			ms_pwd(void);
+void			ms_pwd(t_minishell *ms);
 void			ms_env(t_minishell *ms);
 int				ft_unset(t_minishell *ms, char **args);
 int				ms_echo(t_cmd *cmd);
