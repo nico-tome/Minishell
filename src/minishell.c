@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/29 18:54:54 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/30 11:46:24 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ms_init_data(t_minishell *ms, char **envp)
 	char	*old_shlvl;
 	char	*new_shlvl;
 
+	ms_print_hello();
 	ms->envp = init_env(envp);
 	ms->pwd = getcwd(NULL, 0);
 	ms->tokens = NULL;
@@ -112,7 +113,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	ms_print_hello();
 	ms_init_data(&ms, envp);
 	while (1)
 	{
@@ -129,6 +129,5 @@ int	main(int ac, char **av, char **envp)
 		g_exit_status = ms.status;
 	}
 	free_env_list(ms.envp);
-	rl_clear_history();
 	return (EXIT_SUCCESS);
 }

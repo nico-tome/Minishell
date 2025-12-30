@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:32:47 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/15 14:35:34 by ntome            ###   ########.fr       */
+/*   Updated: 2025/12/30 11:46:21 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	free_env_list(t_env *env)
 		free(env);
 		env = tmp;
 	}
+	rl_clear_history();
 }
 
 char	*get_env(t_env *envp, char *env)
