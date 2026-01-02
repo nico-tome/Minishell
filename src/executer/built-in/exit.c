@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 00:13:56 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/24 00:34:14 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/02 15:59:17 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	ms_exit(t_minishell *ms, int print, char **cmd)
 	else if (args_num > 2)
 	{
 		ft_putstr_fd("petit coquillage: exit: too many arguments\n", 2);
-		ms->status = 1;
+		if (ms->status == 0)
+			ms->status = 1;
 		return ;
 	}
 	else if (args_num == 2 && is_numeric(cmd[1]))
