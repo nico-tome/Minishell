@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/02 15:47:46 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/02 15:49:16 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	exec_external(t_cmd *cmd, t_exec *exec)
 {
-	if (!cmd->cmd_path || !ft_strcmp(cmd->args[0], "..") || !ft_strcmp(cmd->args[0], "."))
+	if (!cmd->cmd_path || !ft_strcmp(cmd->args[0], "..")
+		|| !ft_strcmp(cmd->args[0], "."))
 	{
 		ft_putstr_fd("Minishell: command not found: ", 2);
 		ft_putstr_fd(cmd->args[0], 2);
