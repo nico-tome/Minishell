@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/29 18:23:12 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/05 14:31:43 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,9 +188,10 @@ void			token_append(t_token **tokens, t_cmd **curr_cmd);
 void			token_redir_out(t_token **tokens, t_cmd **curr_cmd);
 void			token_redir_in(t_token **tokens, t_cmd **curr_cmd);
 void			heredoc_sigint_handler(int sig);
-void			run_heredoc(char *delimiter, int fd_out);
+void			run_heredoc(char *delimiter, int fd_out, t_minishell *ms);
 void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd **c_cmd);
 void			other_pid(t_cmd **curr_cmd, int pid, char *r_name);
 void			ms_custom_maia(void);
+char			*ft_expand_arg(t_minishell *ms, char *str);
 
 #endif

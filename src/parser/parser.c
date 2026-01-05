@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/22 17:39:59 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/05 14:31:34 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	token_pipe(t_cmd **curr_cmd)
 	*curr_cmd = (*curr_cmd)->next;
 }
 
-void	run_heredoc(char *delimiter, int fd_out)
+void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 {
 	char	*line;
+	char	*expand_line;
 
 	while (1)
 	{
@@ -34,9 +35,13 @@ void	run_heredoc(char *delimiter, int fd_out)
 			free(line);
 			break ;
 		}
-		write(fd_out, line, ft_strlen(line));
-		write(fd_out, "\n", 1);
+		expand_line = ft_expand_arg(ms, line);
 		free(line);
+		if (!expand_line)
+			break ;
+		write(fd_out, expand_line, ft_strlen(expand_line));
+		write(fd_out, "\n", 1);
+		free(expand_line);
 	}
 }
 

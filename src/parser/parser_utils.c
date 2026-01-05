@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 17:38:39 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/21 18:11:52 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/05 15:39:15 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd **curr_cmd)
 		exit(1);
 	}
 	signal(SIGINT, heredoc_sigint_handler);
-	run_heredoc(del, tmp_fd);
+	run_heredoc(del, tmp_fd, ms);
 	close(tmp_fd);
 	free(r_name);
 	exit_free(ms);
