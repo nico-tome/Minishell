@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/05 14:31:34 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 09:36:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
 		expand_line = ft_expand_arg(ms, line);
 		free(line);
 		if (!expand_line)
 			break ;
+		if (ft_strcmp(expand_line, delimiter) == 0)
+		{
+			free(expand_line);
+			break ;
+		}
 		write(fd_out, expand_line, ft_strlen(expand_line));
 		write(fd_out, "\n", 1);
 		free(expand_line);
@@ -60,15 +60,23 @@ void	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
 
 	safe_close((*curr_cmd)->fd_in);
 	*tokens = (*tokens)->next;
-	delimiter = (*tokens)->content;
+	delimiter = ft_expand_arg(ms, (*tokens)->content);
+	if (!delimiter)
+		return ;
 	rand_name = ft_rand_name();
 	if (!rand_name)
+	{
+		free(delimiter);
 		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 		pid_zero(ms, rand_name, delimiter, curr_cmd);
 	else
+	{
+		free (delimiter);
 		other_pid(curr_cmd, pid, rand_name);
+	}
 }
 
 t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)

@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:55:12 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/30 11:17:36 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 09:46:18 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	ms_echo(t_cmd *cmd)
 
 	i = 1;
 	new_line = 1;
+	if (cmd->fd_out == -2)
+		cmd->fd_out = 1;
 	while (cmd->args[i] && is_option_n(cmd->args[i]))
 	{
 		new_line = 0;
@@ -55,12 +57,12 @@ int	ms_echo(t_cmd *cmd)
 	}
 	while (cmd->args[i])
 	{
-		printf("%s", cmd->args[i]);
+		ft_putstr_fd(cmd->args[i], cmd->fd_out);
 		i++;
 		if (cmd->args[i])
-			printf(" ");
+			ft_putstr_fd(" ", cmd->fd_out);
 	}
 	if (new_line)
-		printf("\n");
+		ft_putstr_fd("\n", cmd->fd_out);
 	return (0);
 }

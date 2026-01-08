@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 17:38:39 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/05 15:39:15 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 09:38:14 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd **curr_cmd)
 	if (tmp_fd == -1)
 	{
 		perror("heredoc temp file");
+		free(r_name);
+		free(del);
 		rl_clear_history();
 		free_cmd_list(*curr_cmd);
 		exit_free(ms);
@@ -70,6 +72,7 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd **curr_cmd)
 	run_heredoc(del, tmp_fd, ms);
 	close(tmp_fd);
 	free(r_name);
+	free(del);
 	exit_free(ms);
 	free_cmd_list(*curr_cmd);
 	rl_clear_history();
