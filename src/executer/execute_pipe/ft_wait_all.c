@@ -6,13 +6,13 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:58:51 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/16 15:40:58 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:44:23 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	wait_all(pid_t *pids, int count, t_minishell *ms)
+void	wait_all(pid_t *pids, t_cmd *cmd, t_minishell *ms)
 {
 	int	i;
 	int	status;
@@ -20,17 +20,24 @@ void	wait_all(pid_t *pids, int count, t_minishell *ms)
 
 	i = 0;
 	exit_code = 0;
-	while (i < count)
+	while (cmd)
 	{
 		waitpid(pids[i], &status, 0);
-		if (i == count - 1)
+		if (cmd->next == NULL)
 		{
+			if (WTERMSIG(status) == SIGINT)
+			{
+				if (cmd->fd_out == -2)
+					cmd->fd_out = 1;
+				ft_putchar_fd('\n', cmd->fd_out);
+			}
 			if (WIFEXITED(status))
 				exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 				exit_code = 128 + WTERMSIG(status);
 		}
 		i++;
+		cmd = cmd->next;
 	}
 	ms->status = exit_code;
 }

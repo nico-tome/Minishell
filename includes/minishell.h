@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 12:47:13 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 13:47:06 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void			ms_env(t_minishell *ms);
 int				ft_unset(t_minishell *ms, char **args);
 int				ms_echo(t_cmd *cmd);
 void			ms_print_hello(void);
-void			wait_all(pid_t *pids, int count, t_minishell *ms);
+void			wait_all(pid_t *pids, t_cmd *cmd, t_minishell *ms);
 char			*ft_join_value(char *key, char *value);
 void			dup2_and_close(int fd, int target_fd);
 void			safe_close(int fd);
@@ -201,5 +201,6 @@ void			other_pid(t_cmd **curr_cmd, int pid, char *r_name);
 void			ms_custom_maia(int fd_out);
 char			*ft_expand_arg(t_minishell *ms, char *str);
 char			*get_token(t_minishell *ms, char *cmd, t_token_infos t_infos);
+char			*clean_token(t_minishell *ms, char *token, int check_quote);
 
 #endif

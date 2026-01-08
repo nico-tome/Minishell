@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 11:31:51 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 13:29:29 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	exec_line(t_minishell *ms)
 	}
 	signal(SIGINT, SIG_IGN);
 	exec_loop(&exec, ms->parsed_cmd, pipefd, &prev_read);
-	wait_all(exec.pids, exec.count, ms);
+	wait_all(exec.pids, ms->parsed_cmd, ms);
 	signal(SIGINT, signal_handler);
 	ft_free_exec(&exec);
 }

@@ -3,44 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 13:06:03 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 13:47:12 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-
-char	*clean_token(t_minishell *ms, char *token, int check_quote)
-{
-	t_clean_token_infos	cti;
-	char				*tmp;
-
-	cti.i = 0;
-	cti.clean_token = NULL;
-	while (token[cti.i])
-	{
-		if (need_to_continue(check_quote, token, &cti.i))
-			continue ;
-		else
-			cti.part = get_part(ms, token, &cti.i, check_quote);
-		if (!cti.clean_token && cti.part)
-			cti.clean_token = ft_strdup(cti.part);
-		else if (cti.part)
-		{
-			tmp = cti.clean_token;
-			cti.clean_token = ft_strjoin(cti.clean_token, cti.part);
-			free(tmp);
-		}
-		if (cti.part)
-			free(cti.part);
-	}
-	if (token)
-		free(token);
-	return (cti.clean_token);
-}
 
 char	*need_add_space(char *word, char *chunk, char *cmd, t_token_infos t_i)
 {
@@ -139,7 +110,6 @@ void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 		t_infos.start = t_infos.i;
 		get_next_chunk(cmd, &t_infos.i);
 		token = get_token(ms, cmd, t_infos);
-		//printf("token: %s\n", token);
 		create_token(actual_token, token, t_infos, cmd);
 		free(token);
 		while (cmd[t_infos.i] && cmd[t_infos.i] == ' ')
