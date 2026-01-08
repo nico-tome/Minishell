@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 18:36:13 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:42:24 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*need_add_space(char *word, char *chunk, char *cmd, t_token_infos t_i)
 {
 	int	j;
 
-	j = 1;
+	j = 0;
 	if (ft_strcmp(word, " "))
 		return (ft_strdup(word));
 	if (chunk[0] == '"' && ft_strlen(chunk) == 3)
