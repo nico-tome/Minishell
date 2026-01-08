@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 09:36:21 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 20:05:21 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 		if (!line)
 			break ;
 		expand_line = ft_expand_arg(ms, line);
+		if (delimiter[0] == '"' || delimiter[0] == '\'')
+		{
+			free(expand_line);
+			expand_line = ft_strdup(line);
+		}
 		free(line);
 		if (!expand_line)
 			break ;

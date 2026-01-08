@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 13:47:12 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 20:32:31 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*need_add_space(char *word, char *chunk, char *cmd, t_token_infos t_i)
 		return (ft_strdup(word));
 	if (!ft_strcmp(chunk, "\"\"") || !ft_strcmp(chunk, "''"))
 	{
-		while (cmd[t_i.i + j])
+		while (cmd[t_i.i] && cmd[t_i.i + j])
 		{
 			if (cmd[t_i.i + j] > ' ')
 				return (ft_strdup(""));
@@ -104,6 +104,7 @@ void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 
 	actual_token = *tokens;
 	t_infos.i = 0;
+	t_infos.check_quote = 0;
 	while (cmd[t_infos.i])
 	{
 		skip_spaces(cmd, &t_infos.i);
