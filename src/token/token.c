@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 18:42:24 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 19:01:51 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 	char			*token;
 
 	actual_token = *tokens;
-	t_infos.i = 0;
-	t_infos.check_quote = 0;
+	ft_bzero(&t_infos, 8);
 	while (cmd[t_infos.i])
 	{
 		skip_spaces(cmd, &t_infos.i);

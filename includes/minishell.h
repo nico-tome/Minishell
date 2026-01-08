@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 13:47:06 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:59:20 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ extern int	g_exit_status;
 
 typedef struct s_token_infos
 {
-	int	start;
-	int	i;
-	int	in_quote;
 	int	check_quote;
+	int	i;
+	int	start;
+	int	in_quote;
 }				t_token_infos;
 
 typedef struct s_clean_token_infos
