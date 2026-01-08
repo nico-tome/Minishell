@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:58:51 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 20:02:40 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 20:39:58 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	wait_all(pid_t *pids, t_cmd *cmd, t_minishell *ms)
 	exit_code = 0;
 	while (cmd)
 	{
-		waitpid(pids[i], &status, 0);
+		waitpid(pids[i++], &status, 0);
 		if (cmd->next == NULL)
 		{
 			if (WTERMSIG(status) == SIGINT)
@@ -36,7 +36,6 @@ void	wait_all(pid_t *pids, t_cmd *cmd, t_minishell *ms)
 			else if (WIFSIGNALED(status))
 				exit_code = 128 + WTERMSIG(status);
 		}
-		i++;
 		cmd = cmd->next;
 	}
 	ms->status = exit_code;

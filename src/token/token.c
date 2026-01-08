@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 20:32:31 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 20:40:32 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*need_add_space(char *word, char *chunk, char *cmd, t_token_infos t_i)
 {
 	int	j;
 
-	j = 1;
+	j = 0;
 	if (ft_strcmp(word, " "))
 		return (ft_strdup(word));
 	if (chunk[0] == '"' && ft_strlen(chunk) == 3)
@@ -103,8 +103,7 @@ void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 	char			*token;
 
 	actual_token = *tokens;
-	t_infos.i = 0;
-	t_infos.check_quote = 0;
+	ft_bzero(&t_infos, 8);
 	while (cmd[t_infos.i])
 	{
 		skip_spaces(cmd, &t_infos.i);
