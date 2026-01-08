@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/30 11:11:19 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 12:36:09 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,15 @@ void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 		skip_spaces(cmd, &t_infos.i);
 		t_infos.start = t_infos.i;
 		get_next_chunk(cmd, &t_infos.i);
-		token = ft_substr(cmd, t_infos.start, t_infos.i - t_infos.start);
-		token = clean_token(ms, token, 1);
+		token = get_token(ms, cmd, t_infos);
+		//printf("token: %s\n", token);
 		create_token(actual_token, token, t_infos, cmd);
 		free(token);
 		while (cmd[t_infos.i] && cmd[t_infos.i] == ' ')
 			t_infos.i++;
 		if (cmd[t_infos.i] && token)
 		{
+			t_infos.check_quote = actual_token->type == HEREDOC;
 			actual_token->next = ft_calloc(1, sizeof(t_token));
 			if (!actual_token->next)
 				return ;

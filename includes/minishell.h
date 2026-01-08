@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 10:32:31 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 12:30:22 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_token_infos
 	int	start;
 	int	i;
 	int	in_quote;
+	int	check_quote;
 }				t_token_infos;
 
 typedef struct s_clean_token_infos
@@ -126,7 +127,7 @@ typedef struct s_casino
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
 void			ms_tokenize_cmd(t_minishell *ms, t_token **token, char *cmd);
-char			*clean_token(t_minishell *ms, char *token, int check_quote);
+char			*clean_token(t_minishell *ms, char *token, int c_q);
 char			*extract_quote(t_minishell *ms, char *token, int *i);
 char			*extract_env(t_minishell *ms, char *token, int *i);
 char			*extract_word(char *token, int *i, int check_quote);
@@ -199,5 +200,6 @@ void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd **c_cmd);
 void			other_pid(t_cmd **curr_cmd, int pid, char *r_name);
 void			ms_custom_maia(int fd_out);
 char			*ft_expand_arg(t_minishell *ms, char *str);
+char			*get_token(t_minishell *ms, char *cmd, t_token_infos t_infos);
 
 #endif

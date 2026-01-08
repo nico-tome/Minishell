@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:05:51 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/30 11:07:24 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 12:30:25 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ char	*extract_quote(t_minishell *ms, char *token, int *i)
 	*i += 1;
 	if (quote == '"')
 		extracted = clean_token(ms, extracted, 0);
+	if (!extracted && token[*i] == '\0')
+	{
+		free(extracted);
+		return (ft_strdup(" "));
+	}
 	return (extracted);
 }
 

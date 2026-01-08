@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 18:02:05 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/21 17:30:17 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 12:34:15 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,13 @@ char	*get_part(t_minishell *ms, char *token, int *i, int check_quote)
 	else if (token[*i] == '$')
 		return (extract_env(ms, token, i));
 	return (extract_word(token, i, check_quote));
+}
+
+char	*get_token(t_minishell *ms, char *cmd, t_token_infos t_infos)
+{
+	char	*token;
+
+	token = ft_substr(cmd, t_infos.start, t_infos.i - t_infos.start);
+	token = clean_token(ms, token, (!t_infos.check_quote));
+	return (token);
 }
