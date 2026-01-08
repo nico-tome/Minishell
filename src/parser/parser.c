@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 20:05:21 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 21:09:15 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	heredoc_sigint_handler(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	g_exit_status = 130;
+	close (0);
 }
 
 void	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)

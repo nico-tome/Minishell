@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_wait_all.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:58:51 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 20:39:58 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 21:28:03 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,25 @@ void	wait_all(pid_t *pids, t_cmd *cmd, t_minishell *ms)
 	exit_code = 0;
 	while (cmd)
 	{
-		waitpid(pids[i++], &status, 0);
-		if (cmd->next == NULL)
+		if (pids[i] != -1)
 		{
-			if (WTERMSIG(status) == SIGINT)
+			waitpid(pids[i], &status, 0);
+			if (cmd->next == NULL)
 			{
-				if (cmd->fd_out == -2)
-					cmd->fd_out = 1;
-				ft_putchar_fd('\n', cmd->fd_out);
+				if (WTERMSIG(status) == SIGINT)
+					ft_putchar_fd('\n', 1);
+				if (WIFEXITED(status))
+					exit_code = WEXITSTATUS(status);
+				else if (WIFSIGNALED(status))
+					exit_code = 128 + WTERMSIG(status);
 			}
-			if (WIFEXITED(status))
-				exit_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				exit_code = 128 + WTERMSIG(status);
 		}
+		else
+		{
+			if (cmd->next == NULL)
+				exit_code = 130;
+		}
+		i++;
 		cmd = cmd->next;
 	}
 	ms->status = exit_code;

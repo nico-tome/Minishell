@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 20:37:06 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 21:19:53 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ void	exec_loop(t_exec *exec, t_cmd *curr, int *pipefd, int *prev_read)
 		pipefd[1] = -1;
 		if (curr->next && pipe(pipefd) == -1)
 			perror("pipe");
-		exec->pids[i] = fork();
-		if (exec->pids[i] == 0)
-			child_process(curr, exec, pipefd, *prev_read);
+		if (curr->fd_in != -1)
+		{
+			exec->pids[i] = fork();
+			if (exec->pids[i] == 0)
+				child_process(curr, exec, pipefd, *prev_read);
+		}
+		else
+			exec->pids[i] = -1;
 		safe_close(*prev_read);
 		if (curr->next)
 		{
