@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/05 14:31:43 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:32:31 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,12 @@ typedef struct s_exec
 	t_minishell	*ms;
 }				t_exec;
 
+typedef struct s_casino
+{
+	char	casino[3];
+	char	real_casino[3];
+}				t_casino;
+
 char			*ms_get_prompt(t_minishell ms);
 t_prompt_params	ms_init_prompt_params(void);
 void			ms_tokenize_cmd(t_minishell *ms, t_token **token, char *cmd);
@@ -173,10 +179,10 @@ int				ms_export(t_minishell *ms, t_cmd *cmd);
 t_env			*get_env_node(t_env *envp, char *env);
 char			*ft_rand_name(void);
 char			*ft_remove_quotes(char *str);
-int				gajanvie(char **cmd);
-int				ntome(char **cmd);
-void			print_latina(void);
-int				gamble(void);
+int				gajanvie(char **cmd, int fd_out);
+int				ntome(char **cmd, int fd_out);
+void			print_latina(int fd_out);
+int				gamble(int fd_out);
 void			make_printable(char *c);
 void			exit_free(t_minishell *ms);
 int				print_export_error(char *arg);
@@ -191,7 +197,7 @@ void			heredoc_sigint_handler(int sig);
 void			run_heredoc(char *delimiter, int fd_out, t_minishell *ms);
 void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd **c_cmd);
 void			other_pid(t_cmd **curr_cmd, int pid, char *r_name);
-void			ms_custom_maia(void);
+void			ms_custom_maia(int fd_out);
 char			*ft_expand_arg(t_minishell *ms, char *str);
 
 #endif

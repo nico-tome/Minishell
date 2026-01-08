@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 12:14:06 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/18 15:13:52 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:51:22 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,48 +45,50 @@ void	ft_wait(void)
 		i++;
 }
 
-void	print_slot(char casino[3], char real_casino[3], int i)
+void	print_slot(char casino[3], char real_casino[3], int i, int fd_out)
 {
-	write(1, "|", 1);
+	write(fd_out, "|", 1);
 	if (i < 300)
-		write(1, &casino[0], 1);
+		write(fd_out, &casino[0], 1);
 	else
-		write(1, &real_casino[0], 1);
-	write(1, "| |", 3);
+		write(fd_out, &real_casino[0], 1);
+	write(fd_out, "| |", 3);
 	if (i < 600)
-		write(1, &casino[1], 1);
+		write(fd_out, &casino[1], 1);
 	else
-		write(1, &real_casino[1], 1);
-	write(1, "| |", 3);
+		write(fd_out, &real_casino[1], 1);
+	write(fd_out, "| |", 3);
 	if (i != 900)
-		write(1, &casino[2], 1);
+		write(fd_out, &casino[2], 1);
 	else
-		write(1, &real_casino[2], 1);
-	write(1, "|", 1);
+		write(fd_out, &real_casino[2], 1);
+	write(fd_out, "|", 1);
 }
 
-void	print_casino(char casino[3], int end, char real_casino[3], int i)
+void	print_casino(t_casino casino, int end, int i, int fd_out)
 {
-	print_slot(casino, real_casino, i);
+	print_slot(casino.casino, casino.real_casino, i, fd_out);
 	ft_wait();
-	write(1, "\r", 1);
+	write(fd_out, "\r", 1);
 	if (end)
 	{
-		write(1, "\n\n", 2);
-		if (real_casino[0] == real_casino[1]
-			&& real_casino[1] == real_casino[2])
-			printf("Jackpot !!!!\n");
+		write(fd_out, "\n\n", 2);
+		if (casino.real_casino[0] == casino.real_casino[1]
+			&& casino.real_casino[1] == casino.real_casino[2])
+			ft_putstr_fd("Jackpot !!!!\n", fd_out);
 		else
-			printf("Loser, (you are one click away from the jackpot...)\n");
+		{
+			ft_putstr_fd("Loser, (you are one ", fd_out);
+			ft_putstr_fd("click away from the jackpot...)\n", fd_out);
+		}
 	}
 }
 
-int	gamble(void)
+int	gamble(int fd_out)
 {
-	int		fd;
-	int		i;
-	char	casino[3];
-	char	real_casino[3];
+	int			fd;
+	int			i;
+	t_casino	casino;
 
 	i = 0;
 	fd = open("/dev/urandom", O_RDONLY);
@@ -95,17 +97,17 @@ int	gamble(void)
 		perror("open urandom ");
 		return (1);
 	}
-	fill_casino(real_casino, fd);
+	fill_casino(casino.real_casino, fd);
 	while (i < 900)
 	{
-		if (fill_casino(casino, fd))
+		if (fill_casino(casino.casino, fd))
 		{
 			perror("read fail ");
 			return (1);
 		}
-		print_casino(casino, 0, real_casino, i++);
+		print_casino(casino, 0, i++, fd_out);
 	}
-	print_casino(casino, 1, real_casino, 900);
+	print_casino(casino, 1, 900, fd_out);
 	safe_close(fd);
 	return (0);
 }

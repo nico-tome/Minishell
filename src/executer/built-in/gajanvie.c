@@ -6,49 +6,49 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:27:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/19 18:10:07 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 10:36:47 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	print_shoot2(void)
+void	print_shoot2(int fd_out)
 {
-	printf("       ██▒▒▒▒▓█                              \n");
-	printf("       ██▒▓█▒█▒                              \n");
-	printf("       ▒░▒████░                              \n");
-	printf("       ░▒▒████                               \n");
-	printf("        ▒▒▒▒▒▒                               \n");
-	printf("        █░░░▒▒▒                              \n");
-	printf("█████▒  █▒▒▒▒▒▒██████████████████████████████\n");
-	printf("█████████▒▒▒▒▒▒██████████████████████████████\n");
-	printf("█████████░░░░░▒██████████████████████████████\n");
-	printf("█████████▒░░░▒███████████████████████████████\n");
-	printf("███████████▒░ ░██████████████████████████████\n");
-	printf("█████████░ █ ░███████████████████████████████\n");
-	printf("█████████░░█ ░███████████████████████████████\n");
-	printf("█████████░░██░░██████████████████████████████\n");
-	printf("\n");
+	ft_putstr_fd("       ██▒▒▒▒▓█                              \n", fd_out);
+	ft_putstr_fd("       ██▒▓█▒█▒                              \n", fd_out);
+	ft_putstr_fd("       ▒░▒████░                              \n", fd_out);
+	ft_putstr_fd("       ░▒▒████                               \n", fd_out);
+	ft_putstr_fd("        ▒▒▒▒▒▒                               \n", fd_out);
+	ft_putstr_fd("        █░░░▒▒▒                              \n", fd_out);
+	ft_putstr_fd("█████▒  █▒▒▒▒▒▒██████████████████████████████\n", fd_out);
+	ft_putstr_fd("█████████▒▒▒▒▒▒██████████████████████████████\n", fd_out);
+	ft_putstr_fd("█████████░░░░░▒██████████████████████████████\n", fd_out);
+	ft_putstr_fd("█████████▒░░░▒███████████████████████████████\n", fd_out);
+	ft_putstr_fd("███████████▒░ ░██████████████████████████████\n", fd_out);
+	ft_putstr_fd("█████████░ █ ░███████████████████████████████\n", fd_out);
+	ft_putstr_fd("█████████░░█ ░███████████████████████████████\n", fd_out);
+	ft_putstr_fd("█████████░░██░░██████████████████████████████\n", fd_out);
+	ft_putstr_fd("\n", fd_out);
 }
 
-void	print_shoot(void)
+void	print_shoot(int fd_out)
 {
-	printf(C1"Never stop shooting\n\n");
-	printf(RESET);
-	printf("                                             \n");
-	printf("             ░   ░                           \n");
-	printf("           ░ ▓███░                           \n");
-	printf("             █▒▒▒▓                           \n");
-	printf("              ▒▒░                            \n");
-	printf("                               ░░            \n");
-	printf("                            ████████         \n");
-	printf("         █    ██           ████▓█████        \n");
-	printf("         ▓█   █            ▒▒▒░▒▓█▓▓██        \n");
-	printf("         █   ██               ░░░▒▒▒░         \n");
-	printf("        ██▒  ██                               \n");
-	printf("       ██░░░▒██                              \n");
-	printf("       ██░░░███                              \n");
-	print_shoot2();
+	ft_putstr_fd(C1"Never stop shooting\n\n", fd_out);
+	ft_putstr_fd(RESET, fd_out);
+	ft_putstr_fd("                                             \n", fd_out);
+	ft_putstr_fd("             ░   ░                           \n", fd_out);
+	ft_putstr_fd("           ░ ▓███░                           \n", fd_out);
+	ft_putstr_fd("             █▒▒▒▓                           \n", fd_out);
+	ft_putstr_fd("              ▒▒░                            \n", fd_out);
+	ft_putstr_fd("                               ░░            \n", fd_out);
+	ft_putstr_fd("                            ████████         \n", fd_out);
+	ft_putstr_fd("         █    ██           ████▓█████        \n", fd_out);
+	ft_putstr_fd("         ▓█   █            ▒▒▒░▒▓█▓▓██        \n", fd_out);
+	ft_putstr_fd("         █   ██               ░░░▒▒▒░         \n", fd_out);
+	ft_putstr_fd("        ██▒  ██                               \n", fd_out);
+	ft_putstr_fd("       ██░░░▒██                              \n", fd_out);
+	ft_putstr_fd("       ██░░░███                              \n", fd_out);
+	print_shoot2(fd_out);
 }
 
 void	not_valid_gajanvie(char **cmd)
@@ -64,7 +64,7 @@ void	print_gajanvie_error(void)
 	ft_putstr_fd("\n\tgajanvie gamble\n\tgajanvie latina\n\n", 1);
 }
 
-int	gajanvie(char **cmd)
+int	gajanvie(char **cmd, int fd_out)
 {
 	int	ret;
 	int	len;
@@ -79,11 +79,11 @@ int	gajanvie(char **cmd)
 	if (len == 1)
 		print_gajanvie_error();
 	else if (!ft_strcmp(cmd[1], "shoot"))
-		print_shoot();
+		print_shoot(fd_out);
 	else if (!ft_strcmp(cmd[1], "gamble"))
-		ret = gamble();
+		ret = gamble(fd_out);
 	else if (!ft_strcmp(cmd[1], "latina"))
-		print_latina();
+		print_latina(fd_out);
 	else
 	{
 		not_valid_gajanvie(cmd);

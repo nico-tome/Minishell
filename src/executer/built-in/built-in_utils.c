@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:57:29 by gajanvie          #+#    #+#             */
-/*   Updated: 2025/12/29 18:22:51 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 10:28:52 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,17 @@ void	exec_builtin_custom(t_minishell *ms, t_cmd *cmd)
 {
 	char	*cmd_name;
 
+	if (cmd->fd_out == -2)
+		cmd->fd_out = 1;
 	cmd_name = cmd->args[0];
 	if (!ft_strcmp(cmd_name, "gajanvie"))
-		ms->status = gajanvie(cmd->args);
+		ms->status = gajanvie(cmd->args, cmd->fd_out);
 	if (!ft_strcmp(cmd_name, "ntome"))
-		ms->status = ntome(cmd->args);
+		ms->status = ntome(cmd->args, cmd->fd_out);
 	if (!ft_strcmp(cmd_name, "ms_header"))
 		ms_print_hello();
 	if (!ft_strcmp(cmd_name, "maia"))
-		ms_custom_maia();
+		ms_custom_maia(cmd->fd_out);
 }
 
 void	exec_builtin(t_minishell *ms, int exit_print, t_cmd *cmd, t_exec *exec)
