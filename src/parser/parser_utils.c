@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 17:38:39 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 21:17:40 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/08 21:42:41 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd **curr_cmd)
 	exit(0);
 }
 
-void	other_pid(t_cmd **curr_cmd, int pid, char *rand_name)
+int	other_pid(t_cmd **curr_cmd, int pid, char *rand_name)
 {
 	int	status;
 
@@ -94,7 +94,7 @@ void	other_pid(t_cmd **curr_cmd, int pid, char *rand_name)
 		unlink(rand_name);
 		(*curr_cmd)->fd_in = -1;
 		free(rand_name);
-		return ;
+		return (1);
 	}
 	signal(SIGINT, signal_handler);
 	(*curr_cmd)->fd_in = open(rand_name, O_RDONLY);
@@ -104,5 +104,7 @@ void	other_pid(t_cmd **curr_cmd, int pid, char *rand_name)
 	{
 		(*curr_cmd)->status = 1;
 		perror("heredoc open");
+		return (1);
 	}
+	return (0);
 }

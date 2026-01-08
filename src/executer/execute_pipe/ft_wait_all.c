@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:58:51 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 21:28:03 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/08 21:53:17 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	wait_all(pid_t *pids, t_cmd *cmd, t_minishell *ms)
 		else
 		{
 			if (cmd->next == NULL)
-				exit_code = 130;
+				exit_code = cmd->status;
 		}
 		i++;
 		cmd = cmd->next;

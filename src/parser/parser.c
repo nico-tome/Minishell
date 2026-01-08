@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 21:09:15 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/08 21:54:37 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,23 @@ void	heredoc_sigint_handler(int sig)
 	close (0);
 }
 
-void	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
+int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
 {
 	char	*delimiter;
 	char	*rand_name;
 	pid_t	pid;
+	int		ret;
 
 	safe_close((*curr_cmd)->fd_in);
 	*tokens = (*tokens)->next;
 	delimiter = ft_expand_arg(ms, (*tokens)->content);
 	if (!delimiter)
-		return ;
+		return (1);
 	rand_name = ft_rand_name();
 	if (!rand_name)
 	{
 		free(delimiter);
-		return ;
+		return (1);
 	}
 	pid = fork();
 	if (pid == 0)
@@ -81,8 +82,10 @@ void	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
 	else
 	{
 		free (delimiter);
-		other_pid(curr_cmd, pid, rand_name);
+		ret = other_pid(curr_cmd, pid, rand_name);
+		return (ret);
 	}
+	return (0);
 }
 
 t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
@@ -105,7 +108,15 @@ t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
 		else if (tokens->type == WORD && tokens->content)
 			add_to_cmd(curr_cmd, tokens->content, env, 0);
 		else if (tokens->type == HEREDOC)
-			token_heredoc(&tokens, &curr_cmd, ms);
+		{
+			if (token_heredoc(&tokens, &curr_cmd, ms) == 1)
+			{
+				free_cmd_list(cmd_list);
+				ms->status = 130;
+				g_exit_status = 130;
+				return (NULL);
+			}
+		}
 		tokens = tokens->next;
 	}
 	return (cmd_list);
