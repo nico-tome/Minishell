@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 12:36:09 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 13:06:03 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,30 @@ char	*clean_token(t_minishell *ms, char *token, int check_quote)
 	return (cti.clean_token);
 }
 
+char	*need_add_space(char *word, char *chunk, char *cmd, t_token_infos t_i)
+{
+	int	j;
+
+	j = 1;
+	if (ft_strcmp(word, " "))
+		return (ft_strdup(word));
+	if (chunk[0] == '"' && ft_strlen(chunk) == 3)
+		return (ft_strdup(word));
+	if (chunk[0] == '\'' && ft_strlen(chunk) == 3)
+		return (ft_strdup(word));
+	if (!ft_strcmp(chunk, "\"\"") || !ft_strcmp(chunk, "''"))
+	{
+		while (cmd[t_i.i + j])
+		{
+			if (cmd[t_i.i + j] > ' ')
+				return (ft_strdup(""));
+			j++;
+		}
+		return (ft_strdup(word));
+	}
+	return (ft_strdup(word));
+}
+
 void	create_token(t_token *token, char *word, t_token_infos t_i, char *cmd)
 {
 	char	*chunk;
@@ -51,7 +75,7 @@ void	create_token(t_token *token, char *word, t_token_infos t_i, char *cmd)
 	token->content = NULL;
 	token->type = EMPTY;
 	if (word)
-		token->content = ft_strdup(word);
+		token->content = need_add_space(word, chunk, cmd, t_i);
 	if (word && check_forbiden_char(word, chunk))
 		token->type = TOKEN_ERROR;
 	else if (word && !ft_strcmp("|", word) && !ft_strcmp("|", chunk))
