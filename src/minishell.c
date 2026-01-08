@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 00:33:22 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/08 19:35:42 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ void	has_cmd(t_minishell *ms, char *cmd)
 	else if (ms->tokens && !ms->tokens->content)
 		ms->status = 0;
 	else
+	{
+		ft_putstr_fd("Minishell: syntax error\n", 2);
 		ms->status = 2;
+	}
 	free_tokens(ms->tokens);
 	ms->tokens = NULL;
 }
@@ -119,14 +122,21 @@ int	main(int ac, char **av, char **envp)
 		prompt = ms_get_prompt(ms);
 		cmd = readline(prompt);
 		free(prompt);
+		if (g_exit_status == 130)
+			ms.status = 130;
 		if (cmd == NULL)
 			ms_exit(&ms, 1, NULL);
 		if (cmd[0] != '\0')
+		{
 			has_cmd(&ms, cmd);
+			g_exit_status = ms.status;
+		}
 		else
-			ms.status = 0;
+		{
+			if (g_exit_status != 130)
+				ms.status = 0;
+		}
 		free(cmd);
-		g_exit_status = ms.status;
 	}
 	free_env_list(ms.envp);
 	return (EXIT_SUCCESS);

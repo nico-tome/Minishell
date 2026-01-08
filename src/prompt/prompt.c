@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 23:13:22 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/15 14:56:47 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/08 19:37:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,23 @@ char	*add_abs_path(char *pwd, char *home)
 
 char	*create_exit_str(t_minishell ms)
 {
+	char	*exit_str;
+	char	*colored_prompt;
 	char	*tmp;
-	char	*result;
-	char	*exit_status;
 
-	exit_status = ft_itoa(ms.status);
-	if (ft_strncmp(exit_status, "0", ft_strlen(exit_status)))
-	{
-		result = ft_strjoin(exit_status, ") \033[0m");
-		tmp = result;
-		result = ft_strjoin("\033[31m(", result);
-	}
+	exit_str = ft_itoa(ms.status);
+	if (!exit_str)
+		return (NULL);
+	tmp = ft_strjoin(exit_str, ") \033[0m");
+	free(exit_str);
+	if (!tmp)
+		return (NULL);
+	if (ms.status != 0)
+		colored_prompt = ft_strjoin("\033[31m(", tmp);
 	else
-	{
-		result = ft_strjoin(exit_status, ") \033[0m");
-		tmp = result;
-		result = ft_strjoin("\033[92m(", result);
-	}
+		colored_prompt = ft_strjoin("\033[92m(", tmp);
 	free(tmp);
-	free(exit_status);
-	return (result);
+	return (colored_prompt);
 }
 
 char	*ms_get_prompt(t_minishell ms)
