@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 21:54:37 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/09 09:59:46 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 		free(line);
 		if (!expand_line)
 			break ;
-		if (ft_strcmp(expand_line, delimiter) == 0)
+		if (stop_heredoc(expand_line, delimiter))
 		{
 			free(expand_line);
 			break ;

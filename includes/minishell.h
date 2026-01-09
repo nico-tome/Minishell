@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 21:44:50 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/09 10:16:20 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,5 +202,8 @@ void			ms_custom_maia(int fd_out);
 char			*ft_expand_arg(t_minishell *ms, char *str);
 char			*get_token(t_minishell *ms, char *cmd, t_token_infos t_infos);
 char			*clean_token(t_minishell *ms, char *token, int check_quote);
+int				stop_heredoc(char *line, char *delimiter);
+void			clean_exit_status(t_minishell *ms, int c, int n_v, int c_r);
+void			ft_void(int ac, char **av);
 
 #endif

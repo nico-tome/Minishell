@@ -46,12 +46,14 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(PARSER_DIR)parser.c \
 		$(SRC_DIR)$(PARSER_DIR)parser_utils.c \
 		$(SRC_DIR)$(PARSER_DIR)ft_create_rand_name.c \
+		$(SRC_DIR)$(EXEC_DIR)heredoc_utils.c \
 		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)pipeline.c \
 		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)clear_pipeline.c \
 		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)ft_wait_all.c \
 		$(SRC_DIR)$(EXEC_DIR)$(EXEC_PIPE)init_exec.c \
 		$(SRC_DIR)env_utils.c \
 		$(SRC_DIR)env_utils2.c \
+		$(SRC_DIR)main_utils.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)cd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)init_cd.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)built-in_utils.c \

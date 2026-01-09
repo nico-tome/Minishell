@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 21:44:21 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/09 10:17:42 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	has_cmd(t_minishell *ms, char *cmd)
 	}
 	free_tokens(ms->tokens);
 	ms->tokens = NULL;
+	g_exit_status = ms->status;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -112,8 +113,7 @@ int	main(int ac, char **av, char **envp)
 	char		*prompt;
 	char		*cmd;
 
-	(void)ac;
-	(void)av;
+	ft_void(ac, av);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	ms_init_data(&ms, envp);
@@ -122,20 +122,13 @@ int	main(int ac, char **av, char **envp)
 		prompt = ms_get_prompt(ms);
 		cmd = readline(prompt);
 		free(prompt);
-		if (g_exit_status == 130)
-			ms.status = 130;
+		clean_exit_status(&ms, 130, 130, 1);
 		if (cmd == NULL)
 			ms_exit(&ms, 1, NULL);
 		if (cmd[0] != '\0')
-		{
 			has_cmd(&ms, cmd);
-			g_exit_status = ms.status;
-		}
 		else
-		{
-			if (g_exit_status != 130)
-				ms.status = 0;
-		}
+			clean_exit_status(&ms, 130, 0, 0);
 		free(cmd);
 	}
 	free_env_list(ms.envp);
