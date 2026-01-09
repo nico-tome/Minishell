@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/09 10:44:27 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/09 19:34:42 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 
 	while (1)
 	{
-		if (g_exit_status == 130)
-			break ;
 		line = readline("> ");
 		if (!line)
+			break ;
+		if (g_exit_status == 130)
 			break ;
 		expand_line = find_expand_line(delimiter, ms, line);
 		free(line);
@@ -104,7 +104,10 @@ t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
 		else if (tokens->type == HEREDOC)
 		{
 			if (token_heredoc(&tokens, &curr_cmd, ms) == 1)
+			{
+				free_cmd_list(cmd_list);
 				return (NULL);
+			}
 		}
 		tokens = tokens->next;
 	}

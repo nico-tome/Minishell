@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/09 10:17:42 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/09 19:17:13 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void	exec_cmd(t_minishell *ms)
 		}
 		else
 			exec_line(ms);
-		free_cmd_list(ms->parsed_cmd);
-		ms->parsed_cmd = NULL;
 	}
+	free_cmd_list(ms->parsed_cmd);
+	ms->parsed_cmd = NULL;
 }
 
 void	has_cmd(t_minishell *ms, char *cmd)
