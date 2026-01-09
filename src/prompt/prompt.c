@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 23:13:22 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 19:37:21 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/09 10:53:49 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_prompt_params	ms_init_prompt_params(void)
 {
 	t_prompt_params	params;
 
-	params.exit_status = 1;
+	params.exit_status = 0;
 	params.pwd = 1;
 	return (params);
 }
