@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/09 09:59:46 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/09 10:44:27 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,7 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 		line = readline("> ");
 		if (!line)
 			break ;
-		expand_line = ft_expand_arg(ms, line);
-		if (delimiter[0] == '"' || delimiter[0] == '\'')
-		{
-			free(expand_line);
-			expand_line = ft_strdup(line);
-		}
+		expand_line = find_expand_line(delimiter, ms, line);
 		free(line);
 		if (!expand_line)
 			break ;
@@ -72,10 +67,9 @@ int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
 		return (1);
 	rand_name = ft_rand_name();
 	if (!rand_name)
-	{
 		free(delimiter);
+	if (!rand_name)
 		return (1);
-	}
 	pid = fork();
 	if (pid == 0)
 		pid_zero(ms, rand_name, delimiter, curr_cmd);
@@ -110,12 +104,7 @@ t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
 		else if (tokens->type == HEREDOC)
 		{
 			if (token_heredoc(&tokens, &curr_cmd, ms) == 1)
-			{
-				free_cmd_list(cmd_list);
-				ms->status = 130;
-				g_exit_status = 130;
 				return (NULL);
-			}
 		}
 		tokens = tokens->next;
 	}

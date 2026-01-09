@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:52:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 21:19:53 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/09 10:52:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,7 @@ void	exec_loop(t_exec *exec, t_cmd *curr, int *pipefd, int *prev_read)
 		}
 		else
 			exec->pids[i] = -1;
-		safe_close(*prev_read);
-		if (curr->next)
-		{
-			safe_close(pipefd[1]);
-			*prev_read = pipefd[0];
-		}
-		else
-			*prev_read = -1;
-		safe_close(curr->fd_in);
-		safe_close(curr->fd_out);
+		end_loop(prev_read, pipefd, curr);
 		curr = curr->next;
 		i++;
 	}

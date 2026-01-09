@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/09 10:16:20 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/09 10:51:54 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,5 +205,11 @@ char			*clean_token(t_minishell *ms, char *token, int check_quote);
 int				stop_heredoc(char *line, char *delimiter);
 void			clean_exit_status(t_minishell *ms, int c, int n_v, int c_r);
 void			ft_void(int ac, char **av);
+char			*find_expand_line(char *delimiter, t_minishell *ms, char *line);
+int				handle_token_heredoc(t_token *tokens, t_minishell *ms,
+					t_cmd *curr_cmd, t_cmd *cmd_list);
+int				token_heredoc(t_token **tokens, t_cmd **curr_cmd,
+					t_minishell *ms);
+void			end_loop(int *prev_read, int *pipefd, t_cmd *curr);
 
 #endif
