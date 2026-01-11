@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 17:38:39 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/09 19:27:22 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/10 16:43:04 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	token_redir_in(t_token **tokens, t_cmd **curr_cmd)
 	}
 }
 
-void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd **curr_cmd)
+void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd *cmd_list)
 {
 	int		tmp_fd;
 
@@ -64,7 +64,7 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd **curr_cmd)
 		free(r_name);
 		free(del);
 		rl_clear_history();
-		free_cmd_list(*curr_cmd);
+		free_cmd_list(cmd_list);
 		exit_free(ms);
 		exit(1);
 	}
@@ -74,7 +74,7 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd **curr_cmd)
 	free(r_name);
 	free(del);
 	exit_free(ms);
-	free_cmd_list(*curr_cmd);
+	free_cmd_list(cmd_list);
 	rl_clear_history();
 	if (g_exit_status == 130)
 		exit(130);

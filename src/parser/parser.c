@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/09 19:34:42 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/10 16:51:16 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	heredoc_sigint_handler(int sig)
 	close (0);
 }
 
-int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
+int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms, t_cmd *cmd_list)
 {
 	char	*delimiter;
 	char	*rand_name;
@@ -72,7 +72,10 @@ int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms)
 		return (1);
 	pid = fork();
 	if (pid == 0)
-		pid_zero(ms, rand_name, delimiter, curr_cmd);
+	{
+		pid_zero(ms, rand_name, delimiter, cmd_list);
+		free_cmd_list(cmd_list);
+	}
 	else
 	{
 		free (delimiter);
@@ -103,9 +106,9 @@ t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
 			add_to_cmd(curr_cmd, tokens->content, env, 0);
 		else if (tokens->type == HEREDOC)
 		{
-			if (token_heredoc(&tokens, &curr_cmd, ms) == 1)
+			if (token_heredoc(&tokens, &curr_cmd, ms, cmd_list) == 1)
 			{
-				free_cmd_list(cmd_list);
+				free_cmd_list(curr_cmd);
 				return (NULL);
 			}
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/09 19:34:23 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/10 16:38:59 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void			token_redir_out(t_token **tokens, t_cmd **curr_cmd);
 void			token_redir_in(t_token **tokens, t_cmd **curr_cmd);
 void			heredoc_sigint_handler(int sig);
 void			run_heredoc(char *delimiter, int fd_out, t_minishell *ms);
-void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd **c_cmd);
+void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd *c_cmd);
 int				other_pid(t_cmd **curr_cmd, int pid, char *r_name);
 void			ms_custom_maia(int fd_out);
 char			*ft_expand_arg(t_minishell *ms, char *str);
@@ -206,10 +206,8 @@ int				stop_heredoc(char *line, char *delimiter);
 void			clean_exit_status(t_minishell *ms, int c, int n_v, int c_r);
 void			ft_void(int ac, char **av);
 char			*find_expand_line(char *delimiter, t_minishell *ms, char *line);
-int				handle_token_heredoc(t_token *tokens, t_minishell *ms,
-					t_cmd *curr_cmd, t_cmd *cmd_list);
-int				token_heredoc(t_token **tokens, t_cmd **curr_cmd,
-					t_minishell *ms);
+int				handle_token_heredoc(t_token *tokens, t_minishell *ms, t_cmd *c_c, t_cmd *c_l);
+int				token_heredoc(t_token **tokens, t_cmd **c_c, t_minishell *ms, t_cmd *c_l);
 void			end_loop(int *prev_read, int *pipefd, t_cmd *curr);
 
 #endif
