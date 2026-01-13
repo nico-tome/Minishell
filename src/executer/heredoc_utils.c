@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 09:38:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/10 16:48:12 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/13 17:00:56 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,26 @@ char	*find_expand_line(char *delimiter, t_minishell *ms, char *line)
 {
 	char	*expand_line;
 
-	expand_line = ft_expand_arg(ms, line);
-	if (delimiter[0] == '"' || delimiter[0] == '\'')
+	if (ms->expand_heredoc = 1)
 	{
-		free(expand_line);
-		expand_line = ft_strdup(line);
+		expand_line = ft_expand_arg(ms, line);
+		if (delimiter[0] == '"' || delimiter[0] == '\'')
+		{
+			free(expand_line);
+			expand_line = ft_strdup(line);
+		}
+		return (expand_line);
 	}
-	return (expand_line);
+	else
+	{
+		expand_line = ft_strdup(line);
+		if (delimiter[0] == '"' || delimiter[0] == '\'')
+		{
+			free(expand_line);
+			expand_line = ft_strdup(line);
+		}
+		return (expand_line);
+	}
 }
 
 int	handle_token_heredoc(t_token *tokens, t_minishell *ms,

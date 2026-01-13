@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 15:06:33 by ntome             #+#    #+#             */
-/*   Updated: 2025/12/23 23:46:14 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/13 16:56:13 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,13 @@ int	is_redirection(t_token *token)
 int	check_pipe(t_token *token)
 {
 	if (token && token->type == PIPE)
-	{
-		ft_putstr_fd("Minishell: syntax error near unexpected token `|'\n", 2);
 		return (1);
-	}
 	while (token)
 	{
 		if (token->type == PIPE)
 		{
 			if (!token->next || token->next->type == PIPE)
-			{
-				ft_putstr_fd("Minishell: syntax error ", 2);
-				ft_putstr_fd("near unexpected token `|'\n", 2);
 				return (1);
-			}
 		}
 		token = token->next;
 	}
@@ -57,12 +50,7 @@ int	check_redirections(t_token *token)
 		if (is_redirection(token) && !token->next)
 			return (1);
 		else if (is_redirection(token) && token->next->type != WORD)
-		{
-			ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
-			ft_putstr_fd(token->next->content, 2);
-			ft_putstr_fd("'\n", 2);
 			return (1);
-		}
 		token = token->next;
 	}
 	return (0);
@@ -87,11 +75,20 @@ int	check_forbiden_char(char *word, char *chunk)
 int	ms_has_error(t_token *token)
 {
 	if (check_pipe(token) || check_redirections(token))
+	{
+		ft_putstr_fd("Minishell: syntax error", 2);
+		ft_putstr_fd("\n", 2);
 		return (1);
+	}
 	while (token)
 	{
 		if (token->type == TOKEN_ERROR)
+		{
+			ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
+			ft_putstr_fd(token->content, 2);
+			ft_putstr_fd("'\n", 2);
 			return (1);
+		}
 		token = token->next;
 	}
 	return (0);

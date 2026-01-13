@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/10 16:51:16 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/13 16:29:59 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms, t_cmd *cm
 
 	safe_close((*curr_cmd)->fd_in);
 	*tokens = (*tokens)->next;
-	delimiter = ft_expand_arg(ms, (*tokens)->content);
-	if (!delimiter)
-		return (1);
+	delimiter = (*tokens)->content;
 	rand_name = ft_rand_name();
 	if (!rand_name)
 		free(delimiter);
@@ -78,7 +76,6 @@ int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms, t_cmd *cm
 	}
 	else
 	{
-		free (delimiter);
 		ret = other_pid(curr_cmd, pid, rand_name);
 		return (ret);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/09 19:17:13 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/13 17:01:57 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ms_init_data(t_minishell *ms, char **envp)
 	ms->tokens = NULL;
 	ms->parsed_cmd = NULL;
 	ms->status = 0;
+	ms->expand_heredoc = 0;
 	ms->prompt_params = ms_init_prompt_params();
 	old_shlvl = get_env(ms->envp, "SHLVL");
 	if (old_shlvl)
@@ -98,10 +99,7 @@ void	has_cmd(t_minishell *ms, char *cmd)
 	else if (ms->tokens && !ms->tokens->content)
 		ms->status = 0;
 	else
-	{
-		ft_putstr_fd("Minishell: syntax error\n", 2);
 		ms->status = 2;
-	}
 	free_tokens(ms->tokens);
 	ms->tokens = NULL;
 	g_exit_status = ms->status;
