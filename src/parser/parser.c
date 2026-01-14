@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/14 09:27:23 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/14 15:12:55 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 		{
 			if (line)
 				free(line);
-			break ;
 		}
-		if (!line)
+		if (!line || g_exit_status == 130)
 			break ;
 		expand_line = find_expand_line(delimiter, ms, line);
 		free(line);
@@ -43,8 +42,7 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 			free(expand_line);
 			break ;
 		}
-		write(fd_out, expand_line, ft_strlen(expand_line));
-		write(fd_out, "\n", 1);
+		write_heredoc(fd_out, expand_line);
 		free(expand_line);
 	}
 }
@@ -67,21 +65,15 @@ int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms,
 
 	safe_close((*curr_cmd)->fd_in);
 	*tokens = (*tokens)->next;
-	delimiter = process_heredoc_delimiter((*tokens)->content, ms);
-	rand_name = ft_rand_name();
-	if (!rand_name || !delimiter)
-		free(delimiter);
-	if (!rand_name || !delimiter)
-		free(rand_name);
-	if (!rand_name || !delimiter)
+	delimiter = process_heredoc_delimiter((*tokens)->content, ms, 0, 0);
+	rand_name = heredoc_rand_check(delimiter);
+	if (!rand_name)
 		return (1);
 	pid = fork();
 	if (pid == -1)
-	{
-		free(delimiter);
-		free(rand_name);
+		double_string_free(delimiter, rand_name);
+	if (pid == -1)
 		return (1);
-	}
 	if (pid == 0)
 		pid_zero(ms, rand_name, delimiter, cmd_list);
 	else
@@ -102,12 +94,9 @@ t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
 	curr_cmd = cmd_list;
 	while (tokens)
 	{
-		if (tokens->type == PIPE)
-			token_pipe(&curr_cmd);
-		else if (tokens->type == REDIR_IN)
-			token_redir_in(&tokens, &curr_cmd);
-		else if (tokens->type == REDIR_OUT)
-			token_redir_out(&tokens, &curr_cmd);
+		if (tokens->type == PIPE
+			|| tokens->type == REDIR_IN || tokens->type == REDIR_OUT)
+			parser2(tokens, curr_cmd);
 		else if (tokens->type == APPEND)
 			token_append(&tokens, &curr_cmd);
 		else if (tokens->type == WORD && tokens->content)

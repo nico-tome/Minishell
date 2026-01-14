@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/14 09:45:03 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/14 15:12:21 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ char			*ft_remove_quotes(char *str);
 int				gajanvie(char **cmd, int fd_out);
 int				ntome(char **cmd, int fd_out);
 void			print_latina(int fd_out);
-int				gamble(int fd_out, int i);
+int				gamble(int fd_out, int i, int fd);
 void			make_printable(char *c);
 void			exit_free(t_minishell *ms);
 int				print_export_error(char *arg);
@@ -198,7 +198,8 @@ void			token_redir_in(t_token **tokens, t_cmd **curr_cmd);
 void			heredoc_sigint_handler(int sig);
 void			run_heredoc(char *delimiter, int fd_out, t_minishell *ms);
 void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd *c_cmd);
-int				other_pid(t_cmd **curr_cmd, int pid, char *r_name, t_minishell *ms);
+int				other_pid(t_cmd **curr_cmd, int pid,
+					char *r_name, t_minishell *ms);
 void			ms_custom_maia(int fd_out);
 char			*ft_expand_arg(t_minishell *ms, char *str);
 char			*get_token(t_minishell *ms, char *cmd, t_token_infos t_infos);
@@ -207,11 +208,18 @@ int				stop_heredoc(char *line, char *delimiter);
 void			clean_exit_status(t_minishell *ms, int c, int n_v, int c_r);
 void			ft_void(int ac, char **av);
 char			*find_expand_line(char *delimiter, t_minishell *ms, char *line);
-int				handle_token_heredoc(t_token *tokens, t_minishell *ms, t_cmd *c_c, t_cmd *c_l);
-int				token_heredoc(t_token **tokens, t_cmd **c_c, t_minishell *ms, t_cmd *c_l);
+int				handle_token_heredoc(t_token *tokens,
+					t_minishell *ms, t_cmd *c_c, t_cmd *c_l);
+int				token_heredoc(t_token **tokens,
+					t_cmd **c_c, t_minishell *ms, t_cmd *c_l);
 void			end_loop(int *prev_read, int *pipefd, t_cmd *curr);
-char			*process_heredoc_delimiter(char *raw, t_minishell *ms);
+char			*process_heredoc_delimiter(char *raw,
+					t_minishell *ms, int i, int j);
 int				check_unclosed_quotes(char *line);
 void			signal_handler_gamble(int signal);
+void			write_heredoc(int fd_out, char *expand_line);
+void			parser2(t_token *tokens, t_cmd	*curr_cmd);
+char			*heredoc_rand_check(char *del);
+void			double_string_free(char *s1, char *s2);
 
 #endif

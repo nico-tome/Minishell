@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 17:38:39 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/14 09:42:52 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/14 14:47:36 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	other_pid(t_cmd **curr_cmd, int pid, char *rand_name, t_minishell *ms)
 	waitpid(pid, &status, 0);
 	signal(SIGINT, signal_handler);
 	if ((WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-        || (WIFEXITED(status) && WEXITSTATUS(status) == 130))
+		|| (WIFEXITED(status) && WEXITSTATUS(status) == 130))
 	{
 		ms->status = 130;
 		(*curr_cmd)->status = 130;

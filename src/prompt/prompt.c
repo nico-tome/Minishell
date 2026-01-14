@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 23:13:22 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/13 16:33:36 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 15:12:07 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,10 @@ char	*ms_get_prompt(t_minishell ms)
 	}
 	free(exit_status);
 	return (prompt);
+}
+
+void	double_string_free(char *s1, char *s2)
+{
+	free(s1);
+	free(s2);
 }

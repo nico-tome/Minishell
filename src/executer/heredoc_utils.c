@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 09:38:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/14 09:13:33 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/14 14:46:09 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,15 @@ int	handle_token_heredoc(t_token *tokens, t_minishell *ms,
 	return (0);
 }
 
-char	*process_heredoc_delimiter(char *raw, t_minishell *ms)
+char	*process_heredoc_delimiter(char *raw, t_minishell *ms, int i, int j)
 {
 	char	*clean;
-	int		i;
-	int		j;
 	char	quote;
 
 	clean = ft_calloc(ft_strlen(raw) + 1, sizeof(char));
 	if (!clean)
 		return (NULL);
 	ms->expand_heredoc = 1;
-	i = 0;
-	j = 0;
 	quote = 0;
 	while (raw[i])
 	{
