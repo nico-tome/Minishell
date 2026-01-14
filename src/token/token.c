@@ -6,7 +6,7 @@
 /*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 20:40:32 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/14 19:13:24 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,12 @@ void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 		skip_spaces(cmd, &t_infos.i);
 		t_infos.start = t_infos.i;
 		get_next_chunk(cmd, &t_infos.i);
-		token = get_token(ms, cmd, t_infos);
-		create_token(actual_token, token, t_infos, cmd);
-		free(token);
+		token = get_token(ms, cmd, t_infos, actual_token);
+		if (token)
+		{
+			create_token(actual_token, token, t_infos, cmd);
+			free(token);
+		}
 		while (cmd[t_infos.i] && cmd[t_infos.i] == ' ')
 			t_infos.i++;
 		if (cmd[t_infos.i] && token)

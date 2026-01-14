@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:08:43 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/13 16:18:25 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:43:43 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,16 @@ char	*clean_token(t_minishell *ms, char *token, int check_quote)
 	if (token)
 		free(token);
 	return (cti.clean_token);
+}
+
+void	free_tokens_parts(char ***tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i])
+	{
+		free(tokens[i]);
+		i++;
+	}
 }

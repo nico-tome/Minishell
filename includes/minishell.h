@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/14 15:12:21 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:42:39 by ntome            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ int				other_pid(t_cmd **curr_cmd, int pid,
 					char *r_name, t_minishell *ms);
 void			ms_custom_maia(int fd_out);
 char			*ft_expand_arg(t_minishell *ms, char *str);
-char			*get_token(t_minishell *ms, char *cmd, t_token_infos t_infos);
+char			*get_token(t_minishell *ms, char *cmd, t_token_infos t_i, t_token *t);
 char			*clean_token(t_minishell *ms, char *token, int check_quote);
 int				stop_heredoc(char *line, char *delimiter);
 void			clean_exit_status(t_minishell *ms, int c, int n_v, int c_r);
@@ -221,5 +221,7 @@ void			write_heredoc(int fd_out, char *expand_line);
 void			parser2(t_token *tokens, t_cmd	*curr_cmd);
 char			*heredoc_rand_check(char *del);
 void			double_string_free(char *s1, char *s2);
+void			token_pipe(t_cmd **curr_cmd);
+void			free_tokens_parts(char ***tokens);
 
 #endif
