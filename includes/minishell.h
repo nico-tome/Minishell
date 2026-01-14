@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/13 17:01:28 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:27:38 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ void			token_redir_in(t_token **tokens, t_cmd **curr_cmd);
 void			heredoc_sigint_handler(int sig);
 void			run_heredoc(char *delimiter, int fd_out, t_minishell *ms);
 void			pid_zero(t_minishell *ms, char *r_n, char *del, t_cmd *c_cmd);
-int				other_pid(t_cmd **curr_cmd, int pid, char *r_name);
+int				other_pid(t_cmd **curr_cmd, int pid, char *r_name, t_minishell *ms);
 void			ms_custom_maia(int fd_out);
 char			*ft_expand_arg(t_minishell *ms, char *str);
 char			*get_token(t_minishell *ms, char *cmd, t_token_infos t_infos);
@@ -210,5 +210,7 @@ char			*find_expand_line(char *delimiter, t_minishell *ms, char *line);
 int				handle_token_heredoc(t_token *tokens, t_minishell *ms, t_cmd *c_c, t_cmd *c_l);
 int				token_heredoc(t_token **tokens, t_cmd **c_c, t_minishell *ms, t_cmd *c_l);
 void			end_loop(int *prev_read, int *pipefd, t_cmd *curr);
+char			*process_heredoc_delimiter(char *raw, t_minishell *ms);
+int				check_unclosed_quotes(char *line);
 
 #endif

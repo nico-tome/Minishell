@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 09:38:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/13 17:00:56 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:13:33 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*find_expand_line(char *delimiter, t_minishell *ms, char *line)
 {
 	char	*expand_line;
 
-	if (ms->expand_heredoc = 1)
+	if (ms->expand_heredoc == 1)
 	{
 		expand_line = ft_expand_arg(ms, line);
 		if (delimiter[0] == '"' || delimiter[0] == '\'')
@@ -80,4 +80,37 @@ int	handle_token_heredoc(t_token *tokens, t_minishell *ms,
 		return (1);
 	}
 	return (0);
+}
+
+char	*process_heredoc_delimiter(char *raw, t_minishell *ms)
+{
+	char	*clean;
+	int		i;
+	int		j;
+	char	quote;
+
+	clean = ft_calloc(ft_strlen(raw) + 1, sizeof(char));
+	if (!clean)
+		return (NULL);
+	ms->expand_heredoc = 1;
+	i = 0;
+	j = 0;
+	quote = 0;
+	while (raw[i])
+	{
+		if ((raw[i] == '\'' || raw[i] == '"') && quote == 0)
+		{
+			quote = raw[i];
+			ms->expand_heredoc = 0;
+		}
+		else if (raw[i] == quote)
+			quote = 0;
+		else
+		{
+			clean[j] = raw[i];
+			j++;
+		}
+		i++;
+	}
+	return (clean);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:38:42 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/13 17:01:57 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:19:49 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ void	exec_cmd(t_minishell *ms)
 void	has_cmd(t_minishell *ms, char *cmd)
 {
 	add_history(cmd);
+	if (check_unclosed_quotes(cmd))
+	{
+		ms->status = 2;
+		g_exit_status = 2;
+		return ;
+	}
 	ms->tokens = ft_calloc(1, sizeof(t_token));
 	if (!ms->tokens)
 	{

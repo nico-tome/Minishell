@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 17:38:39 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/13 16:30:07 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:28:27 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd *cmd_list)
 	{
 		perror("heredoc temp file");
 		free(r_name);
+		free(del);
 		rl_clear_history();
 		free_cmd_list(cmd_list);
 		exit_free(ms);
@@ -71,6 +72,7 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd *cmd_list)
 	run_heredoc(del, tmp_fd, ms);
 	close(tmp_fd);
 	free(r_name);
+	free(del);
 	exit_free(ms);
 	free_cmd_list(cmd_list);
 	rl_clear_history();
@@ -79,15 +81,16 @@ void	pid_zero(t_minishell *ms, char *r_name, char *del, t_cmd *cmd_list)
 	exit(0);
 }
 
-int	other_pid(t_cmd **curr_cmd, int pid, char *rand_name)
+int	other_pid(t_cmd **curr_cmd, int pid, char *rand_name, t_minishell *ms)
 {
 	int	status;
 
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	if ((WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		|| (WIFEXITED(status) && WEXITSTATUS(status) == 130))
+        || (WIFEXITED(status) && WEXITSTATUS(status) == 130))
 	{
+		ms->status = 130;
 		(*curr_cmd)->status = 130;
 		unlink(rand_name);
 		(*curr_cmd)->fd_in = -1;

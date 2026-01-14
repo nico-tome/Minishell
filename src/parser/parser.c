@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/13 16:29:59 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:27:23 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
 		if (g_exit_status == 130)
+		{
+			if (line)
+				free(line);
+			break ;
+		}
+		if (!line)
 			break ;
 		expand_line = find_expand_line(delimiter, ms, line);
 		free(line);
@@ -53,7 +57,8 @@ void	heredoc_sigint_handler(int sig)
 	close (0);
 }
 
-int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms, t_cmd *cmd_list)
+int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms,
+	t_cmd *cmd_list)
 {
 	char	*delimiter;
 	char	*rand_name;
@@ -62,21 +67,27 @@ int	token_heredoc(t_token **tokens, t_cmd **curr_cmd, t_minishell *ms, t_cmd *cm
 
 	safe_close((*curr_cmd)->fd_in);
 	*tokens = (*tokens)->next;
-	delimiter = (*tokens)->content;
+	delimiter = process_heredoc_delimiter((*tokens)->content, ms);
 	rand_name = ft_rand_name();
-	if (!rand_name)
+	if (!rand_name || !delimiter)
 		free(delimiter);
-	if (!rand_name)
+	if (!rand_name || !delimiter)
+		free(rand_name);
+	if (!rand_name || !delimiter)
 		return (1);
 	pid = fork();
-	if (pid == 0)
+	if (pid == -1)
 	{
-		pid_zero(ms, rand_name, delimiter, cmd_list);
-		free_cmd_list(cmd_list);
+		free(delimiter);
+		free(rand_name);
+		return (1);
 	}
+	if (pid == 0)
+		pid_zero(ms, rand_name, delimiter, cmd_list);
 	else
 	{
-		ret = other_pid(curr_cmd, pid, rand_name);
+		free(delimiter);
+		ret = other_pid(curr_cmd, pid, rand_name, ms);
 		return (ret);
 	}
 	return (0);

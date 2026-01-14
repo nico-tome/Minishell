@@ -70,7 +70,8 @@ SRCS := $(SRC_DIR)minishell.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)gamble.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)ntome.c \
 		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)maia.c \
-		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)export.c
+		$(SRC_DIR)$(EXEC_DIR)$(BUILTINS_DIR)export.c \
+		$(SRC_DIR)$(TOKEN_DIR)verify_tokens2.c
 
 
 OBJ := $(patsubst $(SRC_DIR)%.c, $(BUILD_DIR)%.o, $(SRCS))
