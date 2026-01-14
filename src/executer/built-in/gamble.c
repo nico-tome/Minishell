@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 12:14:06 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/14 09:41:11 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/14 09:44:57 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,31 +84,27 @@ void	print_casino(t_casino casino, int end, int i, int fd_out)
 	}
 }
 
-int	gamble(int fd_out)
+int	gamble(int fd_out, int i)
 {
 	int			fd;
-	int			i;
 	t_casino	casino;
 
-	i = 0;
 	g_exit_status = 0;
 	signal(SIGINT, signal_handler_gamble);
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd < 0)
-	{
 		perror("open urandom ");
+	if (fd < 0)
 		return (1);
-	}
 	fill_casino(casino.real_casino, fd);
 	while (i < 900)
 	{
 		if (g_exit_status == 130)
 			return (130);
 		if (fill_casino(casino.casino, fd))
-		{
 			perror("read fail ");
+		if (fill_casino(casino.casino, fd))
 			return (1);
-		}
 		print_casino(casino, 0, i++, fd_out);
 	}
 	print_casino(casino, 1, 900, fd_out);

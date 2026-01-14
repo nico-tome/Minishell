@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 12:31:35 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/14 09:37:10 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/14 09:45:03 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ char			*ft_remove_quotes(char *str);
 int				gajanvie(char **cmd, int fd_out);
 int				ntome(char **cmd, int fd_out);
 void			print_latina(int fd_out);
-int				gamble(int fd_out);
+int				gamble(int fd_out, int i);
 void			make_printable(char *c);
 void			exit_free(t_minishell *ms);
 int				print_export_error(char *arg);

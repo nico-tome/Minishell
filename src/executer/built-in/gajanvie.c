@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:27:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/14 09:39:22 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/14 09:45:11 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	gajanvie(char **cmd, int fd_out)
 	else if (!ft_strcmp(cmd[1], "shoot"))
 		print_shoot(fd_out);
 	else if (!ft_strcmp(cmd[1], "gamble"))
-		ret = gamble(fd_out);
+		ret = gamble(fd_out, 0);
 	else if (!ft_strcmp(cmd[1], "latina"))
 		print_latina(fd_out);
 	else
