@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gamble.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 12:14:06 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 10:51:22 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:41:11 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	gamble(int fd_out)
 	t_casino	casino;
 
 	i = 0;
+	g_exit_status = 0;
+	signal(SIGINT, signal_handler_gamble);
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd < 0)
 	{
@@ -100,6 +102,8 @@ int	gamble(int fd_out)
 	fill_casino(casino.real_casino, fd);
 	while (i < 900)
 	{
+		if (g_exit_status == 130)
+			return (130);
 		if (fill_casino(casino.casino, fd))
 		{
 			perror("read fail ");

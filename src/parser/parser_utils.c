@@ -6,7 +6,7 @@
 /*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 17:38:39 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/14 09:28:27 by titan            ###   ########.fr       */
+/*   Updated: 2026/01/14 09:42:52 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	other_pid(t_cmd **curr_cmd, int pid, char *rand_name, t_minishell *ms)
 
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
+	signal(SIGINT, signal_handler);
 	if ((WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
         || (WIFEXITED(status) && WEXITSTATUS(status) == 130))
 	{
@@ -97,7 +98,6 @@ int	other_pid(t_cmd **curr_cmd, int pid, char *rand_name, t_minishell *ms)
 		free(rand_name);
 		return (1);
 	}
-	signal(SIGINT, signal_handler);
 	(*curr_cmd)->fd_in = open(rand_name, O_RDONLY);
 	unlink(rand_name);
 	free(rand_name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gajanvie.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:27:15 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/08 10:36:47 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/14 09:39:22 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ int	gajanvie(char **cmd, int fd_out)
 		not_valid_gajanvie(cmd);
 		return (1);
 	}
+	signal(SIGINT, signal_handler);
 	return (ret);
 }

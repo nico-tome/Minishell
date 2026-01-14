@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: titan <titan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 23:48:50 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/08 11:30:51 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/14 09:36:47 by titan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,12 @@ void	signal_handler(int signal)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_exit_status = 130;
+}
+
+void	signal_handler_gamble(int signal)
+{
+	(void)signal;
+	printf("\n");
 	g_exit_status = 130;
 }
