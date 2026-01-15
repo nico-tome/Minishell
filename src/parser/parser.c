@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/15 12:36:55 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:36:48 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	run_heredoc(char *delimiter, int fd_out, t_minishell *ms)
 	char	*line;
 	char	*expand_line;
 
+	g_exit_status = 0;
 	while (1)
 	{
 		line = readline("> ");
