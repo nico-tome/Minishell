@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:08:43 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/14 19:43:43 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/15 13:40:45 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,11 @@ void	free_tokens_parts(char ***tokens)
 		free(tokens[i]);
 		i++;
 	}
+}
+
+void	skip_and_next(char *cmd, int *i, t_token_infos *t_info)
+{
+	skip_spaces(cmd, i);
+	t_info->start = *i;
+	get_next_chunk(cmd, i);
 }

@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:05:51 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/12 21:08:22 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/15 12:57:20 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ char	*extract_quote(t_minishell *ms, char *token, int *i)
 	if (!extracted && token[*i] == '\0')
 	{
 		free(extracted);
-		return (ft_strdup("\0"));
+		extracted = ft_strdup("\0");
+		return (extracted);
 	}
 	return (extracted);
 }

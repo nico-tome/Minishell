@@ -6,7 +6,7 @@
 /*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 19:09:43 by gajanvie          #+#    #+#             */
-/*   Updated: 2026/01/14 15:12:55 by gajanvie         ###   ########.fr       */
+/*   Updated: 2026/01/15 12:36:55 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_cmd	*parser(t_token *tokens, t_env *env, t_minishell *ms)
 	{
 		if (tokens->type == PIPE
 			|| tokens->type == REDIR_IN || tokens->type == REDIR_OUT)
-			parser2(tokens, curr_cmd);
+			parser2(&tokens, &curr_cmd);
 		else if (tokens->type == APPEND)
 			token_append(&tokens, &curr_cmd);
 		else if (tokens->type == WORD && tokens->content)

@@ -114,7 +114,7 @@ $(LIBFT):
 clean:
 	@echo "$(YELLOW)🧹 file .o cleaned successfully $(RESET)"
 	@make --no-print-directory -C $(LIBFT_DIR) clean
-	@rm -f ${OBJ}
+	@rm -rf ${BUILD_DIR}
 
 fclean: clean
 	@echo "$(TEXT_NEON_RED)🧨 minishell deleted$(RESET)"

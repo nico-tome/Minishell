@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntome <ntome@42angouleme.fr>               +#+  +:+       +#+        */
+/*   By: gajanvie <gajanvie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:23:26 by ntome             #+#    #+#             */
-/*   Updated: 2026/01/14 19:13:24 by ntome            ###   ########.fr       */
+/*   Updated: 2026/01/15 12:59:32 by gajanvie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 char	*need_add_space(char *word, char *chunk, char *cmd, t_token_infos t_i)
 {
-	int	j;
+	int		j;
+	char	*str;
 
 	j = 0;
 	if (ft_strcmp(word, " "))
@@ -29,7 +30,10 @@ char	*need_add_space(char *word, char *chunk, char *cmd, t_token_infos t_i)
 		while (cmd[t_i.i] && cmd[t_i.i + j])
 		{
 			if (cmd[t_i.i + j] > ' ')
-				return (ft_strdup(""));
+			{
+				str = ft_strdup("\0");
+				return (str);
+			}
 			j++;
 		}
 		return (ft_strdup(word));
@@ -106,15 +110,12 @@ void	ms_tokenize_cmd(t_minishell *ms, t_token **tokens, char *cmd)
 	ft_bzero(&t_infos, 8);
 	while (cmd[t_infos.i])
 	{
-		skip_spaces(cmd, &t_infos.i);
-		t_infos.start = t_infos.i;
-		get_next_chunk(cmd, &t_infos.i);
+		skip_and_next(cmd, &t_infos.i, &t_infos);
 		token = get_token(ms, cmd, t_infos, actual_token);
 		if (token)
-		{
 			create_token(actual_token, token, t_infos, cmd);
+		if (token)
 			free(token);
-		}
 		while (cmd[t_infos.i] && cmd[t_infos.i] == ' ')
 			t_infos.i++;
 		if (cmd[t_infos.i] && token)
